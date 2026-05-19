@@ -45,5 +45,7 @@ public abstract class Tour extends EntiteAllieeDeBase{
             }
         }
     }
+
+
 }
 
