@@ -6,7 +6,7 @@
 
 <BorderPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="universite_paris8.iut.nchaieb.sae_jeux.Controller">
    <center>
-      <StackPane fx:id="stackPane" prefHeight="150.0" prefWidth="200.0">
+      <StackPane fx:id="pane" prefHeight="150.0" prefWidth="200.0">
          <ImageView fitHeight="600" fitWidth="800" preserveRatio="false">
             <image>
                <Image url="@images/menutest.png" />

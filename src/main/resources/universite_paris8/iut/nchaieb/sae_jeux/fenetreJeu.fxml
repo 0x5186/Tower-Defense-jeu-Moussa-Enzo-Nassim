@@ -1,18 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane prefHeight="576" prefWidth="576" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="universite_paris8.iut.nchaieb.sae_jeux.Controller">
+<BorderPane prefHeight="576" prefWidth="576" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="universite_paris8.iut.nchaieb.sae_jeux.Controller">
    <center>
-      <StackPane fx:id="stackPane">
+      <StackPane fx:id="stackPane" alignment="TOP_LEFT">
          <TilePane fx:id="tilePane" alignment="TOP_CENTER" prefColumns="30" prefRows="25" prefTileHeight="32" prefTileWidth="32" BorderPane.alignment="TOP_LEFT">
          </TilePane>
-         <Pane fx:id="panneauAnimation" mouseTransparent="true">
-         </Pane>
+         <Button fx:id="symboleCroix" layoutX="500" layoutY="200" mnemonicParsing="false" onAction="#AppuyerSurSymboleCroix" prefHeight="7.0" prefWidth="2.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;">
+            <graphic>
+               <ImageView fitHeight="64.0" fitWidth="64.0" preserveRatio="true">
+                  <image>
+                     <Image url="@images/symboleCroix.png">
+                     </Image>
+                  </image>
+               </ImageView>
+            </graphic>
+         </Button>
+         <Button fx:id="symboleGoutteDeau" layoutX="500" layoutY="200" mnemonicParsing="false" onAction="#AppuyerSurSymboleGoutteDeau" prefHeight="7.0" prefWidth="2.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;">
+            <graphic>
+               <ImageView fitHeight="64.0" fitWidth="64.0" nodeOrientation="INHERIT" preserveRatio="true">
+                  <image>
+                     <Image url="@images/symboleCroix.png">
+                     </Image>
+                  </image>
+               </ImageView>
+            </graphic>
+         </Button>
       </StackPane>
    </center>
    <bottom>
-      <Button fx:id="boutontest" mnemonicParsing="false" text="Button" BorderPane.alignment="CENTER" />
+      <Button fx:id="boutonAjouterMonstre" mnemonicParsing="false" onAction="#AjouterMonstreAllie" text="ajouter Monstre" BorderPane.alignment="CENTER" />
    </bottom>
 </BorderPane>

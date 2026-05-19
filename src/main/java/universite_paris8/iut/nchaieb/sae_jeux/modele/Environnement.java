@@ -2,12 +2,14 @@ package universite_paris8.iut.nchaieb.sae_jeux.modele;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.fxml.FXML;
+import universite_paris8.iut.nchaieb.sae_jeux.vue.MonstreVue;
 
 import java.util.ArrayList;
 
 public class  Environnement {
 
-	private int largeur,hauteur;
+//	private int largeur,hauteur;
 
 	private IntegerProperty nbTours;
 
@@ -16,18 +18,26 @@ public class  Environnement {
 	private ArrayList<EntiteAllieeDeBase> lesAlliees;
 	private ArrayList<MonstreDeBase> lesMonstres;
 
-	public Environnement(int largeur, int hauteur) {
-		super();
-		this.largeur = largeur;
-		this.hauteur = hauteur;
+	public Environnement() {
 		this.nbTours = new SimpleIntegerProperty();
 		//ce que j'ai rajouté(musa le japonais)
 		this.lesAlliees = new ArrayList<>();
 		this.lesMonstres = new ArrayList<>();
+
 		//à voir, pour l'instant
 		MonstreDeBase.compteurID = 0;
 		EntiteAllieeDeBase.compteurID = 0;
 	}
+
+	public void ajouterEntite(MonstreDeBase entite){
+
+		lesMonstres.add(entite);
+//		if(this.monstreVue!=null){
+//			this.monstreVue.animation(entite);
+//		}
+
+
+    }
 
 	public final IntegerProperty nbToursProperty(){
 		return this.nbTours;	
@@ -37,28 +47,27 @@ public class  Environnement {
 		return this.nbTours.getValue();
 	}
 
-	public int getWidth() {
-		return largeur;
-	}
-
-	public int getHeight() {
-		return hauteur;
-	}
 
 
 
 	public void unTour() {
 		//faut les supp quand ils sont morts / sinon avance
-		for (int i = lesMonstres.size() - 1; i >= 0; i--){
-			if (!lesMonstres.get(i).estVivant()){
-				lesMonstres.remove(i);
-			} else {
-				lesMonstres.get(i).agir();
+		if(!lesMonstres.isEmpty()){
+			for (int i = lesMonstres.size() - 1; i >= 0; i--){
+				if (!lesMonstres.get(i).estVivant()){
+					lesMonstres.remove(i);
+
+				} else {
+					lesMonstres.get(i).agir();
+				}
 			}
 		}
+
 	}
 
-
+	public void avancer(MonstreDeBase monstre) {
+		monstre.setPosX(monstre.getPosX()+1);
+	}
 
 	//ce que j'ai rajouté(musa le japonais)
 
