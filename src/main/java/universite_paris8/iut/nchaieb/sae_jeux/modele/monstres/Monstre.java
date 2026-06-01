@@ -36,6 +36,8 @@ public abstract class Monstre extends Entite {
         compteurID++;
         this.vitesse = vitesse;
         this.actionActuelle.set("fixe");
+
+        // Cible par défaut
         this.targetX = 119;
         this.targetY = 26;
         this.setPosX(posX);
@@ -68,21 +70,19 @@ public abstract class Monstre extends Entite {
 
     public void setSpawnEnnemi(Terrain terrain) {
         int portailAleatoire = (int) (Math.random() * 3);
-//        this.setPosX(0);
-//        this.setPosY(0);
+
         if (portailAleatoire == 0) { // Haut-Gauche
             this.setPosX(0);
             this.setPosY(8 * TAILLE_TUILE);
         } else if (portailAleatoire == 1) { // Bas-Gauche
             this.setPosX(10 * TAILLE_TUILE);
-            this.setPosY(46 * TAILLE_TUILE);
+            this.setPosY(51 * TAILLE_TUILE);
         } else { // Haut-Milieu
             this.setPosX(50 * TAILLE_TUILE);
             this.setPosY(0);
-
         }
 
-        // Base
+        // Base (Cible à atteindre)
         this.targetX = terrain.largeur() - 1;
         this.targetY = 26;
     }
@@ -155,8 +155,6 @@ public abstract class Monstre extends Entite {
                 this.chemin.remove(0);
             }
         }
-
-
     }
 
     public Monstre plusProche(ArrayList<Monstre> listeMonstre) {

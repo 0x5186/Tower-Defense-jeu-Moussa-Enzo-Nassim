@@ -18,7 +18,6 @@ public class Environnement {
 	private ObservableList<Tour> lesTours;
 	private ObservableList<Monstre> lesMonstres;
 	private Terrain terrain;
-
 	public Tour tourAPlacer;
 	private Symboles symboles; //liste des symboles
 	 //pour savoir si on est entrain de placer une tour ou pas

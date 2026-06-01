@@ -34,30 +34,17 @@ public class MonstreVue {
 
     public void ajouterSprite(Monstre monstre){
 
-
-        Circle circle= new Circle(0,0,15);
-        circle.setFill(Color.RED);
-        pane.getChildren().add(circle);
         ImageView  iv= new ImageView();
         if (monstre instanceof Squelette) {
             iv = new ImageView(squelette);
-        }
-        if (monstre instanceof Sorcier) {
+        } else if (monstre instanceof Sorcier) {
             iv = new ImageView(sorcier);
         }
         iv.translateXProperty().bind(monstre.posXProperty());
         iv.translateYProperty().bind(monstre.posYProperty()
         );
-
-
         this.hashMap.put(monstre, iv);
-
-//        if (monstre instanceof Squelette){
-//            iv.setScaleX(0.40);
-//            iv.setScaleY(0.40);
-//        }
         iv.setViewport(new Rectangle2D(0,0,50,50));
-
         this.pane.getChildren().add(iv);
     }
 
@@ -83,8 +70,8 @@ public class MonstreVue {
 
 
         ImageView iv = (ImageView) this.hashMap.get(monstre);
-        int largeurCase = 240;
-        int hauteurCase = 240;
+        int largeurCase = 50;
+        int hauteurCase = 50;
         System.out.println(iv.getX());
         System.out.println(iv.getY());
         if (monstre instanceof Squelette){
@@ -109,7 +96,7 @@ public class MonstreVue {
                     })
             );
             this.hashMapAnimation.put(monstre, squeletteMarche);
-            squeletteMarche.setCycleCount(15);
+            squeletteMarche.setCycleCount(100);
             squeletteMarche.play();
 
 
@@ -128,15 +115,15 @@ public class MonstreVue {
         ImageView iv = (ImageView) this.hashMap.get(monstre);
 
 
-        int largeurCase = 240;
-        int hauteurCase = 240;
+        int largeurCase = 50;
+        int hauteurCase = 50;
         int[] frameIndex = {13};
 
 
 
         Timeline squeletteMarche = new Timeline(
 
-                new KeyFrame(Duration.millis(100), e -> {
+                new KeyFrame(Duration.millis(16), e -> {
 
                     int x, y;
                     if (frameIndex[0] < 25) {
@@ -153,7 +140,7 @@ public class MonstreVue {
                 })
         );
         this.hashMapAnimation.put(monstre, squeletteMarche);
-        squeletteMarche.setCycleCount(10);
+        squeletteMarche.setCycleCount(100);
         squeletteMarche.play();
 
 
@@ -167,8 +154,8 @@ public class MonstreVue {
 
 
         ImageView iv=(ImageView) this.hashMap.get(monstre);
-        int largeurCase = 240;
-        int hauteurCase = 240;
+        int largeurCase = 50;
+        int hauteurCase = 50;
         int[] frameIndex = {27};
 
         if(this.hashMapAnimation.containsKey(monstre)){
