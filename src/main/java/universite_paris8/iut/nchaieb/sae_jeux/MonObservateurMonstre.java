@@ -45,7 +45,7 @@ public class MonObservateurMonstre implements ListChangeListener<Monstre> {
 
                         if (newValue.equals("fixe")) {
 
-                            this.monstreVue.stopAnimation(nouveau);
+
                         }
                         if (newValue.equals("marche")) {
 

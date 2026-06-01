@@ -40,6 +40,7 @@ public class MonObservateurTour implements ListChangeListener<Tour>{
 
 
                 for (Tour nouveau : change.getAddedSubList()) {
+                    creerSprite(nouveau);
                     nouveau.modePlacementTourProperty().addListener((observable, oldValue, newValue) -> {
 
                         if (newValue.equals(true)) {
@@ -52,7 +53,7 @@ public class MonObservateurTour implements ListChangeListener<Tour>{
                         }
                     });
 
-                    creerSprite(nouveau);
+
                     nouveau.getActionActuelle().addListener((observable, oldValue, newValue) -> {
 
                         if (newValue.equals("fixe")) {
