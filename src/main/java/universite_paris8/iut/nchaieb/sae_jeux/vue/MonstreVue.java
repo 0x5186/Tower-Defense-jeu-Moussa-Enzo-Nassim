@@ -6,6 +6,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.util.Duration;
 import universite_paris8.iut.nchaieb.sae_jeux.Main;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.*;
@@ -20,8 +22,10 @@ public class MonstreVue {
     private Pane pane;
     private HashMap hashMap= new HashMap<Monstre,ImageView>();
     private HashMap hashMapAnimation= new HashMap<Monstre, Timeline>();
-    Image  squelette = new Image(Main.class.getResourceAsStream("images/squelette.png"));
+    Image  squelette = new Image(Main.class.getResourceAsStream("images/squelette(3).png"));
     Image  sorcier = new Image(Main.class.getResourceAsStream("images/sorcier.png"));
+    Image tourOeilCurseur = new Image(Main.class.getResourceAsStream("images/tourOeilCurseur.png"));
+
 
 
     public MonstreVue(Pane pane) {
@@ -30,6 +34,10 @@ public class MonstreVue {
 
     public void ajouterSprite(Monstre monstre){
 
+
+        Circle circle= new Circle(0,0,15);
+        circle.setFill(Color.RED);
+        pane.getChildren().add(circle);
         ImageView  iv= new ImageView();
         if (monstre instanceof Squelette) {
             iv = new ImageView(squelette);
@@ -41,13 +49,14 @@ public class MonstreVue {
         iv.translateYProperty().bind(monstre.posYProperty()
         );
 
+
         this.hashMap.put(monstre, iv);
 
-        if (monstre instanceof Squelette){
-            iv.setScaleX(0.40);
-            iv.setScaleY(0.40);
-        }
-        iv.setViewport(new Rectangle2D(0,0,240,240));
+//        if (monstre instanceof Squelette){
+//            iv.setScaleX(0.40);
+//            iv.setScaleY(0.40);
+//        }
+        iv.setViewport(new Rectangle2D(0,0,50,50));
 
         this.pane.getChildren().add(iv);
     }
@@ -76,7 +85,8 @@ public class MonstreVue {
         ImageView iv = (ImageView) this.hashMap.get(monstre);
         int largeurCase = 240;
         int hauteurCase = 240;
-
+        System.out.println(iv.getX());
+        System.out.println(iv.getY());
         if (monstre instanceof Squelette){
 
             int[] frameIndex = {13};

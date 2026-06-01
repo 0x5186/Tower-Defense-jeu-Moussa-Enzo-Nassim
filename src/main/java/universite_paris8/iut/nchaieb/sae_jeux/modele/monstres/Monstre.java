@@ -68,7 +68,8 @@ public abstract class Monstre extends Entite {
 
     public void setSpawnEnnemi(Terrain terrain) {
         int portailAleatoire = (int) (Math.random() * 3);
-
+//        this.setPosX(0);
+//        this.setPosY(0);
         if (portailAleatoire == 0) { // Haut-Gauche
             this.setPosX(0);
             this.setPosY(8 * TAILLE_TUILE);
@@ -78,7 +79,7 @@ public abstract class Monstre extends Entite {
         } else { // Haut-Milieu
             this.setPosX(50 * TAILLE_TUILE);
             this.setPosY(0);
-            
+
         }
 
         // Base
