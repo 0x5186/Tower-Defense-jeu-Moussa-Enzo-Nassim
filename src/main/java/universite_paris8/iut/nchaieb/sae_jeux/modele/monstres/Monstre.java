@@ -1,7 +1,10 @@
-package universite_paris8.iut.nchaieb.sae_jeux.modele;
+package universite_paris8.iut.nchaieb.sae_jeux.modele.monstres;
 
-import javafx.beans.property.IntegerProperty;
 import javafx.collections.ObservableList;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.AlgorithmeAEtoile;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.Entite;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.Noeud;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.Terrain;
 
 import java.util.ArrayList;
 
@@ -75,6 +78,7 @@ public abstract class Monstre extends Entite {
         } else { // Haut-Milieu
             this.setPosX(50 * TAILLE_TUILE);
             this.setPosY(0);
+            
         }
 
         // Base
@@ -116,40 +120,42 @@ public abstract class Monstre extends Entite {
     }
 
     private void avancer(Terrain terrain) {
-        if (terrain == null) return;
+        if (terrain != null) {
+            if (this.chemin == null || this.chemin.isEmpty()) {
+                int departGridX = this.getPosX() / TAILLE_TUILE;
+                int departGridY = this.getPosY() / TAILLE_TUILE;
 
-        if (this.chemin == null || this.chemin.isEmpty()) {
-            int departGridX = this.getPosX() / TAILLE_TUILE;
-            int departGridY = this.getPosY() / TAILLE_TUILE;
+                this.chemin = AlgorithmeAEtoile.trouverChemin(terrain, departGridX, departGridY, this.targetX, this.targetY);
 
-            this.chemin = AlgorithmeAEtoile.trouverChemin(terrain, departGridX, departGridY, this.targetX, this.targetY);
+                if (this.chemin == null || this.chemin.isEmpty()) return;
+            }
 
-            if (this.chemin == null || this.chemin.isEmpty()) return;
+            Noeud prochaineEtape = this.chemin.get(0);
+
+            int ciblePixelX = prochaineEtape.x * TAILLE_TUILE;
+            int ciblePixelY = prochaineEtape.y * TAILLE_TUILE;
+
+            int dx = ciblePixelX - this.getPosX();
+            int dy = ciblePixelY - this.getPosY();
+
+            int deplacementX = 0;
+            int deplacementY = 0;
+
+            if (dx > 0) deplacementX = Math.min(this.vitesse, dx);
+            else if (dx < 0) deplacementX = Math.max(-this.vitesse, dx);
+
+            if (dy > 0) deplacementY = Math.min(this.vitesse, dy);
+            else if (dy < 0) deplacementY = Math.max(-this.vitesse, dy);
+
+            this.setPosX(this.getPosX() + deplacementX);
+            this.setPosY(this.getPosY() + deplacementY);
+
+            if (this.getPosX() == ciblePixelX && this.getPosY() == ciblePixelY) {
+                this.chemin.remove(0);
+            }
         }
 
-        Noeud prochaineEtape = this.chemin.get(0);
 
-        int ciblePixelX = prochaineEtape.x * TAILLE_TUILE;
-        int ciblePixelY = prochaineEtape.y * TAILLE_TUILE;
-
-        int dx = ciblePixelX - this.getPosX();
-        int dy = ciblePixelY - this.getPosY();
-
-        int deplacementX = 0;
-        int deplacementY = 0;
-
-        if (dx > 0) deplacementX = Math.min(this.vitesse, dx);
-        else if (dx < 0) deplacementX = Math.max(-this.vitesse, dx);
-
-        if (dy > 0) deplacementY = Math.min(this.vitesse, dy);
-        else if (dy < 0) deplacementY = Math.max(-this.vitesse, dy);
-
-        this.setPosX(this.getPosX() + deplacementX);
-        this.setPosY(this.getPosY() + deplacementY);
-
-        if (this.getPosX() == ciblePixelX && this.getPosY() == ciblePixelY) {
-            this.chemin.remove(0);
-        }
     }
 
     public Monstre plusProche(ArrayList<Monstre> listeMonstre) {

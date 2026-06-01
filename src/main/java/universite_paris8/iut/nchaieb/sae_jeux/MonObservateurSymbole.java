@@ -18,6 +18,9 @@ public class MonObservateurSymbole implements ListChangeListener<String> {
             if (change.wasAdded()){
                 for (String symbole : change.getAddedSubList()){
                     this.interfaceVue.afficherUnSeulSymbole(symbole);
+
+
+
                 }
             }
         }

@@ -1,22 +1,22 @@
 package universite_paris8.iut.nchaieb.sae_jeux;
 
 import javafx.collections.ListChangeListener;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Entite;
-import universite_paris8.iut.nchaieb.sae_jeux.modele.Monstre;
-import universite_paris8.iut.nchaieb.sae_jeux.modele.Tour;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.Tours.Tour;
 import universite_paris8.iut.nchaieb.sae_jeux.vue.TourVue;
 
 
 public class MonObservateurTour implements ListChangeListener<Tour>{
 
-    private StackPane stackPane;
+    private Pane pane;
     private TourVue tourVue;
 
-    public MonObservateurTour(StackPane panneauJeu) {
+    public MonObservateurTour(Pane panneauJeu) {
         super();
-        this.stackPane = panneauJeu;
-        this.tourVue = new TourVue(this.stackPane);
+        this.pane = panneauJeu;
+        this.tourVue = new TourVue(this.pane);
     }
 
 
@@ -38,7 +38,19 @@ public class MonObservateurTour implements ListChangeListener<Tour>{
         while (change.next()) {
             if (change.wasAdded()) {
 
+
                 for (Tour nouveau : change.getAddedSubList()) {
+                    nouveau.modePlacementTourProperty().addListener((observable, oldValue, newValue) -> {
+
+                        if (newValue.equals(true)) {
+
+                            System.out.println("ohhhhhh mince");
+                            this.tourVue.ajouterImageSouris(nouveau);
+                        }
+                        if (newValue.equals(false)) {
+                            this.tourVue.retirerImageSouris(nouveau);
+                        }
+                    });
 
                     creerSprite(nouveau);
                     nouveau.getActionActuelle().addListener((observable, oldValue, newValue) -> {
@@ -51,6 +63,7 @@ public class MonObservateurTour implements ListChangeListener<Tour>{
                             this.tourVue.animationAttaque(nouveau);
                         }
                     });
+
 
 
 

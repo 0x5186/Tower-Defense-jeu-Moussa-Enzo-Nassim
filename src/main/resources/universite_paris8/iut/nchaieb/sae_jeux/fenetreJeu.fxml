@@ -9,6 +9,7 @@
       <StackPane fx:id="stackPane" alignment="TOP_LEFT">
          <TilePane fx:id="tilePane" alignment="TOP_LEFT" prefColumns="120" prefRows="52" prefTileHeight="16" prefTileWidth="16" BorderPane.alignment="TOP_LEFT">
          </TilePane>
+          <Pane fx:id="pane"></Pane>
 
       </StackPane>
    </center>

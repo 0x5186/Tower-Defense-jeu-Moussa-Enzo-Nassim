@@ -1,10 +1,12 @@
 package universite_paris8.iut.nchaieb.sae_jeux.modele;
 
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.Tours.Tour;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.monstres.Monstre;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.monstres.Squelette;
 
 public class Environnement {
@@ -17,9 +19,9 @@ public class Environnement {
 	private ObservableList<Monstre> lesMonstres;
 	private Terrain terrain;
 
-	private Tour tourAPlacer;
+	public Tour tourAPlacer;
 	private Symboles symboles; //liste des symboles
-	private boolean modePlacementTour = false; //pour savoir si on est entrain de placer une tour ou pas
+	 //pour savoir si on est entrain de placer une tour ou pas
 
 
 	public Environnement(Terrain terrain) {
@@ -53,9 +55,7 @@ public class Environnement {
 		return symboles.getCombinaison();
 	}
 
-	public boolean isModePlacementTour() {
-		return modePlacementTour;
-	}
+
 
 
 // autres Méthodes:
@@ -63,7 +63,7 @@ public class Environnement {
 	public void ajouterTour(Tour tour){
 		System.out.println("tour prete");
 		this.tourAPlacer=tour;
-		this.modePlacementTour = true;
+		this.tourAPlacer.setModePlacementTour(true);
 //		this.lesTours.add(tour);
 	}
 
@@ -118,10 +118,9 @@ public class Environnement {
 			this.tourAPlacer.setPosX(posXGridPixel);
 			this.tourAPlacer.setPosY(posYGridPixel);
 			this.lesTours.add(this.tourAPlacer);
-			System.out.println("wawwwwwwwwww");
 
 
-			this.modePlacementTour = false;
+			this.tourAPlacer.setModePlacementTour(false);
 			System.out.println("Tour placée avec succès en X:" + gridX + " Y:" + gridY);
 		} else {
 			System.out.println("Impossible de placer une tour sur le chemin des monstres !");

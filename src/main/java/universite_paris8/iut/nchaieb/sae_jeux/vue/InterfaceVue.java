@@ -28,25 +28,26 @@ public class InterfaceVue {
 
     public void dessinMenu () {
 
-        ImageView FeuillePentacle = new ImageView(FeuilleSort);
-        ImageView InterfaceDuBas = new ImageView(InterfaceBas);
+        ImageView feuillePentacle = new ImageView(FeuilleSort);
+        ImageView interfaceDuBas = new ImageView(InterfaceBas);
+
 
         if( this.stackPane!=null){
 
-            this.stackPane.getChildren().add(InterfaceDuBas);
+            this.stackPane.getChildren().add(interfaceDuBas);
 
             //Interface du bas
-            InterfaceDuBas.setTranslateY(750);
-            InterfaceDuBas.setTranslateX(500);
-            InterfaceDuBas.setScaleX(1.25);
-            InterfaceDuBas.setScaleX(2.5);
+            interfaceDuBas.setTranslateY(750);
+            interfaceDuBas.setTranslateX(500);
+            interfaceDuBas.setScaleX(1.25);
+            interfaceDuBas.setScaleX(2.5);
 
             //Feuille pentacle
-            FeuillePentacle.setTranslateX(1400); // position X en pixels
-            FeuillePentacle.setTranslateY(650);
-            FeuillePentacle.setScaleX(0.65);
-            FeuillePentacle.setScaleY(0.65);
-            this.stackPane.getChildren().add(FeuillePentacle);
+            feuillePentacle.setTranslateX(1400); // position X en pixels
+            feuillePentacle.setTranslateY(650);
+            feuillePentacle.setScaleX(0.65);
+            feuillePentacle.setScaleY(0.65);
+            this.stackPane.getChildren().add(feuillePentacle);
             this.stackPane.getChildren().add(this.contientSymbole);
         }
     }

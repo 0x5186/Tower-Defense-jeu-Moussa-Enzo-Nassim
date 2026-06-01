@@ -1,19 +1,46 @@
-package universite_paris8.iut.nchaieb.sae_jeux.modele;
+package universite_paris8.iut.nchaieb.sae_jeux.modele.Tours;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.ObservableList;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.Entite;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.monstres.Monstre;
 
-public class Tour extends Entite{
+public class Tour extends Entite {
     protected int portee;
     protected double x, y;
-    protected int atq; // ajout attribut atq
-
+    private final BooleanProperty modePlacementTour;
     public Tour(int portee, int atq, int x, int y) {
 
         this.portee = portee;
-        this.atq = atq;
         this.x = x;
         this.y = y;
+        this.modePlacementTour= new SimpleBooleanProperty(false);
     }
+
+
+    public boolean isModePlacementTour() {
+        return modePlacementTour.get();
+    }
+
+    public BooleanProperty modePlacementTourProperty() {
+        return modePlacementTour;
+    }
+
+
+    public void setModePlacementTour(boolean modePlacementTour) {
+        this.modePlacementTour.set(modePlacementTour);
+    }
+
+
+
+
+
+
+
+
+
+
     public void agir(ObservableList<Monstre> listeMonstre) {
         Monstre monstrePlusProche;
 
@@ -36,11 +63,15 @@ public class Tour extends Entite{
         int distanceY = Math.abs(monstre.getPosY() - this.getPosY());
 
         //on va multiplier la distance de monstre*tour(x) et monstre*tour(y)
-        int distance = distanceX + distanceY;
+        int distance = distanceX+distanceY;
 
 
         //on compare la distance a la porte mais on doit les mettre à unité égale
-        return distance <= this.portee;
+        if (distance <= this.portee) {
+            return true;
+        }
+
+        return false;
     }
 
     public int getPortee() {
@@ -75,10 +106,10 @@ public class Tour extends Entite{
 
     public  void infligerDegat(Monstre monstre){
 
-        if (monstre.nombreDePV != 0){
-            monstre.retirerPV(this.atq);
-            System.out.println(monstre.getPV());
-        }
+//        if (monstre.nombreDePV != 0){
+////            monstre.retirerPV(this.atq);
+//
+//        }
     }
 }
 

@@ -1,34 +1,35 @@
 package universite_paris8.iut.nchaieb.sae_jeux.vue;
 
-import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.Cursor;
+import javafx.scene.ImageCursor;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 import universite_paris8.iut.nchaieb.sae_jeux.Main;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Entite;
-import universite_paris8.iut.nchaieb.sae_jeux.modele.Monstre;
-import universite_paris8.iut.nchaieb.sae_jeux.modele.Tour;
-import universite_paris8.iut.nchaieb.sae_jeux.modele.TourOeil;
-import universite_paris8.iut.nchaieb.sae_jeux.modele.monstres.Sorcier;
-import universite_paris8.iut.nchaieb.sae_jeux.modele.monstres.Squelette;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.monstres.Monstre;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.Tours.Tour;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.Tours.TourOeil;
 
 import java.util.HashMap;
 
 public class TourVue {
-    private StackPane stackPane;
-    private HashMap hashMap= new HashMap<Monstre, ImageView>();
-    private HashMap hashMapAnimation= new HashMap<Monstre, Timeline>();
+    private Pane pane;
+    private HashMap hashMap= new HashMap<Tour, ImageView>();
+    private HashMap hashMapAnimation= new HashMap<Tour, Timeline>();
     Image tourOeil = new Image(Main.class.getResourceAsStream("images/tourOeil.png"));
+    Image tourOeilCurseur = new Image(Main.class.getResourceAsStream("images/tourOeilCurseur.png"));
 
 
 
 
-    public TourVue(StackPane stackPane) {
-        this.stackPane= stackPane;
+    public TourVue(Pane pane) {
+        this.pane= pane;
     }
 
     public void ajouterSprite(Tour tour){
@@ -48,26 +49,39 @@ public class TourVue {
 
 
 
-        this.stackPane.getChildren().add(iv);
+        this.pane.getChildren().add(iv);
     }
 
-    public void retirer(Entite entite){
-        ImageView  iv= (ImageView) hashMap.get(entite);
+    public void retirer(Tour tour){
+        ImageView  iv= (ImageView) hashMap.get(tour);
         iv.setImage(null);
-        this.stackPane.getChildren().remove(iv);
-        this.hashMap.remove(entite, iv);
+        this.pane.getChildren().remove(iv);
+        this.hashMap.remove(tour, iv);
     }
 
-    public void stopAnimation(Entite entite){
-        if(this.hashMapAnimation.containsKey(entite)){
-            Timeline timeline= (Timeline) this.hashMapAnimation.get(entite);
+    public void stopAnimation(Tour tour){
+        if(this.hashMapAnimation.containsKey(tour)){
+            Timeline timeline= (Timeline) this.hashMapAnimation.get(tour);
             timeline.stop();
-            this.hashMapAnimation.remove(entite);
+            this.hashMapAnimation.remove(tour);
         }
     }
 
+    public void ajouterImageSouris(Tour tour){// change l'image de la souris pour la tour qu'on veut placer
+        if(tour instanceof TourOeil) {
+            pane.setCursor(new ImageCursor(tourOeilCurseur));
+        }
 
-    public void animationAttaque(Entite monstre) {
+    }
+
+    public void retirerImageSouris(Tour tour) {// change l'image de la souris pour la tour qu'on veut placer
+
+        pane.setCursor(Cursor.DEFAULT);
+
+    }
+
+
+        public void animationAttaque(Entite monstre) {
 
         ImageView iv = (ImageView) this.hashMap.get(monstre);
 

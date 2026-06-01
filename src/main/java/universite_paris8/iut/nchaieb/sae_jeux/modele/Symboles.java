@@ -1,8 +1,9 @@
 package universite_paris8.iut.nchaieb.sae_jeux.modele;
 
-import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.Tours.Tour;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.Tours.TourOeil;
 
 public class Symboles {
     private ObservableList<String> combinaison;

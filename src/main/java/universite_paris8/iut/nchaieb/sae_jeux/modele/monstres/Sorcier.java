@@ -1,7 +1,5 @@
 package universite_paris8.iut.nchaieb.sae_jeux.modele.monstres;
 
-import universite_paris8.iut.nchaieb.sae_jeux.modele.Monstre;
-
 public class Sorcier extends Monstre {
 
     public  Sorcier(int camp){

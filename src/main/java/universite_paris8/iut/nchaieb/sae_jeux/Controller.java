@@ -6,6 +6,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.TilePane;
 import javafx.util.Duration;
@@ -30,6 +31,8 @@ public class Controller implements Initializable{
     private TilePane tilePane;
     @FXML
     private StackPane stackPane;
+    @FXML
+    private Pane pane;
 
 
 
@@ -67,17 +70,19 @@ public class Controller implements Initializable{
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        //ajout du pane
         this.terrain = new Terrain();
         this.terrainVue = new TerrainVue(terrain, tilePane);
 
-        this.monstreVue= new MonstreVue(stackPane);
+        System.out.println(stackPane);
+
+        this.monstreVue= new MonstreVue(pane);
         this.interfaceVue = new InterfaceVue(stackPane);
 
         System.out.println(Main.map);
         terrainVue.dessine(Main.map);
-        MonObservateurMonstre observateurMonstres = new MonObservateurMonstre(stackPane);
-        MonObservateurTour monObservateurTour = new MonObservateurTour(stackPane);
+        MonObservateurMonstre observateurMonstres = new MonObservateurMonstre(pane);
+        MonObservateurTour monObservateurTour = new MonObservateurTour(pane);
 
         environnement= new Environnement(this.terrain);
         environnement.getLesMonstres().addListener(observateurMonstres);
@@ -86,11 +91,13 @@ public class Controller implements Initializable{
 
 
 
+
         initAnimation();
 
-        if (stackPane != null) {
-            stackPane.setOnMouseClicked(event -> {
-                if (environnement.isModePlacementTour()) {
+        if (pane != null) {
+            pane.setOnMouseClicked(event -> {
+                if (environnement.tourAPlacer.isModePlacementTour()) {
+
                     environnement.placerTour(event.getX(), event.getY());
                 }
             });
