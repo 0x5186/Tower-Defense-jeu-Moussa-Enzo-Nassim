@@ -106,17 +106,15 @@ public abstract class Monstre extends Entite {
 
 
     public void agir(ObservableList<Monstre> collegues, Terrain terrain) {
-
-//
-//        if (monstrePlusProche != null) {
-//                this.infligerDegat(  monstrePlusProche);
-//                return;
-//        }
         if (!estBloqueParAllie(collegues)) {
-            System.out.println(estBloqueParAllie(collegues));
-
-            this.setActionActuelle("marche");
+            if (!this.getActionActuelle().get().equals("marche")) {
+                this.setActionActuelle("marche");
+            }
             this.avancer(terrain);
+        } else {
+            if (!this.getActionActuelle().get().equals("fixe")) {
+                this.setActionActuelle("fixe");
+            }
         }
     }
 
