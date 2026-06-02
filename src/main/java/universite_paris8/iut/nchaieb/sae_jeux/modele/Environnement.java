@@ -22,15 +22,16 @@ public class Environnement {
 	public Tour tourAPlacer;
 	private Symboles symboles; //liste des symboles
 	 //pour savoir si on est entrain de placer une tour ou pas
+	private Base base;
 
-
-	public Environnement(Terrain terrain) {
+	public Environnement(Terrain terrain, Base base) {
 		this.terrain = terrain;
 		this.nbTours = new SimpleIntegerProperty();
 		this.lesTours =FXCollections.observableArrayList();
 		this.lesMonstres = FXCollections.observableArrayList();
 		this.symboles = new Symboles();
-		tourAPlacer=new Tour(1,1,1,1);
+		tourAPlacer=new Tour(1,1,3000,3000);//initialise une tour qui représente la tour a placer
+
 
 
 		Monstre.compteurID = 0;
@@ -83,13 +84,15 @@ public class Environnement {
 	public void unTour() {
 
 		//faut les supp quand ils sont morts / sinon ils continuent d'avancer
-		if (!(this.lesMonstres == null) && !this.lesMonstres.isEmpty()) {
-			for (int i =0; i< this.lesTours.size() ; i++) {
+		if (!(this.lesTours == null) && !this.lesTours.isEmpty()) {
+			for (int i = 0; i < this.lesTours.size(); i++) {
 				this.lesTours.get(i).agir(this.lesMonstres);
 
+
 			}
+		}
 
-
+		if (!(this.lesMonstres == null) && !this.lesMonstres.isEmpty()) {
 			for (int i = this.lesMonstres.size() - 1; i >= 0; i--) {
 				if (!this.lesMonstres.get(i).estVivant()) {
 					System.out.println("je suis remove");

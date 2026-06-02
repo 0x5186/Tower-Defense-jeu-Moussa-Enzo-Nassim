@@ -9,9 +9,10 @@ import universite_paris8.iut.nchaieb.sae_jeux.modele.monstres.Monstre;
 public class Tour extends Entite {
     protected int portee;
     protected double x, y;
+    private int atq;
     private final BooleanProperty modePlacementTour;
     public Tour(int portee, int atq, int x, int y) {
-
+        this.atq=atq;
         this.portee = portee;
         this.x = x;
         this.y = y;
@@ -40,12 +41,11 @@ public class Tour extends Entite {
 
 
 
-
     public void agir(ObservableList<Monstre> listeMonstre) {
         Monstre monstrePlusProche;
 
         if (!listeMonstre.isEmpty()) {
-
+            System.out.println("pas vide");
             monstrePlusProche = this.plusProche(listeMonstre);
             if (monstrePlusProche != null) {
                 this.setActionActuelle("fixe");
@@ -68,7 +68,6 @@ public class Tour extends Entite {
 
         //on va multiplier la distance de monstre*tour(x) et monstre*tour(y)
         int distance = distanceX+distanceY;
-
 
         //on compare la distance a la porte mais on doit les mettre à unité égale
         if (distance <= this.portee) {
@@ -95,6 +94,7 @@ public class Tour extends Entite {
                 }
             }
         }
+        System.out.println(monstrePlusProche);
         return monstrePlusProche;
 
     }
@@ -109,11 +109,11 @@ public class Tour extends Entite {
 
 
     public  void infligerDegat(Monstre monstre){
+        System.out.println("tour attaque");
+        if (monstre.getPV() != 0){
+            monstre.retirerPV(this.atq);
 
-//        if (monstre.nombreDePV != 0){
-////            monstre.retirerPV(this.atq);
-//
-//        }
+        }
     }
 }
 

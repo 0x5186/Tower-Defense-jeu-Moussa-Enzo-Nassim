@@ -8,6 +8,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.TilePane;
 import javafx.util.Duration;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.Base;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Environnement;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Terrain;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.CombinaisonValables;
@@ -43,6 +44,7 @@ public class Controller implements Initializable{
     InterfaceVue interfaceVue;
     private MonObservateurMonstre observateur;
 
+    private Base base;
 
 
 
@@ -72,8 +74,9 @@ public class Controller implements Initializable{
         //ajout du pane
         this.terrain = new Terrain();
         this.terrainVue = new TerrainVue(terrain, tilePane);
+        this.base= new Base();
 
-        System.out.println(stackPane);
+
 
         this.monstreVue= new MonstreVue(pane);
         this.interfaceVue = new InterfaceVue(stackPane);
@@ -83,7 +86,7 @@ public class Controller implements Initializable{
         MonObservateurMonstre observateurMonstres = new MonObservateurMonstre(pane);
         MonObservateurTour monObservateurTour = new MonObservateurTour(pane);
 
-        environnement= new Environnement(this.terrain);
+        environnement= new Environnement(this.terrain, this.base);
         environnement.getLesMonstres().addListener(observateurMonstres);
         environnement.getLesTours().addListener(monObservateurTour);
 

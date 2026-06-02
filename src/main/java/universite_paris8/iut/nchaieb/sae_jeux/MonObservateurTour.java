@@ -51,19 +51,19 @@ public class MonObservateurTour implements ListChangeListener<Tour>{
                         }
                     });
 
-
-                    nouveau.getActionActuelle().addListener((observable, oldValue, newValue) -> {
-
-                        if (newValue.equals("fixe")) {
-
-                            this.tourVue.stopAnimation(nouveau);
-                        }
-                        if (newValue.equals("attaque")) {
-                            this.tourVue.animationAttaque(nouveau);
-                        }
-                    });
-
-
+//
+//                    nouveau.getActionActuelle().addListener((observable, oldValue, newValue) -> {
+//
+//                        if (newValue.equals("fixe")) {
+//
+//                            this.tourVue.stopAnimation(nouveau);
+//                        }
+//                        if (newValue.equals("attaque")) {
+//                            this.tourVue.animationAttaque(nouveau);
+//                        }
+//                    });
+//
+//
 
 
 
