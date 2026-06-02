@@ -2,6 +2,8 @@ package universite_paris8.iut.nchaieb.sae_jeux;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.Pane;
@@ -12,6 +14,7 @@ import universite_paris8.iut.nchaieb.sae_jeux.modele.Base;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Environnement;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Terrain;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.CombinaisonValables;
+import universite_paris8.iut.nchaieb.sae_jeux.vue.BaseVue;
 import universite_paris8.iut.nchaieb.sae_jeux.vue.MonstreVue;
 import universite_paris8.iut.nchaieb.sae_jeux.vue.InterfaceVue;
 import universite_paris8.iut.nchaieb.sae_jeux.vue.TerrainVue;
@@ -20,7 +23,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-public class Controller implements Initializable{
+public class ControleurJeu implements Initializable{
     private Environnement environnement;
     private ArrayList<CombinaisonValables> lesSorts;
 
@@ -37,14 +40,17 @@ public class Controller implements Initializable{
 
 
     private Timeline gameLoop;
-    private int temps;
+    protected IntegerProperty temps= new SimpleIntegerProperty(0);
     TerrainVue terrainVue;
     Terrain terrain;
     MonstreVue monstreVue;
     InterfaceVue interfaceVue;
+    private BaseVue baseVue;
+
+
     private MonObservateurMonstre observateur;
 
-    private Base base;
+
 
 
 
@@ -56,13 +62,18 @@ public class Controller implements Initializable{
 
 
         KeyFrame kf = new KeyFrame(
-                Duration.millis(90),
+                Duration.millis(16),
 
                 (ev ->{
-                    temps++;
+                    temps.setValue(temps.getValue()+1);
                     this.environnement.unTour();
+                    if (environnement.getBase().getPv()==0){
+                        gameLoop.stop();
+                        System.out.println("perdu");
+                    }
 //
                 })
+
         );
         gameLoop.setCycleCount(Timeline.INDEFINITE);
         gameLoop.getKeyFrames().add(kf);
@@ -73,22 +84,26 @@ public class Controller implements Initializable{
     public void initialize(URL url, ResourceBundle resourceBundle) {
         //ajout du pane
         this.terrain = new Terrain();
-        this.terrainVue = new TerrainVue(terrain, tilePane);
-        this.base= new Base();
+
+
 
 
 
         this.monstreVue= new MonstreVue(pane);
         this.interfaceVue = new InterfaceVue(stackPane);
+        this.baseVue= new BaseVue(this.pane);
+        this.terrainVue = new TerrainVue(terrain, tilePane);
+
 
         System.out.println(Main.map);
         terrainVue.dessine(Main.map);
         MonObservateurMonstre observateurMonstres = new MonObservateurMonstre(pane);
         MonObservateurTour monObservateurTour = new MonObservateurTour(pane);
 
-        environnement= new Environnement(this.terrain, this.base);
+        environnement= new Environnement(this.terrain);
         environnement.getLesMonstres().addListener(observateurMonstres);
         environnement.getLesTours().addListener(monObservateurTour);
+        baseVue.ajouterSprite(this.environnement.getBase());
 
 
 
@@ -110,19 +125,19 @@ public class Controller implements Initializable{
 
 
 
-        if (Main.map == 2) {
-            try {
-                gameLoop.play();
-            } catch (Exception e) {
-                initAnimation();
-            }
 
-            //Partie symbole
-            this.monObservateurSymbole = new MonObservateurSymbole(this.interfaceVue);
-            this.environnement.getSymbolesProperty().addListener(monObservateurSymbole);
-            this.interfaceVue.dessinMenu();
+        try {
+            gameLoop.play();
+        } catch (Exception e) {
+            initAnimation();
         }
 
+        //Partie symbole
+        this.monObservateurSymbole = new MonObservateurSymbole(this.interfaceVue);
+        this.environnement.getSymbolesProperty().addListener(monObservateurSymbole);
+        this.interfaceVue.dessinMenu();
+
+
 
 
 
@@ -130,11 +145,7 @@ public class Controller implements Initializable{
 
 
 
-    @FXML
-    public void onBoutonJouerClique() throws Exception {
-        Main.map=2;
-        Main.changerScene("universite_paris8/iut/nchaieb/sae_jeux/fenetreJeu.fxml");
-    }
+
 
     @FXML
     public void AjouterMonstreEnnemi() {

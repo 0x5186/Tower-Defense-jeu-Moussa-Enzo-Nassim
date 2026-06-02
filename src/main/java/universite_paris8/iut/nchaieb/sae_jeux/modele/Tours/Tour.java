@@ -11,12 +11,16 @@ public class Tour extends Entite {
     protected double x, y;
     private int atq;
     private final BooleanProperty modePlacementTour;
+    private int cooldown;
+    private int cooldownPourAttaque; //temps de chargement d'une attaque
     public Tour(int portee, int atq, int x, int y) {
         this.atq=atq;
         this.portee = portee;
         this.x = x;
         this.y = y;
         this.modePlacementTour= new SimpleBooleanProperty(false);
+        this.cooldown=0;
+        this.cooldownPourAttaque=3;
     }
 
 
@@ -43,22 +47,34 @@ public class Tour extends Entite {
 
     public void agir(ObservableList<Monstre> listeMonstre) {
         Monstre monstrePlusProche;
+        gererCooldown();
+        System.out.println(cooldown);
+        if(this.cooldown==cooldownPourAttaque){
+            if (!listeMonstre.isEmpty() ) {
 
-        if (!listeMonstre.isEmpty()) {
-            System.out.println("pas vide");
-            monstrePlusProche = this.plusProche(listeMonstre);
-            if (monstrePlusProche != null) {
-                this.setActionActuelle("fixe");
-                System.out.println("pas nul");
-                this.infligerDegat(monstrePlusProche);
-                this.setActionActuelle("attaque");
+                monstrePlusProche = this.plusProche(listeMonstre);
+                if (monstrePlusProche != null) {
+                    this.setActionActuelle("fixe");
+
+                    this.infligerDegat(monstrePlusProche);
+                    this.setActionActuelle("attaque");
+                    this.cooldown=0;
+                    System.out.println("j'attaque");
+                }
+
             }
-
         }
+
     }
 
-
-
+    private void gererCooldown() {
+        if(this.cooldown<this.cooldownPourAttaque){
+            this.cooldown++;
+        }
+        else {
+            this.cooldown=this.cooldownPourAttaque;
+        }
+    }
 
 
     public boolean estDansLeRayon (Monstre monstre){

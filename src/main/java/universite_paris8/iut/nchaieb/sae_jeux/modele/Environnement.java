@@ -15,6 +15,7 @@ public class Environnement {
 
 
 
+	private Base base;
 	private ObservableList<Tour> lesTours;
 	private ObservableList<Monstre> lesMonstres;
 	private Terrain terrain;
@@ -22,9 +23,8 @@ public class Environnement {
 	public Tour tourAPlacer;
 	private Symboles symboles; //liste des symboles
 	 //pour savoir si on est entrain de placer une tour ou pas
-	private Base base;
 
-	public Environnement(Terrain terrain, Base base) {
+	public Environnement(Terrain terrain) {
 		this.terrain = terrain;
 		this.nbTours = new SimpleIntegerProperty();
 		this.lesTours =FXCollections.observableArrayList();
@@ -32,7 +32,7 @@ public class Environnement {
 		this.symboles = new Symboles();
 		tourAPlacer=new Tour(1,1,3000,3000);//initialise une tour qui représente la tour a placer
 
-
+		this.base=new Base();
 
 		Monstre.compteurID = 0;
 		Entite.compteurID = 0;
@@ -56,8 +56,9 @@ public class Environnement {
 		return symboles.getCombinaison();
 	}
 
-
-
+	public Base getBase() {
+		return base;
+	}
 
 // autres Méthodes:
 
@@ -98,7 +99,7 @@ public class Environnement {
 					System.out.println("je suis remove");
 					this.lesMonstres.remove(i);
 				} else {
-					this.lesMonstres.get(i).agir(this.lesMonstres, this.terrain);
+					this.lesMonstres.get(i).agir(this.lesMonstres, this.terrain, this.base);
 
 				}
 			}

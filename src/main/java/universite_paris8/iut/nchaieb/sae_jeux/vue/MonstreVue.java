@@ -24,7 +24,7 @@ public class MonstreVue {
     private HashMap hashMapAnimation= new HashMap<Monstre, Timeline>();
     Image  squelette = new Image(Main.class.getResourceAsStream("images/squelette(3).png"));
     Image  sorcier = new Image(Main.class.getResourceAsStream("images/sorcier.png"));
-    Image tourOeilCurseur = new Image(Main.class.getResourceAsStream("images/tourOeilCurseur.png"));
+
 
 
 
