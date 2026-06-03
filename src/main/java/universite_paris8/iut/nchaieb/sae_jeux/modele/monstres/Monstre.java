@@ -1,10 +1,7 @@
 package universite_paris8.iut.nchaieb.sae_jeux.modele.monstres;
 
 import javafx.collections.ObservableList;
-import universite_paris8.iut.nchaieb.sae_jeux.modele.AlgorithmeAEtoile;
-import universite_paris8.iut.nchaieb.sae_jeux.modele.Entite;
-import universite_paris8.iut.nchaieb.sae_jeux.modele.Noeud;
-import universite_paris8.iut.nchaieb.sae_jeux.modele.Terrain;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.*;
 
 import java.util.ArrayList;
 
@@ -17,9 +14,11 @@ public abstract class Monstre extends Entite {
     protected int nombreDePV;
     protected int pvMax;
     private int atq;
+//    protected String biome;
 
     protected int vitesse;
     protected int portee;
+
 
     private ArrayList<Noeud> chemin;
     private final int TAILLE_TUILE = 16;
@@ -92,11 +91,18 @@ public abstract class Monstre extends Entite {
         this.targetY = 26;
     }
 
-    public void agir(ObservableList<Monstre> collegues, Terrain terrain) {
+
+
+    public void agir(ObservableList<Monstre> collegues, Terrain terrain, Base base) {
+
+        System.out.println(this.getPosX());
+        if (this.getPosX() == base.getPosX()) {
+            System.out.println("jattaque la tour");
+            base.retirerPv(this.atq);
+        }
+
         if (!estBloqueParAllie(collegues)) {
-            if (!this.getActionActuelle().get().equals("marche")) {
-                this.setActionActuelle("marche");
-            }
+            this.setActionActuelle("marche");
             this.avancer(terrain);
         } else {
             if (!this.getActionActuelle().get().equals("fixe")) {
@@ -149,11 +155,11 @@ public abstract class Monstre extends Entite {
             int deplacementX = 0;
             int deplacementY = 0;
 
-            if (dx > 0) deplacementX = Math.min(this.vitesse, dx);
-            else if (dx < 0) deplacementX = Math.max(-this.vitesse, dx);
+            if (dx > 0) deplacementX = Math.min(1, dx);
+            else if (dx < 0) deplacementX = Math.max(-1, dx);
 
-            if (dy > 0) deplacementY = Math.min(this.vitesse, dy);
-            else if (dy < 0) deplacementY = Math.max(-this.vitesse, dy);
+            if (dy > 0) deplacementY = Math.min(1, dy);
+            else if (dy < 0) deplacementY = Math.max(-1, dy);
 
             this.setPosX(this.getPosX() + deplacementX);
             this.setPosY(this.getPosY() + deplacementY);

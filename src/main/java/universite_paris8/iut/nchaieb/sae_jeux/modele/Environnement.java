@@ -15,6 +15,7 @@ public class Environnement {
 
 
 
+	private Base base;
 	private ObservableList<Tour> lesTours;
 	private ObservableList<Monstre> lesMonstres;
 	private Terrain terrain;
@@ -23,7 +24,6 @@ public class Environnement {
 	public Tour tourAPlacer;
 	private Symboles symboles; //liste des symboles
 	 //pour savoir si on est entrain de placer une tour ou pas
-
 
 	public Environnement(Terrain terrain) {
 		this.terrain = terrain;
@@ -34,6 +34,7 @@ public class Environnement {
 		this.argent = new SimpleIntegerProperty(100);
 		tourAPlacer=new Tour(1,1,1,1,0);
 
+		this.base=new Base();
 
 		Monstre.compteurID = 0;
 		Entite.compteurID = 0;
@@ -62,8 +63,9 @@ public class Environnement {
 		return symboles.getCombinaison();
 	}
 
-
-
+	public Base getBase() {
+		return base;
+	}
 
 // autres Méthodes:
 
@@ -91,8 +93,11 @@ public class Environnement {
 		if (!(this.lesMonstres == null) && !this.lesMonstres.isEmpty()) {
 			for (int i =0; i< this.lesTours.size() ; i++) {
 				this.lesTours.get(i).agir(this.lesMonstres);
-			}
 
+			}
+		}
+
+		if (!(this.lesMonstres == null) && !this.lesMonstres.isEmpty()) {
 			for (int i = this.lesMonstres.size() - 1; i >= 0; i--) {
 				if (!this.lesMonstres.get(i).estVivant()) {
 					System.out.println("je suis remove");
@@ -101,7 +106,8 @@ public class Environnement {
 
 					this.lesMonstres.remove(i);
 				} else {
-					this.lesMonstres.get(i).agir(this.lesMonstres, this.terrain);
+					this.lesMonstres.get(i).agir(this.lesMonstres, this.terrain, this.base);
+
 				}
 			}
 		}

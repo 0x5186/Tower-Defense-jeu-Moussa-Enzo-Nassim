@@ -36,16 +36,21 @@ public class TourVue {
 
     public void ajouterSprite(Tour tour){
 
-        int decalageX=40;
-        int decalageY=80;
+        int decalageX=0;
+        int decalageY=0;
         ImageView  iv= new ImageView();
 
         if(tour instanceof TourOeil){
+             decalageX=33;
+             decalageY=67;
             iv=new ImageView(tourOeil);
             iv.setViewport(new Rectangle2D(0,0,80,80));
 
         }
         if(tour instanceof TourHeal){
+            decalageX=31;
+            decalageY=70;
+
             iv=new ImageView(tourHeal);
             iv.setViewport(new Rectangle2D(0,0,80,80));
         }
@@ -53,11 +58,11 @@ public class TourVue {
 //        iv.translateYProperty().bind(
 //                tour.posYProperty()
 //        );
-        iv.layoutXProperty().bind(
+        iv.translateXProperty().bind(
                 tour.posXProperty().subtract(decalageX)
         );
 
-        iv.layoutYProperty().bind(
+        iv.translateYProperty().bind(
                 tour.posYProperty().subtract(decalageY)
         );
         this.hashMap.put(tour, iv);
