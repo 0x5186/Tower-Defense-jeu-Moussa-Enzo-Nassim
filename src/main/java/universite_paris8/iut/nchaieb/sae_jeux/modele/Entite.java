@@ -19,10 +19,9 @@ public class Entite implements EntiteInterface{
     protected StringProperty actionActuelle= new SimpleStringProperty();
 
 
-    public Entite(int x, int y){
+    public Entite(){
 
-        this.posX = new SimpleIntegerProperty(x);
-        this.posY = new SimpleIntegerProperty(y);
+
 //        this.biome = biome;
         this.id ="E"+ this.compteurID;
         this.compteurID++;

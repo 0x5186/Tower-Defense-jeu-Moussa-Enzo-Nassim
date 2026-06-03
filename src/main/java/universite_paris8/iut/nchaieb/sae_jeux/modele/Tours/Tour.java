@@ -1,13 +1,18 @@
 package universite_paris8.iut.nchaieb.sae_jeux.modele.Tours;
 
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.ObservableList;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Base;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Entite;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.monstres.Monstre;
 
 public class Tour extends Entite {
+
+    private IntegerProperty posX;
+    private IntegerProperty posY;
     protected int portee;
 
     private int atq;
@@ -15,7 +20,9 @@ public class Tour extends Entite {
     private int cooldown;
     private int cooldownPourAction; //temps de chargement d'une attaque
     public Tour(int portee, int atq, int x, int y, int cooldownPourAction) {
-        super(x,y);
+
+        this.posX = new SimpleIntegerProperty(x);
+        this.posY = new SimpleIntegerProperty(y);
         this.atq=atq;
         this.portee = portee;
 
@@ -37,10 +44,35 @@ public class Tour extends Entite {
         this.cooldown = cooldown;
     }
 
+    @Override
+    public int getPosX() {
+        return posX.get();
+    }
 
+    @Override
+    public IntegerProperty posXProperty() {
+        return posX;
+    }
 
+    @Override
+    public int getPosY() {
+        return posY.get();
+    }
 
-//
+    @Override
+    public IntegerProperty posYProperty() {
+        return posY;
+    }
+
+    public void setPosX(int posX) {
+        this.posX.set(posX);
+    }
+
+    public void setPosY(int posY) {
+        this.posY.set(posY);
+    }
+
+    //
 //    public void agir(ObservableList<Monstre> listeMonstre) {
 //        Monstre monstrePlusProche;
 //        gererCooldown();
@@ -70,7 +102,7 @@ public class Tour extends Entite {
             this.cooldown++;
         }
         else {
-            System.out.println("=");
+
             this.cooldown=this.cooldownPourAction;
         }
     }

@@ -1,5 +1,7 @@
 package universite_paris8.iut.nchaieb.sae_jeux.modele.monstres;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.ObservableList;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.AlgorithmeAEtoile;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Entite;
@@ -32,14 +34,18 @@ public abstract class Monstre extends Entite {
     private int targetX;
     private int targetY;
 
+    private IntegerProperty posX;
+    private IntegerProperty posY;
 
-    public Monstre(int pvMax, int atq, int posX, int posY, int recompense){
-        super(posX,posY);
+    public Monstre(int pvMax, int atq, int recompense, Terrain terrain){
+
+        this.posX = new SimpleIntegerProperty();
+        this.posY = new SimpleIntegerProperty();
 
         this.atq=atq;
         this.pvMax = pvMax;
         this.nombreDePV = pvMax;
-
+        this.recompense=recompense;
 //        this.biome = biome;
         this.id ="M"+ this.compteurID;
         this.compteurID++;
@@ -48,6 +54,7 @@ public abstract class Monstre extends Entite {
         this.actionActuelle.set("fixe");
         this.targetX = 119;
         this.targetY = 26;
+        setSpawnEnnemi(terrain);
 
 
     }
@@ -109,9 +116,11 @@ public abstract class Monstre extends Entite {
         if (this.getPosX() == base.getPosX()) {
             System.out.println("jattaque la tour");
             base.retirerPv(this.atq);
+            System.out.println(base.getPv());
         }
 
         if (!estBloqueParAllie(collegues)) {
+
             this.setActionActuelle("marche");
             this.avancer(terrain);
         }
@@ -182,7 +191,7 @@ public abstract class Monstre extends Entite {
             if (dx > 0) deplacementX = Math.min(1, dx);
             else if (dx < 0) deplacementX = Math.max(-1, dx);
 
-            if (dy > 0) deplacementY = Math.min(this.vitesse, dy);
+            if (dy > 0) deplacementY = Math.min(1, dy);
             else if (dy < 0) deplacementY = Math.max(-1, dy);
 
             this.setPosX(this.getPosX() + deplacementX);
@@ -246,11 +255,31 @@ public abstract class Monstre extends Entite {
     }
 
 
-    public void setSpawnAllie(){
-        this.setPosX(700);
-        this.setPosY(120);
-
+    @Override
+    public int getPosX() {
+        return posX.get();
     }
 
+    @Override
+    public IntegerProperty posXProperty() {
+        return posX;
+    }
 
+    @Override
+    public int getPosY() {
+        return posY.get();
+    }
+
+    @Override
+    public IntegerProperty posYProperty() {
+        return posY;
+    }
+
+    public void setPosY(int posY) {
+        this.posY.set(posY);
+    }
+
+    public void setPosX(int posX) {
+        this.posX.set(posX);
+    }
 }

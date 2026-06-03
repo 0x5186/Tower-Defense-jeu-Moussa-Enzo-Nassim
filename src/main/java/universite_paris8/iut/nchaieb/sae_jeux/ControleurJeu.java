@@ -53,7 +53,7 @@ public class ControleurJeu implements Initializable{
 
 
 
-    private boolean modePlacementTour = false;
+
     private MonObservateurSymbole monObservateurSymbole;
 
     private void initAnimation() {

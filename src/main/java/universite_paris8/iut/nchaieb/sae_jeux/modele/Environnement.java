@@ -95,8 +95,7 @@ public class Environnement {
 
 	public void ajouterMonstre(){
 
-		Monstre monstre=new Squelette();
-		monstre.setSpawnEnnemi(terrain);
+		Monstre monstre=new Squelette(this.terrain);
 		lesMonstres.add(monstre);
 
 
@@ -125,8 +124,8 @@ public class Environnement {
 					this.lesMonstres.remove(i);
 				}
 				else if (m.getPosX()>this.base.getPosX()+100) {
-
 					this.lesMonstres.remove(i);
+
 				}
 				else {
 					m.agir(this.lesMonstres, this.terrain, this.getBase());

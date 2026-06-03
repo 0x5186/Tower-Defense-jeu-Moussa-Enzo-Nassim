@@ -1,8 +1,10 @@
 package universite_paris8.iut.nchaieb.sae_jeux.modele.monstres;
 
+import universite_paris8.iut.nchaieb.sae_jeux.modele.Terrain;
+
 public class Squelette extends Monstre {
-    public Squelette() {
-        super(13, 1,0,0, 2,30);
+    public Squelette(Terrain terrain) {
+        super(13, 1,10,terrain);
         this.nombreDePV=pvMax;
         this.actionActuelle.set("fixe");
         this.portee= 100;
