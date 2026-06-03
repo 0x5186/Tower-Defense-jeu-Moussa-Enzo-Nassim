@@ -4,6 +4,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.TilePane;
@@ -11,6 +12,7 @@ import javafx.util.Duration;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Environnement;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Terrain;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.CombinaisonValables;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.Tours.Tour;
 import universite_paris8.iut.nchaieb.sae_jeux.vue.MonstreVue;
 import universite_paris8.iut.nchaieb.sae_jeux.vue.InterfaceVue;
 import universite_paris8.iut.nchaieb.sae_jeux.vue.TerrainVue;
@@ -31,6 +33,8 @@ public class Controller implements Initializable{
     private StackPane stackPane;
     @FXML
     private Pane pane;
+    @FXML
+    private Label labelArgent;
 
 
 
@@ -86,6 +90,9 @@ public class Controller implements Initializable{
         environnement= new Environnement(this.terrain);
         environnement.getLesMonstres().addListener(observateurMonstres);
         environnement.getLesTours().addListener(monObservateurTour);
+        if (labelArgent != null) {
+            labelArgent.textProperty().bind(environnement.argentProperty().asString("%d"));
+        }
 
 
 
@@ -207,14 +214,19 @@ public class Controller implements Initializable{
 //    }
 
     @FXML
-    public void AppuyerSurValideePentacle(){
+    public void AppuyerSurValideePentacle() {
         System.out.println(this.environnement.getSymboles());
-        if(!(this.environnement.getSymboles().verifierCombinaison()==null)){
+        Tour nouvelleTour = this.environnement.getSymboles().verifierCombinaison();
 
-
-            this.environnement.ajouterTour(this.environnement.getSymboles().verifierCombinaison());
+        if (nouvelleTour != null) {
+            if (this.environnement.getArgent() >= nouvelleTour.getCout()) {
+                this.environnement.ajouterTour(nouvelleTour);
+                System.out.println("Prêt à placer la tour ! Cliquez sur l'herbe.");
+            } else {
+                System.out.println("Fonds insuffisants ! Il vous faut " + nouvelleTour.getCout() + " pièces.");
+            }
         }
-        this.monObservateurSymbole.setCompteur(0);
+
         this.environnement.getSymboles().reset();
         this.interfaceVue.viderSumbolesAffiches();
     }

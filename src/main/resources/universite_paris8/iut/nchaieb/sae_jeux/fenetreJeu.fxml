@@ -94,9 +94,16 @@
 <!--                     </effect>-->
                   </ScrollPane>
                    <Button fx:id="boutonMonstreEnnemi" layoutX="22.0" layoutY="70.0" mnemonicParsing="false" onAction="#AjouterMonstreEnnemi" text="ajouter ennemi" />
-<!--                   <Button fx:id="boutonAjouterTour" layoutX="500.0" layoutY="95.0" prefHeight="50.0" prefWidth="150.0" style="-fx-font-size: 16px;" mnemonicParsing="false" onAction="#activerModePlacementTour" text="Ajouter tour" />-->
-
-                  <Button fx:id="boutonValiderPentacle" layoutX="100.0" layoutY="-50.0" mnemonicParsing="false" onAction="#AppuyerSurValideePentacle" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;" >
+                   <Label fx:id="labelArgent" layoutX="910.0" layoutY="136.0" prefWidth="100.0" alignment="CENTER" contentDisplay="RIGHT" graphicTextGap="8" style="-fx-background-color: rgba(20, 20, 20, 0.8); -fx-text-fill: linear-gradient(to bottom, #F9D423, #FF4E50); -fx-font-size: 18px; -fx-font-family: 'Cambria', serif; -fx-font-weight: bold; -fx-padding: 3px 10px; -fx-border-color: #DAA520; -fx-border-width: 2px; -fx-border-radius: 12px; -fx-background-radius: 12px; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 4);" text="100">
+                       <graphic>
+                           <ImageView fitHeight="22.0" fitWidth="22.0" preserveRatio="true">
+                               <image>
+                                   <Image url="@images/joyaux.png" />
+                               </image>
+                           </ImageView>
+                       </graphic>
+                   </Label>
+                   <Button fx:id="boutonValiderPentacle" layoutX="100.0" layoutY="-50.0" mnemonicParsing="false" onAction="#AppuyerSurValideePentacle" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;" >
                       <graphic>
                           <ImageView fitHeight="200" fitWidth="200" layoutX="100.0" layoutY="-50.0" pickOnBounds="false" preserveRatio="true">
                               <image>

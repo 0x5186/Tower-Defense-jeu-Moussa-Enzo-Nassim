@@ -18,6 +18,7 @@ public class Environnement {
 	private ObservableList<Tour> lesTours;
 	private ObservableList<Monstre> lesMonstres;
 	private Terrain terrain;
+	private IntegerProperty argent;
 
 	public Tour tourAPlacer;
 	private Symboles symboles; //liste des symboles
@@ -30,7 +31,8 @@ public class Environnement {
 		this.lesTours =FXCollections.observableArrayList();
 		this.lesMonstres = FXCollections.observableArrayList();
 		this.symboles = new Symboles();
-		tourAPlacer=new Tour(1,1,1,1);
+		this.argent = new SimpleIntegerProperty(100);
+		tourAPlacer=new Tour(1,1,1,1,0);
 
 
 		Monstre.compteurID = 0;
@@ -39,6 +41,11 @@ public class Environnement {
 
 // 	les Get :
 
+	public IntegerProperty argentProperty() { return this.argent; }
+
+	public int getArgent() { return this.argent.getValue(); }
+
+	public void setArgent(int montant) { this.argent.set(montant); }
 
 	public ObservableList<Monstre> getLesMonstres() {
 		return lesMonstres;
@@ -81,49 +88,50 @@ public class Environnement {
 	public int getNbTours() { return this.nbTours.getValue(); }
 
 	public void unTour() {
-
-		//faut les supp quand ils sont morts / sinon ils continuent d'avancer
 		if (!(this.lesMonstres == null) && !this.lesMonstres.isEmpty()) {
 			for (int i =0; i< this.lesTours.size() ; i++) {
 				this.lesTours.get(i).agir(this.lesMonstres);
-
 			}
-
 
 			for (int i = this.lesMonstres.size() - 1; i >= 0; i--) {
 				if (!this.lesMonstres.get(i).estVivant()) {
 					System.out.println("je suis remove");
+
+					this.setArgent(this.getArgent() + this.lesMonstres.get(i).getRecompense());
+
 					this.lesMonstres.remove(i);
 				} else {
 					this.lesMonstres.get(i).agir(this.lesMonstres, this.terrain);
-
 				}
 			}
-
 		}
 	}
 
 
 
 	public void placerTour(double xPixel, double yPixel) {
-		System.out.println("presque");
 		int TAILLE_TUILE = 16;
 		int gridX = (int) (xPixel / TAILLE_TUILE);
 		int gridY = (int) (yPixel / TAILLE_TUILE);
 
 		if (!this.terrain.estPraticable(gridX, gridY)) {
 
-			int posXGridPixel = gridX * TAILLE_TUILE;
-			int posYGridPixel = gridY * TAILLE_TUILE;
-			this.tourAPlacer.setPosX(posXGridPixel);
-			this.tourAPlacer.setPosY(posYGridPixel);
-			this.lesTours.add(this.tourAPlacer);
+			if (this.getArgent() >= this.tourAPlacer.getCout()) {
+				int posXGridPixel = gridX * TAILLE_TUILE;
+				int posYGridPixel = gridY * TAILLE_TUILE;
+				this.tourAPlacer.setPosX(posXGridPixel);
+				this.tourAPlacer.setPosY(posYGridPixel);
+				this.setArgent(this.getArgent() - this.tourAPlacer.getCout());
 
+				this.lesTours.add(this.tourAPlacer);
+				this.tourAPlacer.setModePlacementTour(false);
+				System.out.println("Tour placée avec succès ! Argent restant : " + this.getArgent());
+			} else {
+				this.tourAPlacer.setModePlacementTour(false);
+			}
 
-			this.tourAPlacer.setModePlacementTour(false);
-			System.out.println("Tour placée avec succès en X:" + gridX + " Y:" + gridY);
 		} else {
-			System.out.println("Impossible de placer une tour sur le chemin des monstres !");
+			System.out.println("Action impossible : Vous ne pouvez pas placer de tour sur le chemin !");
 		}
 	}
 }

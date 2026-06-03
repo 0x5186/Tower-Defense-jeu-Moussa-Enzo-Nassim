@@ -9,16 +9,20 @@ import universite_paris8.iut.nchaieb.sae_jeux.modele.monstres.Monstre;
 public class Tour extends Entite {
     protected int portee;
     protected double x, y;
+    protected int cout;
     private final BooleanProperty modePlacementTour;
-    public Tour(int portee, int atq, int x, int y) {
+    public Tour(int portee, int atq, int x, int y, int cout) {
 
         this.portee = portee;
+        this.cout = cout;
         this.x = x;
         this.y = y;
         this.modePlacementTour= new SimpleBooleanProperty(false);
     }
 
-
+     public int getCout() {
+        return this.cout;
+    }
     public boolean isModePlacementTour() {
         return modePlacementTour.get();
     }

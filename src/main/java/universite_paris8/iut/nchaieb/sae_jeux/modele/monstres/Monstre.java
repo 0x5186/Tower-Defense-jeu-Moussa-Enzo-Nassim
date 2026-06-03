@@ -26,11 +26,13 @@ public abstract class Monstre extends Entite {
 
     private int targetX;
     private int targetY;
+    protected int recompense;
 
-    public Monstre(int pvMax, int atq, int posX, int posY, int vitesse) {
+    public Monstre(int pvMax, int atq, int posX, int posY, int vitesse, int recompense ) {
         this.atq = atq;
         this.pvMax = pvMax;
         this.nombreDePV = pvMax;
+        this.recompense = recompense;
 
         this.id = "M" + this.compteurID;
         compteurID++;
@@ -46,6 +48,10 @@ public abstract class Monstre extends Entite {
         if (monstre.nombreDePV != 0) {
             monstre.retirerPV(this.atq);
         }
+    }
+
+    public int getRecompense(){
+        return this.recompense;
     }
 
     public void ajouterPV(int soin){
