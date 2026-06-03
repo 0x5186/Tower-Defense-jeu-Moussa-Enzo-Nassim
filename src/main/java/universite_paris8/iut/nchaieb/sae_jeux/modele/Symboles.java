@@ -36,18 +36,32 @@ public class Symboles {
         this.combinaison.clear();
     }
 
-    public Tour verifierCombinaison(){ //vérifie la combinaison et invoquie le monstre si elle est bonne
-        Tour tour = null;
 
+    public boolean verifierCombinaison(){
 
         if (this.combinaison!=null ||    !this.combinaison.isEmpty()){
 
+            if (combinaison.equals(combinaisonValables.tourOeil) || combinaison.equals(combinaisonValables.tourHeal)){
+              return true;
+            }
+        }
+
+        return false;
+    }
+
+    public Tour CombinaisonGetTour(int x, int y){ //vérifie la combinaison et invoquie le monstre si elle est bonne
+        Tour tour = null;
+
+
+        System.out.println(x + y);
+        if (this.combinaison!=null ||    !this.combinaison.isEmpty()){
+
             if (combinaison.equals(combinaisonValables.tourOeil)){
-                tour= new TourOeil();
+                tour= new TourOeil(x,y);
 
             }
             else if(combinaison.equals(combinaisonValables.tourHeal)){
-                tour= new TourHeal();
+                tour= new TourHeal(x,y);
 
             }
         }

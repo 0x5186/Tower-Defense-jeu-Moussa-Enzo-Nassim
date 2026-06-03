@@ -26,6 +26,10 @@ public class Base {
         return posY;
     }
 
+    public int getPvMax() {
+        return pvMax;
+    }
+
     public void ajouterPv(int pvAjoutes){
         if(this.pv+pvAjoutes >this.pvMax){
             this.pv= this.pvMax;

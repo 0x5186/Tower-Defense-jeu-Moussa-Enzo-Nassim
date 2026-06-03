@@ -3,79 +3,81 @@ package universite_paris8.iut.nchaieb.sae_jeux.modele.Tours;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.ObservableList;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.Base;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Entite;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.monstres.Monstre;
 
 public class Tour extends Entite {
     protected int portee;
-    protected double x, y;
+
     private int atq;
-    private final BooleanProperty modePlacementTour;
+
     private int cooldown;
-    private int cooldownPourAttaque; //temps de chargement d'une attaque
-    public Tour(int portee, int atq, int x, int y) {
+    private int cooldownPourAction; //temps de chargement d'une attaque
+    public Tour(int portee, int atq, int x, int y, int cooldownPourAction) {
+        super(x,y);
         this.atq=atq;
         this.portee = portee;
-        this.x = x;
-        this.y = y;
-        this.modePlacementTour= new SimpleBooleanProperty(false);
+
+
         this.cooldown=0;
-        this.cooldownPourAttaque=3;
+        this.cooldownPourAction=cooldownPourAction;
+    }
+
+    public int getCooldown() {
+        return cooldown;
+    }
+
+    public int getCooldownPourAction() {
+        return cooldownPourAction;
     }
 
 
-    public boolean isModePlacementTour() {
-        return modePlacementTour.get();
-    }
-
-    public BooleanProperty modePlacementTourProperty() {
-        return modePlacementTour;
-    }
-
-
-    public void setModePlacementTour(boolean modePlacementTour) {
-        this.modePlacementTour.set(modePlacementTour);
+    public void setCooldown(int cooldown) {
+        this.cooldown = cooldown;
     }
 
 
 
 
+//
+//    public void agir(ObservableList<Monstre> listeMonstre) {
+//        Monstre monstrePlusProche;
+//        gererCooldown();
+//        System.out.println(cooldown);
+//        if(this.cooldown==cooldownPourAttaque){
+//            if (!listeMonstre.isEmpty() ) {
+//
+//                monstrePlusProche = this.plusProche(listeMonstre);
+//                if (monstrePlusProche != null) {
+//                    this.setActionActuelle("fixe");
+//
+//                    this.infligerDegat(monstrePlusProche);
+//                    this.setActionActuelle("attaque");
+//                    this.cooldown=0;
+//                    System.out.println("j'attaque");
+//                }
+//
+//            }
+//        }
+//
+//    }
 
-
-
-
-
-    public void agir(ObservableList<Monstre> listeMonstre) {
-        Monstre monstrePlusProche;
-        gererCooldown();
-        System.out.println(cooldown);
-        if(this.cooldown==cooldownPourAttaque){
-            if (!listeMonstre.isEmpty() ) {
-
-                monstrePlusProche = this.plusProche(listeMonstre);
-                if (monstrePlusProche != null) {
-                    this.setActionActuelle("fixe");
-
-                    this.infligerDegat(monstrePlusProche);
-                    this.setActionActuelle("attaque");
-                    this.cooldown=0;
-                    System.out.println("j'attaque");
-                }
-
-            }
-        }
-
-    }
-
-    private void gererCooldown() {
-        if(this.cooldown<this.cooldownPourAttaque){
+    public void gererCooldown() {
+        if(this.cooldown<this.cooldownPourAction){
+            System.out.println("+1");
+            System.out.println("cooldown action: "+ this.cooldownPourAction);
             this.cooldown++;
         }
         else {
-            this.cooldown=this.cooldownPourAttaque;
+            System.out.println("=");
+            this.cooldown=this.cooldownPourAction;
         }
     }
 
+
+
+    public void agir(ObservableList<Monstre> listeMonstre, Base base){}
 
     public boolean estDansLeRayon (Monstre monstre){
         //on va calculer la distance entre la tour et le mosntre
@@ -110,7 +112,7 @@ public class Tour extends Entite {
                 }
             }
         }
-        System.out.println(monstrePlusProche);
+
         return monstrePlusProche;
 
     }
