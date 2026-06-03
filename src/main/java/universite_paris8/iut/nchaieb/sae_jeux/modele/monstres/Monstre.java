@@ -29,6 +29,7 @@ public abstract class Monstre extends Entite {
 
 
     public Monstre(int pvMax, int atq, int posX, int posY, int vitesse){
+        super(posX,posY);
 
         this.atq=atq;
         this.pvMax = pvMax;
@@ -42,8 +43,7 @@ public abstract class Monstre extends Entite {
         this.actionActuelle.set("fixe");
         this.targetX = 119;
         this.targetY = 26;
-        this.setPosX(posX);
-        this.setPosY(posY);
+
 
     }
 //    public void setTerrain(Terrain terrain) {
@@ -103,7 +103,7 @@ public abstract class Monstre extends Entite {
 
     public void agir(ObservableList<Monstre> collegues, Terrain terrain, Base base) {
 
-        System.out.println(this.getPosX());
+
         if (this.getPosX() == base.getPosX()) {
             System.out.println("jattaque la tour");
             base.retirerPv(this.atq);

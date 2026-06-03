@@ -91,7 +91,7 @@ public class MonstreVue {
             int[] frameIndex = {0};
             Timeline squeletteMarche = new Timeline(
 
-                    new KeyFrame(Duration.millis(90), e -> {
+                    new KeyFrame(Duration.millis(100), e -> {
 
                         int x, y;
                         if (frameIndex[0] < 12) {

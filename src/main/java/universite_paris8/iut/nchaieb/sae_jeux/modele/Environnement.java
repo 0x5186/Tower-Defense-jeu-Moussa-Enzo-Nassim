@@ -2,6 +2,7 @@ package universite_paris8.iut.nchaieb.sae_jeux.modele;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -20,9 +21,10 @@ public class Environnement {
 	private ObservableList<Monstre> lesMonstres;
 	private Terrain terrain;
 
-	public Tour tourAPlacer;
+
 	private Symboles symboles; //liste des symboles
 	 //pour savoir si on est entrain de placer une tour ou pas
+	private final BooleanProperty modePlacementTour;
 
 	public Environnement(Terrain terrain) {
 		this.terrain = terrain;
@@ -30,15 +32,18 @@ public class Environnement {
 		this.lesTours =FXCollections.observableArrayList();
 		this.lesMonstres = FXCollections.observableArrayList();
 		this.symboles = new Symboles();
-		tourAPlacer=new Tour(1,1,3000,3000);//initialise une tour qui représente la tour a placer
+
 
 		this.base=new Base();
 
 		Monstre.compteurID = 0;
 		Entite.compteurID = 0;
+
+
+		this.modePlacementTour= new SimpleBooleanProperty(false);
 	}
 
-// 	les Get :
+// 	les Get / set:
 
 
 	public ObservableList<Monstre> getLesMonstres() {
@@ -60,13 +65,24 @@ public class Environnement {
 		return base;
 	}
 
+	public boolean isModePlacementTour() {
+		return modePlacementTour.get();
+	}
+
+	public BooleanProperty modePlacementTourProperty() {
+		return modePlacementTour;
+	}
+
+
+	public void setModePlacementTour(boolean modePlacementTour) {
+		this.modePlacementTour.set(modePlacementTour);
+	}
+
 // autres Méthodes:
 
 	public void ajouterTour(Tour tour){
 		System.out.println("tour prete");
-		this.tourAPlacer=tour;
-		this.tourAPlacer.setModePlacementTour(true);
-//		this.lesTours.add(tour);
+		this.lesTours.add(tour);
 	}
 
 	public void ajouterMonstre(){
@@ -86,10 +102,9 @@ public class Environnement {
 
 		//faut les supp quand ils sont morts / sinon ils continuent d'avancer
 		if (!(this.lesTours == null) && !this.lesTours.isEmpty()) {
+
 			for (int i = 0; i < this.lesTours.size(); i++) {
-				this.lesTours.get(i).agir(this.lesMonstres);
-
-
+				this.lesTours.get(i).agir(this.lesMonstres, this.base);
 			}
 		}
 
@@ -109,25 +124,26 @@ public class Environnement {
 
 
 
-	public void placerTour(double xPixel, double yPixel) {
+	public boolean tourPosable(double xPixel, double yPixel) {
 		System.out.println("presque");
 		int TAILLE_TUILE = 16;
 		int gridX = (int) (xPixel / TAILLE_TUILE);
 		int gridY = (int) (yPixel / TAILLE_TUILE);
 
 		if (!this.terrain.estPraticable(gridX, gridY)) {
+			return true;
+		}
+		return false;
+	}
 
-			int posXGridPixel = gridX * TAILLE_TUILE;
-			int posYGridPixel = gridY * TAILLE_TUILE;
-			this.tourAPlacer.setPosX(posXGridPixel);
-			this.tourAPlacer.setPosY(posYGridPixel);
-			this.lesTours.add(this.tourAPlacer);
+	public void validerSymboles() {
+		System.out.println(this.getSymboles());
+		System.out.println(this.getSymboles().getCombinaison());
+		if(this.getSymboles().verifierCombinaison()){
 
+			System.out.println("dans le if");
+			this.setModePlacementTour(true);
 
-			this.tourAPlacer.setModePlacementTour(false);
-			System.out.println("Tour placée avec succès en X:" + gridX + " Y:" + gridY);
-		} else {
-			System.out.println("Impossible de placer une tour sur le chemin des monstres !");
 		}
 	}
 }

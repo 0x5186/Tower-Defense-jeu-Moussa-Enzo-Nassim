@@ -44,14 +44,9 @@ public class MonObservateurMonstre implements ListChangeListener<Monstre> {
                     nouveau.getActionActuelle().addListener((observable, oldValue, newValue) -> {
 
                         if (newValue.equals("fixe")) {
-
-
                         }
                         if (newValue.equals("marche")) {
-
-
                             this.monstreVue.animationMarche(nouveau);
-
                         }
                         if (newValue.equals("attaque")) {
                             this.monstreVue.animationAttaque(nouveau);

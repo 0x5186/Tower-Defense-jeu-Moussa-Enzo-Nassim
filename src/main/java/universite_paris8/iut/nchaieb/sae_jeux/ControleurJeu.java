@@ -12,7 +12,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.TilePane;
 import javafx.util.Duration;
-import universite_paris8.iut.nchaieb.sae_jeux.modele.Base;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Environnement;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Terrain;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.CombinaisonValables;
@@ -21,7 +20,6 @@ import universite_paris8.iut.nchaieb.sae_jeux.vue.MonstreVue;
 import universite_paris8.iut.nchaieb.sae_jeux.vue.InterfaceVue;
 import universite_paris8.iut.nchaieb.sae_jeux.vue.TerrainVue;
 
-import java.lang.annotation.Target;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -65,7 +63,7 @@ public class ControleurJeu implements Initializable{
 
 
         KeyFrame kf = new KeyFrame(
-                Duration.millis(16),
+                Duration.seconds(0.01),
 
                 (ev ->{
                     temps.setValue(temps.getValue()+1);
@@ -74,7 +72,7 @@ public class ControleurJeu implements Initializable{
                         gameLoop.stop();
                         System.out.println("perdu");
                     }
-//
+
                 })
 
         );
@@ -118,9 +116,16 @@ public class ControleurJeu implements Initializable{
 
         if(stackPane!=null){
             stackPane.setOnMouseClicked(event -> {
-                if (environnement.tourAPlacer.isModePlacementTour()) {
-                    System.out.println("pasnulllllll");
-                    environnement.placerTour(event.getX(), event.getY());
+
+                if (environnement.isModePlacementTour()) {
+                    if(this.environnement.tourPosable(event.getX(), event.getY())){
+                        this.environnement.ajouterTour(this.environnement.getSymboles().CombinaisonGetTour((int) event.getX(), (int) event.getY()));
+                        this.environnement.getSymboles().reset();
+                        this.environnement.setModePlacementTour(false);
+                        this.interfaceVue.viderSumbolesAffiches();
+                        this.monObservateurSymbole.setCompteur(0);
+
+                    }
                 }
             });
         }
@@ -281,15 +286,18 @@ public class ControleurJeu implements Initializable{
 
 
     @FXML
-    public void validerPentacle() {
-        System.out.println("je renres dans la méthode au moins");
-        if(!(this.environnement.getSymboles().verifierCombinaison()==null)){
+    public void validerPentacle(){
+        if (this.environnement.getSymboles().verifierCombinaison()){
+            this.environnement.validerSymboles();
 
-            this.environnement.ajouterTour(this.environnement.getSymboles().verifierCombinaison());
         }
-        this.monObservateurSymbole.setCompteur(0);
-        this.environnement.getSymboles().reset();
-        this.interfaceVue.viderSumbolesAffiches();
+        else { this.interfaceVue.viderSumbolesAffiches();
+            this.monObservateurSymbole.setCompteur(0);
+            this.environnement.getSymboles().reset();
+        }
+
+
+
     }
 
 }
