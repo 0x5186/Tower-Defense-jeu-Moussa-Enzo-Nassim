@@ -87,9 +87,9 @@ public abstract class Monstre extends Entite {
     }
 
     public void agir(ObservableList<Monstre> collegues, Terrain terrain, Base base) {
-        if (!this.getActionActuelle().get().equals("marche")) {
-            this.setActionActuelle("marche");
-        }
+//        if (!this.getActionActuelle().get().equals("marche")) {
+//            this.setActionActuelle("marche");
+//        }
         this.avancer(terrain, base);
     }
 

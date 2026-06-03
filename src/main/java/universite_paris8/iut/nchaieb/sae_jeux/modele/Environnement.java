@@ -105,8 +105,8 @@ public class Environnement {
 					this.setArgent(this.getArgent() + m.getRecompense());
 					this.lesMonstres.remove(i);
 				}
-				else if (m.getActionActuelle().get().equals("atteint")) {
-					System.out.println("Monstre a atteint la base");
+				else if (m.getPosX()>this.base.getPosX()+100) {
+
 					this.lesMonstres.remove(i);
 				}
 				else {
