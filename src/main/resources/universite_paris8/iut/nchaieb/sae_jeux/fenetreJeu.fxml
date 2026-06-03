@@ -22,18 +22,18 @@
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="16.0" prefWidth="644.0">
                            <children>
-                              <Button fx:id="symboleCroix" layoutX="0" layoutY="-2" mnemonicParsing="false" onAction="#AppuyerSurSymboleCroix" prefHeight="7.0" prefWidth="2.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;">
-                                 <graphic>
-                                    <ImageView fitHeight="64.0" fitWidth="64.0" preserveRatio="true">
-                                       <image>
-                                          <Image url="@images/symboleCroix.png">
-                                          </Image>
-                                       </image>
-                                    </ImageView>
-                                 </graphic>
-                              </Button>
 
-                              <Button fx:id="symboleGoutteDeau" layoutX="80" layoutY="-2" mnemonicParsing="false" onAction="#AppuyerSurSymboleGoutteDeau" prefHeight="7.0" prefWidth="2.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;">
+                               <Button fx:id="symboleFleche" layoutX="0" layoutY="-3" mnemonicParsing="false" onAction="#AppuyerSurSymboleFleche" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;">
+                                   <graphic>
+                                       <ImageView fitHeight="64.0" fitWidth="64.0" nodeOrientation="INHERIT" preserveRatio="true">
+                                           <image>
+                                               <Image url="@images/symboleFleche.png" />
+                                           </image>
+                                       </ImageView>
+                                   </graphic>
+                               </Button>
+
+                              <Button fx:id="symboleGoutteDeau" layoutX="80" layoutY="-3" mnemonicParsing="false" onAction="#AppuyerSurSymboleGoutteDeau" prefHeight="7.0" prefWidth="2.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;">
                                  <graphic>
                                     <ImageView fitHeight="64.0" fitWidth="64.0" nodeOrientation="INHERIT" preserveRatio="true">
                                        <image>
@@ -88,6 +88,17 @@
                                    </graphic>
                                </Button>
 
+                               <Button fx:id="symboleCroix" layoutX="480" layoutY="-2" mnemonicParsing="false" onAction="#AppuyerSurSymboleCroix" prefHeight="7.0" prefWidth="2.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;">
+                                   <graphic>
+                                       <ImageView fitHeight="64.0" fitWidth="64.0" preserveRatio="true">
+                                           <image>
+                                               <Image url="@images/symboleCroix.png">
+                                               </Image>
+                                           </image>
+                                       </ImageView>
+                                   </graphic>
+                               </Button>
+
                            </children></AnchorPane>
                     </content>
 <!--                     <effect><Glow level="0.07" />-->
@@ -96,7 +107,7 @@
                    <Button fx:id="boutonMonstreEnnemi" layoutX="22.0" layoutY="70.0" mnemonicParsing="false" onAction="#AjouterMonstreEnnemi" text="ajouter ennemi" />
 <!--                   <Button fx:id="boutonAjouterTour" layoutX="500.0" layoutY="95.0" prefHeight="50.0" prefWidth="150.0" style="-fx-font-size: 16px;" mnemonicParsing="false" onAction="#activerModePlacementTour" text="Ajouter tour" />-->
 
-                  <Button fx:id="boutonValiderPentacle" layoutX="100.0" layoutY="-50.0" mnemonicParsing="false" onAction="#AppuyerSurValideePentacle" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;" >
+                  <Button fx:id="boutonValiderPentacle" layoutX="387.0" layoutY="-52.0" mnemonicParsing="false" onAction="#AppuyerSurValideePentacle" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;">
                       <graphic>
                           <ImageView fitHeight="200" fitWidth="200" layoutX="100.0" layoutY="-50.0" pickOnBounds="false" preserveRatio="true">
                               <image>
@@ -104,8 +115,15 @@
                               </image>
                           </ImageView>
                       </graphic>
-
                   </Button>
+   
+<!--                   <Button fx:id="boutonOuvrirTiroir" layoutX="1461.0" layoutY="-262.0" mnemonicParsing="false" onAction="#AppuyerSurOuvrirTiroir" prefHeight="206.0" prefWidth="160.0" scaleX="3.0" scaleY="3.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;" />-->
+<!--                     <ImageView fitHeight="200" fitWidth="200" layoutX="1478.0" layoutY="-298.0" pickOnBounds="false" preserveRatio="true" scaleX="3.0" scaleY="3.0">-->
+<!--                         <image>-->
+<!--                             <Image url="@images/TiroirpourSymbole.png" />-->
+<!--                         </image>-->
+<!--                     </ImageView>-->
+
                </children>
             </Pane>
          </children>

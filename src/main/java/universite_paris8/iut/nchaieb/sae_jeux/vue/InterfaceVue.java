@@ -15,6 +15,8 @@ public class InterfaceVue {
     Image symboleOeil = new Image(Main.class.getResourceAsStream("images/symboleOeil.png"));
     Image symboleEclipse = new Image(Main.class.getResourceAsStream("images/symboleEclipse.png"));
     Image symboleOiseau = new Image(Main.class.getResourceAsStream("images/symboleOiseau.png"));
+    Image symboleFleche = new Image(Main.class.getResourceAsStream("images/symboleFleche.png"));
+//    Image tiroirDeSymboles = new Image(Main.class.getResourceAsStream("images/TiroirpourSymbole.png"));
 
     private StackPane stackPane;
 
@@ -30,6 +32,7 @@ public class InterfaceVue {
 
         ImageView feuillePentacle = new ImageView(FeuilleSort);
         ImageView interfaceDuBas = new ImageView(InterfaceBas);
+//        ImageView  tiroir= new ImageView(tiroirDeSymboles);
 
 
         if( this.stackPane!=null){
@@ -75,6 +78,10 @@ public class InterfaceVue {
                 break;
             case "oiseau":
                 image = new ImageView(symboleOiseau);
+                break;
+            case "fleche":
+                image = new ImageView(symboleFleche);
+                break;
         }
 
         if (image != null){

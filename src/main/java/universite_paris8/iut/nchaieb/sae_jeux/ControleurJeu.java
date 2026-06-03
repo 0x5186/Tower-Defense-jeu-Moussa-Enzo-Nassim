@@ -155,38 +155,42 @@ public class ControleurJeu implements Initializable{
     @FXML
     public void AppuyerSurSymboleCroix() {
         this.environnement.getSymboles().ajouterSymbole("croix");
-        System.out.println("Croix ajouté dans la liste");
     }
 
     @FXML
     public void AppuyerSurSymboleGoutteDeau() {
         this.environnement.getSymboles().ajouterSymbole("goutte");
-        System.out.println("Goutte ajouté dans liste");
     }
 
     @FXML
     public void AppuyerSurSymboleSpirale() {
         this.environnement.getSymboles().ajouterSymbole("spirale");
-        System.out.println("Spirale ajouté dans la liste");
     }
 
     @FXML
     public void AppuyerSurSymboleOeil(){
         this.environnement.getSymboles().ajouterSymbole("oeil");
-        System.out.println("Oeil d'horus ajouté dans la liste");
     }
 
     @FXML
     public void AppuyerSurSymboleEclipse() {
         this.environnement.getSymboles().ajouterSymbole("eclipse");
-        System.out.println("Eclipse ajouté dans la liste");
     }
 
     @FXML
     public void AppuyerSurSymboleOiseau(){
         this.environnement.getSymboles().ajouterSymbole("oiseau");
-        System.out.println("Oiseau ajouté dans la liste");
     }
+
+    @FXML
+    public void AppuyerSurSymboleFleche() {
+        this.environnement.getSymboles().ajouterSymbole("fleche");
+    }
+
+//    @FXML
+//    public void AppuyerSurOuvrirTiroir() {
+//        System.out.println("bla");
+//    }
 
 
 //    @FXML
