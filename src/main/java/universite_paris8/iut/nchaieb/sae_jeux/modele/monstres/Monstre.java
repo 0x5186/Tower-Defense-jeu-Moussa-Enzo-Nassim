@@ -29,7 +29,7 @@ public abstract class Monstre extends Entite {
     protected int recompense;
 
     private ArrayList<Noeud> chemin;
-    private final int TAILLE_TUILE = 16;
+    private final int TAILLE_TUILE = 24;
 
     private int targetX;
     private int targetY;
@@ -52,7 +52,7 @@ public abstract class Monstre extends Entite {
 //        this.recompenseArgent = recompenseArgent;
         this.vitesse = vitesse;
         this.actionActuelle.set("fixe");
-        this.targetX = 119;
+        this.targetX = 200;
         this.targetY = 26;
         setSpawnEnnemi(terrain);
 
@@ -136,12 +136,6 @@ public abstract class Monstre extends Entite {
 
                 if ((distanceX + distanceY) < 25) {
                     if (collegue.getPosX() > this.getPosX()) return true;
-
-                    if (collegue.getPosX() == this.getPosX() && collegue.getPosY() == this.getPosY()) {
-                        if (this.hashCode() > collegue.hashCode()) {
-                            return true;
-                        }
-                    }
                 }
             }
         }

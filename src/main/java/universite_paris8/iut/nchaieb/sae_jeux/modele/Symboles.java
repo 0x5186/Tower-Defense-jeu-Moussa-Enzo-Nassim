@@ -69,4 +69,26 @@ public class Symboles {
         return tour;
     }
 
+
+
+
+
+
+
+    public String CombinaisonGetTourString(){ //vérifie la combinaison et invoquie le monstre si elle est bonne
+        if (this.combinaison!=null ||    !this.combinaison.isEmpty()){
+
+            if (combinaison.equals(combinaisonValables.tourOeil)){
+                return "tourOeil";
+
+            }
+            else if(combinaison.equals(combinaisonValables.tourHeal)){
+                return "tourHeal";
+
+            }
+        }
+
+        return "rien";
+    }
+
 }

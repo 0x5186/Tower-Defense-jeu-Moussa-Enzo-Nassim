@@ -25,7 +25,6 @@ public class TourVue {
     private HashMap hashMapAnimation= new HashMap<Tour, Timeline>();
     Image tourOeil = new Image(Main.class.getResourceAsStream("images/tourOeil.png"));
     Image tourHeal = new Image(Main.class.getResourceAsStream("images/tourHeal.png"));
-    Image tourOeilCurseur = new Image(Main.class.getResourceAsStream("images/tourOeilCurseur.png"));
 
 
 
@@ -88,18 +87,6 @@ public class TourVue {
         }
     }
 
-    public void ajouterImageSouris(Tour tour){// change l'image de la souris pour la tour qu'on veut placer
-        if(tour instanceof TourOeil) {
-            pane.setCursor(new ImageCursor(tourOeilCurseur));
-        }
-
-    }
-
-    public void retirerImageSouris(Tour tour) {// change l'image de la souris pour la tour qu'on veut placer
-
-        pane.setCursor(Cursor.DEFAULT);
-
-    }
 
 
         public void animationAttaque(Entite monstre) {

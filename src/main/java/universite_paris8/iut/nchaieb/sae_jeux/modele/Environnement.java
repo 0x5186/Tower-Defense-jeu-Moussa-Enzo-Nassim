@@ -103,7 +103,7 @@ public class Environnement {
 
 
 	public final IntegerProperty nbToursProperty(){ return this.nbTours; }
-	public int getNbTours() { return this.nbTours.getValue(); }
+
 
 	public void unTour() {
 
@@ -123,7 +123,7 @@ public class Environnement {
 					this.setArgent(this.getArgent() + m.getRecompense());
 					this.lesMonstres.remove(i);
 				}
-				else if (m.getPosX()>this.base.getPosX()+100) {
+				else if (m.getPosX()>this.base.getPosX()+110) {
 					this.lesMonstres.remove(i);
 
 				}
@@ -138,7 +138,7 @@ public class Environnement {
 
 	public boolean tourPosable(double xPixel, double yPixel) {
 		System.out.println("presque");
-		int TAILLE_TUILE = 16;
+		int TAILLE_TUILE = 24;
 		int gridX = (int) (xPixel / TAILLE_TUILE);
 		int gridY = (int) (yPixel / TAILLE_TUILE);
 

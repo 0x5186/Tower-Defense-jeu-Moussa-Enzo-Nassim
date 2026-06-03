@@ -34,7 +34,7 @@ public class BaseVue {
 
         Timeline baseAnim = new Timeline(
 
-                new KeyFrame(Duration.millis(100), e -> {
+                new KeyFrame(Duration.seconds(0.15), e -> {
 
                     int x, y;
                     if (frameIndex[0] < 8) {

@@ -35,9 +35,7 @@ public class MonstreVue {
     public void ajouterSprite(Monstre monstre){
 
 
-        Circle circle= new Circle(0,0,15);
-        circle.setFill(Color.RED);
-        pane.getChildren().add(circle);
+
         ImageView  iv= new ImageView();
         if (monstre instanceof Squelette) {
             iv = new ImageView(squelette);
