@@ -11,7 +11,6 @@ public class Base {
         this.posX = 1735;
         this.pvMax = 100;
         this.pv = this.pvMax;
-
     }
 
     public int getPv() {
@@ -26,26 +25,20 @@ public class Base {
         return posY;
     }
 
-    public void ajouterPv(int pvAjoutes){
-        if(this.pv+pvAjoutes >this.pvMax){
-            this.pv= this.pvMax;
-        }
-        else {
-            this.pv= this.pv+pvAjoutes;
-        }
-    }
-    public void retirerPv(int pvRetires){
-        if (this.pv-pvRetires<0){
-            this.pv=0;
-        }
-        else{
-            this.pv=this.pv-pvRetires;
+    public void ajouterPv(int pvAjoutes) {
+        if (this.pv + pvAjoutes > this.pvMax) {
+            this.pv = this.pvMax;
+        } else {
+            this.pv = this.pv + pvAjoutes;
         }
     }
 
-
-
-
-
-
+    public void retirerPV(int pvRetires){
+        if (this.pv - pvRetires < 0){
+            this.pv = 0;
+        } else {
+            this.pv = this.pv - pvRetires;
+        }
+        System.out.println("PV restants : " + this.pv);
+    }
 }

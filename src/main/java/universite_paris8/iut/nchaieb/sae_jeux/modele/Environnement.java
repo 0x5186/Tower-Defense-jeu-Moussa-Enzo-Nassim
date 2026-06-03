@@ -32,7 +32,7 @@ public class Environnement {
 		this.lesMonstres = FXCollections.observableArrayList();
 		this.symboles = new Symboles();
 		this.argent = new SimpleIntegerProperty(100);
-		tourAPlacer=new Tour(1,1,1,1,0);
+		tourAPlacer=new Tour(1,1,1,1, 0);
 
 		this.base=new Base();
 
@@ -99,15 +99,18 @@ public class Environnement {
 
 		if (!(this.lesMonstres == null) && !this.lesMonstres.isEmpty()) {
 			for (int i = this.lesMonstres.size() - 1; i >= 0; i--) {
-				if (!this.lesMonstres.get(i).estVivant()) {
-					System.out.println("je suis remove");
-
-					this.setArgent(this.getArgent() + this.lesMonstres.get(i).getRecompense());
-
+				Monstre m = this.lesMonstres.get(i);
+				if (!m.estVivant()) {
+					System.out.println("Monstre tué");
+					this.setArgent(this.getArgent() + m.getRecompense());
 					this.lesMonstres.remove(i);
-				} else {
-					this.lesMonstres.get(i).agir(this.lesMonstres, this.terrain, this.base);
-
+				}
+				else if (m.getActionActuelle().get().equals("atteint")) {
+					System.out.println("Monstre a atteint la base");
+					this.lesMonstres.remove(i);
+				}
+				else {
+					m.agir(this.lesMonstres, this.terrain, this.getBase());
 				}
 			}
 		}
