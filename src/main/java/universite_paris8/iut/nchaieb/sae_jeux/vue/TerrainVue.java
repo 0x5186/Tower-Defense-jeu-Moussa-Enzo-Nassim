@@ -30,7 +30,7 @@ public class TerrainVue {
             for (int col = 0; col < this.terrain.largeur(); col++) {
                 ImageView imageView = new ImageView();
 
-                // Retour à la taille normale (16x16)
+                // Retour à la taille normale
                 imageView.setFitWidth(16);
                 imageView.setFitHeight(16);
 

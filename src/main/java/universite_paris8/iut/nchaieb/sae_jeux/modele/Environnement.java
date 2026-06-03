@@ -20,6 +20,7 @@ public class Environnement {
 	private ObservableList<Tour> lesTours;
 	private ObservableList<Monstre> lesMonstres;
 	private Terrain terrain;
+	private IntegerProperty argent;
 
 
 	private Symboles symboles; //liste des symboles
@@ -33,6 +34,8 @@ public class Environnement {
 		this.lesMonstres = FXCollections.observableArrayList();
 		this.symboles = new Symboles();
 
+		this.argent = new SimpleIntegerProperty(100);
+
 
 		this.base=new Base();
 
@@ -45,6 +48,11 @@ public class Environnement {
 
 // 	les Get / set:
 
+	public IntegerProperty argentProperty() { return this.argent; }
+
+	public int getArgent() { return this.argent.getValue(); }
+
+	public void setArgent(int montant) { this.argent.set(montant); }
 
 	public ObservableList<Monstre> getLesMonstres() {
 		return lesMonstres;
@@ -110,15 +118,20 @@ public class Environnement {
 
 		if (!(this.lesMonstres == null) && !this.lesMonstres.isEmpty()) {
 			for (int i = this.lesMonstres.size() - 1; i >= 0; i--) {
-				if (!this.lesMonstres.get(i).estVivant()) {
-					System.out.println("je suis remove");
+				Monstre m = this.lesMonstres.get(i);
+				if (!m.estVivant()) {
+					System.out.println("Monstre tué");
+					this.setArgent(this.getArgent() + m.getRecompense());
 					this.lesMonstres.remove(i);
-				} else {
-					this.lesMonstres.get(i).agir(this.lesMonstres, this.terrain, this.base);
+				}
+				else if (m.getPosX()>this.base.getPosX()+100) {
 
+					this.lesMonstres.remove(i);
+				}
+				else {
+					m.agir(this.lesMonstres, this.terrain, this.getBase());
 				}
 			}
-
 		}
 	}
 

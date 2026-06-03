@@ -25,7 +25,12 @@ public class Terrain {
         tracerLigne(95, 12, 95, 26);
         tracerLigne(95, 26, 119, 26);
 
+
         tracerLigne(6, 8, 6, 38);
+
+
+        tracerLigne(6, 38, 10, 38);
+
         tracerLigne(30, 16, 50, 16);
         tracerLigne(50, 16, 80, 16);
         tracerLigne(60, 16, 60, 26);
@@ -34,8 +39,6 @@ public class Terrain {
         tracerLigne(40, 26, 40, 46);
         tracerLigne(65, 26, 80, 26);
         tracerLigne(72, 26, 72, 42);
-
-
 
         tracerLigne(18, 32, 30, 32);
         tracerLigne(18, 32, 18, 43);
@@ -52,7 +55,6 @@ public class Terrain {
 
         tracerLigne(90, 12, 90, 26);
     }
-
     private void tracerLigne(int col1, int ligne1, int col2, int ligne2) {
         int minX = Math.min(col1, col2);
         int maxX = Math.max(col1, col2);
