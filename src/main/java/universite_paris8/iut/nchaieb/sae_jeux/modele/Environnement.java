@@ -138,7 +138,7 @@ public class Environnement {
 
 	public boolean tourPosable(double xPixel, double yPixel) {
 		System.out.println("presque");
-		int TAILLE_TUILE = 24;
+		int TAILLE_TUILE = 16;
 		int gridX = (int) (xPixel / TAILLE_TUILE);
 		int gridY = (int) (yPixel / TAILLE_TUILE);
 

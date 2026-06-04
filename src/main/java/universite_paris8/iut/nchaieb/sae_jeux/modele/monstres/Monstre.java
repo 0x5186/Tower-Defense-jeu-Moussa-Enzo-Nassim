@@ -29,7 +29,7 @@ public abstract class Monstre extends Entite {
     protected int recompense;
 
     private ArrayList<Noeud> chemin;
-    private final int TAILLE_TUILE = 24;
+    private final int TAILLE_TUILE = 16;
 
     private int targetX;
     private int targetY;

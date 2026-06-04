@@ -12,7 +12,10 @@ import universite_paris8.iut.nchaieb.sae_jeux.modele.Tours.TourOeil;
 public class SourisVue {
 
     private StackPane pane;
-    Image tourOeilCurseur = new Image(Main.class.getResourceAsStream("images/tourOeilCurseur.png"));
+    Image tourOeilCurseur = new Image(
+            Main.class.getResourceAsStream("images/tourOeilCurseur.png"),
+            80, 80, true, true
+    );
 
 
     public SourisVue(StackPane pane) {

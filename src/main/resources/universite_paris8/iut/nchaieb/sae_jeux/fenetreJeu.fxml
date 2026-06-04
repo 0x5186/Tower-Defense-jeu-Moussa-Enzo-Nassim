@@ -7,7 +7,7 @@
 <BorderPane prefHeight="1080" prefWidth="1920" style="-fx-background-color: #1a1a1a;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="universite_paris8.iut.nchaieb.sae_jeux.ControleurJeu">
    <center>
       <StackPane fx:id="stackPane" alignment="TOP_LEFT">
-          <TilePane fx:id="tilePane" alignment="TOP_LEFT" prefColumns="60" prefRows="26" prefTileHeight="24" prefTileWidth="24" hgap="0" vgap="0" BorderPane.alignment="TOP_LEFT">
+          <TilePane fx:id="tilePane" alignment="TOP_LEFT" prefColumns="60" prefRows="26" prefTileHeight="16" prefTileWidth="16" hgap="0" vgap="0" BorderPane.alignment="TOP_LEFT">
          </TilePane>
           <Pane fx:id="pane" />
 
