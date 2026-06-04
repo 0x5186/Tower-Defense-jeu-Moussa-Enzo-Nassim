@@ -1,7 +1,11 @@
 .scroll-pane {
-    -fx-background-color: transparent;
-    -fx-background-insets: 0;
+    -fx-background-color: #94826b;
+    -fx-background-insets: 1;
+}
 
+.background {
+    -fx-background-color: #513e38;
+    -fx-background-insets: 1;
 }
 
 .scroll-bar:horizontal, .scroll-bar:horizontal{
@@ -23,6 +27,6 @@
 
 .scroll-bar:horizontal .thumb,
 .scroll-bar:vertical .thumb {
-    -fx-background-color: #7a5308;
+    -fx-background-color: #cf8d0c;
     -fx-background-radius: 5em;
 }

@@ -4,6 +4,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.image.Image;
@@ -172,41 +173,95 @@ public class ControleurJeu implements Initializable{
         this.environnement.ajouterMonstre();
     }
 
+//    @FXML
+//    public void AppuyerSurSymboleCroix() {
+//        this.environnement.getSymboles().ajouterSymbole("croix");
+//    }
+//
+//    @FXML
+//    public void AppuyerSurSymboleGoutteDeau() {
+//        this.environnement.getSymboles().ajouterSymbole("goutte");
+//    }
+//
+//    @FXML
+//    public void AppuyerSurSymboleSpirale() {
+//        this.environnement.getSymboles().ajouterSymbole("spirale");
+//    }
+//
+//    @FXML
+//    public void AppuyerSurSymboleOeil(){
+//        this.environnement.getSymboles().ajouterSymbole("oeil");
+//    }
+//
+//    @FXML
+//    public void AppuyerSurSymboleEclipse() {
+//        this.environnement.getSymboles().ajouterSymbole("eclipse");
+//    }
+//
+//    @FXML
+//    public void AppuyerSurSymboleOiseau(){
+//        this.environnement.getSymboles().ajouterSymbole("oiseau");
+//    }
+//
+//    @FXML
+//    public void AppuyerSurSymboleFleche() {
+//        this.environnement.getSymboles().ajouterSymbole("fleche");
+//    }
+//
+//    @FXML
+//    public void AppuyerSurSymbolePic() { this.environnement.getSymboles().ajouterSymbole("pic");}
+//
+//    @FXML
+//    public void AppuyerSurSymboleTriangle() { this.environnement.getSymboles().ajouterSymbole("triangle");}
+
+    //élimination redondance
     @FXML
-    public void AppuyerSurSymboleCroix() {
-        this.environnement.getSymboles().ajouterSymbole("croix");
-        System.out.println("Croix ajouté dans la liste");
+    public void actionsDesSymboles(Event event) {
+        Button boutonSymbole = (Button) event.getSource();
+        String symboleTexte = boutonSymbole.getText();
+        String symbole = null;
+
+
+        switch (symboleTexte){
+            case "croix":
+                symbole = "croix";
+                break;
+            case "goutte":
+                symbole = "goutte";
+                break;
+            case "spirale":
+                symbole = "spirale";
+                break;
+            case "oeil":
+                symbole = "oeil";
+                break;
+            case "eclipse":
+                symbole = "eclipse";
+                break;
+            case "oiseau":
+                symbole = "oiseau";
+                break;
+            case "fleche":
+                symbole = "fleche";
+                break;
+            case "pic":
+                symbole = "pic";
+                break;
+            case "triangle":
+                symbole = "triangle";
+                break;
+        }
+
+        if (symbole != null){
+            this.environnement.getSymboles().ajouterSymbole(symbole);
+        }
     }
 
-    @FXML
-    public void AppuyerSurSymboleGoutteDeau() {
-        this.environnement.getSymboles().ajouterSymbole("goutte");
-        System.out.println("Goutte ajouté dans liste");
-    }
 
-    @FXML
-    public void AppuyerSurSymboleSpirale() {
-        this.environnement.getSymboles().ajouterSymbole("spirale");
-        System.out.println("Spirale ajouté dans la liste");
-    }
-
-    @FXML
-    public void AppuyerSurSymboleOeil(){
-        this.environnement.getSymboles().ajouterSymbole("oeil");
-        System.out.println("Oeil d'horus ajouté dans la liste");
-    }
-
-    @FXML
-    public void AppuyerSurSymboleEclipse() {
-        this.environnement.getSymboles().ajouterSymbole("eclipse");
-        System.out.println("Eclipse ajouté dans la liste");
-    }
-
-    @FXML
-    public void AppuyerSurSymboleOiseau(){
-        this.environnement.getSymboles().ajouterSymbole("oiseau");
-        System.out.println("Oiseau ajouté dans la liste");
-    }
+//    @FXML
+//    public void AppuyerSurOuvrirTiroir() {
+//        System.out.println("bla");
+//    }
 
 
 //    @FXML
@@ -239,20 +294,21 @@ public class ControleurJeu implements Initializable{
 //            System.out.println("Impossible de placer une tour sur le chemin des monstres !");
 //        }
 //    }
+
+
+
     @FXML
-    public void AppuyerSurValideePentacle(){
+    public void validerPentacle(){
+
         if (this.environnement.getSymboles().verifierCombinaison()){
             this.environnement.validerSymboles();
             this.sourisVue.ajouterImageSouris(this.environnement.getSymboles().CombinaisonGetTourString());
-
         }
         else { this.interfaceVue.viderSumbolesAffiches();
             this.monObservateurSymbole.setCompteur(0);
             this.environnement.getSymboles().reset();
         }
-
-
-
     }
+
 }
 
