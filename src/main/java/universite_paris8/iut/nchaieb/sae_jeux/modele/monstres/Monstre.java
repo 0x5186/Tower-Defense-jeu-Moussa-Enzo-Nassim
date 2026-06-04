@@ -120,9 +120,14 @@ public abstract class Monstre extends Entite {
         }
 
         if (!estBloqueParAllie(collegues)) {
+            System.out.println(estBloqueParAllie(collegues));
 
             this.setActionActuelle("marche");
             this.avancer(terrain);
+        } else {
+            if (!this.getActionActuelle().get().equals("fixe")) {
+                this.setActionActuelle("fixe");
+            }
         }
     }
 
@@ -136,6 +141,12 @@ public abstract class Monstre extends Entite {
 
                 if ((distanceX + distanceY) < 25) {
                     if (collegue.getPosX() > this.getPosX()) return true;
+
+                    if (collegue.getPosX() == this.getPosX() && collegue.getPosY() == this.getPosY()) {
+                        if (this.hashCode() > collegue.hashCode()) {
+                            return true;
+                        }
+                    }
                 }
             }
         }

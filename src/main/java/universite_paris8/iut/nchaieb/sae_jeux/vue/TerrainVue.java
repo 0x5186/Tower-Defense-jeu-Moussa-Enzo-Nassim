@@ -8,7 +8,6 @@ import universite_paris8.iut.nchaieb.sae_jeux.Main;
 
 public class TerrainVue {
     Image herbeBasse = new Image(Main.class.getResourceAsStream("images/herbe-basse.png"));
-    Image herbeHaute = new Image(Main.class.getResourceAsStream("images/herbe-haute.png"));
     Image terrainChemin = new Image(Main.class.getResourceAsStream("images/terrain.png"));
 
     private TilePane tilePane;
@@ -20,24 +19,25 @@ public class TerrainVue {
     }
 
     public void dessine(int map) {
-        // Sécurité pour le bug du menu noir
         if (map == 1) { return; }
 
-        terrain.terrainPlainesCode();
         this.tilePane.getChildren().clear();
 
         for (int l = 0; l < this.terrain.hauteur(); l++) {
             for (int col = 0; col < this.terrain.largeur(); col++) {
                 ImageView imageView = new ImageView();
 
-                // Retour à la taille normale
+
                 imageView.setFitWidth(24);
                 imageView.setFitHeight(24);
 
                 switch (this.terrain.codeTuile(l, col)) {
-                    case 0: imageView.setImage(herbeBasse); break;
-                    case 1: imageView.setImage(herbeHaute); break;
-                    case 2: imageView.setImage(terrainChemin); break;
+                    case 0:
+                        imageView.setImage(herbeBasse);
+                        break;
+                    case 1:
+                        imageView.setImage(terrainChemin);
+                        break;
                 }
 
                 if (imageView.getImage() != null) {

@@ -24,7 +24,7 @@ public class MonstreVue {
     private HashMap hashMapAnimation= new HashMap<Monstre, Timeline>();
     Image  squelette = new Image(Main.class.getResourceAsStream("images/squelette(3).png"));
     Image  sorcier = new Image(Main.class.getResourceAsStream("images/sorcier.png"));
-
+    Image tourOeilCurseur = new Image(Main.class.getResourceAsStream("images/tourOeilCurseur.png"));
 
 
 
@@ -99,7 +99,6 @@ public class MonstreVue {
                             x = frameIndex[0] - 12;
                             y = 2;
                         }
-
                         frameIndex[0]++;
                         if (frameIndex[0] == 15) frameIndex[0] = 0;
                         iv.setViewport(new Rectangle2D(x* largeurCase, y * hauteurCase, largeurCase, hauteurCase));

@@ -34,7 +34,7 @@ public class Environnement {
 	public Environnement(Terrain terrain) {
 		this.terrain = terrain;
 		this.nbTours = new SimpleIntegerProperty();
-		this.lesTours = FXCollections.observableArrayList();
+		this.lesTours =FXCollections.observableArrayList();
 		this.lesMonstres = FXCollections.observableArrayList();
 		this.symboles = new Symboles();
 		this.argent = new SimpleIntegerProperty(100);
@@ -209,8 +209,10 @@ public class Environnement {
 					m.agir(this.lesMonstres, this.terrain, this.getBase());
 				}
 			}
+
 		}
 	}
+
 
 	public boolean tourPosable(double xPixel, double yPixel) {
 		System.out.println("presque");
