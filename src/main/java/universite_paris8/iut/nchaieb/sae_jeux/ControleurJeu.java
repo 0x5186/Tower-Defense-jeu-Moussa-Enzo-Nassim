@@ -286,18 +286,15 @@ public class ControleurJeu implements Initializable{
 
     @FXML
     public void validerPentacle(){
+        
         if (this.environnement.getSymboles().verifierCombinaison()){
             this.environnement.validerSymboles();
             this.sourisVue.ajouterImageSouris(this.environnement.getSymboles().CombinaisonGetTourString());
-
         }
         else { this.interfaceVue.viderSumbolesAffiches();
             this.monObservateurSymbole.setCompteur(0);
             this.environnement.getSymboles().reset();
         }
-
-
-
     }
 
 }
