@@ -53,9 +53,6 @@ public class MonObservateurMonstre implements ListChangeListener<Monstre> {
                         }
                     });
 
-
-
-
                 }
             }
             if(change.wasRemoved()) {

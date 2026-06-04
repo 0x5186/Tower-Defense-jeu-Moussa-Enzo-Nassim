@@ -7,6 +7,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -18,9 +19,13 @@ import universite_paris8.iut.nchaieb.sae_jeux.modele.Terrain;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.CombinaisonValables;
 import universite_paris8.iut.nchaieb.sae_jeux.vue.*;
 
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.Scanner;
 
 public class ControleurJeu implements Initializable{
     private Environnement environnement;
@@ -84,6 +89,24 @@ public class ControleurJeu implements Initializable{
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        JouerSon musiqueFond = null;
+        try {
+            musiqueFond = new JouerSon("src/main/resources/universite_paris8/iut/nchaieb/sae_jeux/Sons/musiqueJeu.wav",0);
+        } catch (UnsupportedAudioFileException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (LineUnavailableException e) {
+            throw new RuntimeException(e);
+        }
+        musiqueFond.play();
+        if(musiqueFond.currentFrame!=null && musiqueFond.currentFrame==8.5){
+            musiqueFond.currentFrame= Long.valueOf(5);
+        }
+
+
+
+
         //ajout du pane
         this.terrain = new Terrain();
 
@@ -130,12 +153,25 @@ public class ControleurJeu implements Initializable{
 
                 if (environnement.isModePlacementTour()) {
                     if(this.environnement.tourPosable(event.getX(), event.getY())){
+                        JouerSon sonInvocation = null;
+                        try {
+                            sonInvocation = new JouerSon("src/main/resources/universite_paris8/iut/nchaieb/sae_jeux/Sons/invocationTour.wav",0);
+                        } catch (UnsupportedAudioFileException e) {
+                            throw new RuntimeException(e);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        } catch (LineUnavailableException e) {
+                            throw new RuntimeException(e);
+                        }
+
+                        sonInvocation.play();
                         this.environnement.ajouterTour(this.environnement.getSymboles().CombinaisonGetTour((int) event.getX(), (int) event.getY()));
                         this.environnement.getSymboles().reset();
                         this.environnement.setModePlacementTour(false);
                         this.interfaceVue.viderSumbolesAffiches();
                         this.monObservateurSymbole.setCompteur(0);
                         this.sourisVue.retirerImageSouris();
+
 
 
                     }
@@ -169,7 +205,7 @@ public class ControleurJeu implements Initializable{
 
 
     @FXML
-    public void AjouterMonstreEnnemi() {
+    public void AjouterMonstreEnnemi() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         this.environnement.ajouterMonstre();
     }
 
@@ -216,11 +252,20 @@ public class ControleurJeu implements Initializable{
 
     //élimination redondance
     @FXML
-    public void actionsDesSymboles(Event event) {
+    public void actionsDesSymboles(Event event) throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         Button boutonSymbole = (Button) event.getSource();
         String symboleTexte = boutonSymbole.getText();
+        double ecriture= Math.random();
         String symbole = null;
+        JouerSon sonEcriture;
+        if(ecriture>=0.5){
+            sonEcriture = new JouerSon("src/main/resources/universite_paris8/iut/nchaieb/sae_jeux/Sons/stylo1.wav",0);
+        }
+        else{
+            sonEcriture = new JouerSon("src/main/resources/universite_paris8/iut/nchaieb/sae_jeux/Sons/stylo2.wav",0);
+        }
 
+        sonEcriture.play();
 
         switch (symboleTexte){
             case "croix":
@@ -298,13 +343,24 @@ public class ControleurJeu implements Initializable{
 
 
     @FXML
-    public void validerPentacle(){
+    public void validerPentacle() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
 
-        if (this.environnement.getSymboles().verifierCombinaison()){
+        if (this.environnement.getSymboles().verifierCombinaison()) {
             this.environnement.validerSymboles();
             this.sourisVue.ajouterImageSouris(this.environnement.getSymboles().CombinaisonGetTourString());
+            JouerSon sonFiole = new JouerSon("src/main/resources/universite_paris8/iut/nchaieb/sae_jeux/Sons/fiole.wav",0);
+            sonFiole.play();
+//            try {
+//                JouerSon sonFiole = new JouerSon("src/main/resources/universite_paris8/iut/nchaieb/sae_jeux/Sons/fiole.wav"); // Note the .wav extension!
+//                sonFiole.play();
+//            } catch (Exception e) {
+//                System.err.println("Could not play audio file: " + e.getMessage());
+//                e.printStackTrace();
+//            }
         }
         else { this.interfaceVue.viderSumbolesAffiches();
+            JouerSon sonErreur = new JouerSon("src/main/resources/universite_paris8/iut/nchaieb/sae_jeux/Sons/erreur.wav",0);
+            sonErreur.play();
             this.monObservateurSymbole.setCompteur(0);
             this.environnement.getSymboles().reset();
         }

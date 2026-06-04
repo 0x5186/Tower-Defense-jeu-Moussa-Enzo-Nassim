@@ -53,7 +53,13 @@ public class Environnement {
 
 	public int getArgent() { return this.argent.getValue(); }
 
-	public void setArgent(int montant) { this.argent.set(montant); }
+	public void setArgent(int montant) {
+		if(montant>100)
+			this.argent.set(100);
+
+		else
+			this.argent.set(montant);
+	}
 
 	public ObservableList<Monstre> getLesMonstres() {
 		return lesMonstres;
@@ -93,6 +99,7 @@ public class Environnement {
 		System.out.println("tour prete");
 		this.lesTours.add(tour);
 		this.setArgent(this.getArgent()-tour.getCout());
+
 	}
 
 	public void ajouterMonstre(){

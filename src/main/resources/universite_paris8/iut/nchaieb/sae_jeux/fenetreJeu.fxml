@@ -142,26 +142,6 @@
                        </graphic>
                    </Label>
 <!--                   <Button fx:id="boutonAjouterTour" layoutX="500.0" layoutY="95.0" prefHeight="50.0" prefWidth="150.0" style="-fx-font-size: 16px;" mnemonicParsing="false" onAction="#activerModePlacementTour" text="Ajouter tour" />-->
-
-
-                   <Button fx:id="boutonValiderPentacle" layoutX="200.0" layoutY="-52.0" mnemonicParsing="false" onAction="#validerPentacle" prefHeight="7.0" prefWidth="2.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;">
-                       <graphic>
-                           <ImageView fitHeight="200.0" fitWidth="200.0" nodeOrientation="INHERIT" preserveRatio="true">
-                               <image>
-                                   <Image url="@images/fiole.png">
-                                   </Image>
-                               </image>
-                           <effect>
-                              <InnerShadow radius="37.1125" width="129.45">
-                                 <color>
-                                    <Color red="1.0" green="1.0" blue="1.0" />
-                                 </color>
-                              </InnerShadow>
-                           </effect>
-                           </ImageView>
-                       </graphic>
-                   </Button>
-
 <!--                   <Button fx:id="boutonOuvrirTiroir" layoutX="1461.0" layoutY="-262.0" mnemonicParsing="false" onAction="#AppuyerSurOuvrirTiroir" prefHeight="206.0" prefWidth="160.0" scaleX="3.0" scaleY="3.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;" />-->
 <!--                     <ImageView fitHeight="200" fitWidth="200" layoutX="1478.0" layoutY="-298.0" pickOnBounds="false" preserveRatio="true" scaleX="3.0" scaleY="3.0">-->
 <!--                         <image>-->
@@ -169,7 +149,7 @@
 <!--                         </image>-->
 <!--                     </ImageView>-->
 
-                   <Button fx:id="boutonValiderPentacle" layoutX="100.0" layoutY="-50.0" mnemonicParsing="false" onAction="#AppuyerSurValideePentacle" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;" >
+                   <Button fx:id="boutonValiderPentacle" layoutX="100.0" layoutY="-50.0" mnemonicParsing="false" onAction="#validerPentacle" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;" >
                       <graphic>
                           <ImageView  fx:id="fiole" fitHeight="200" fitWidth="200" layoutX="100.0" layoutY="-50.0" pickOnBounds="false" preserveRatio="true">
                               <image>
