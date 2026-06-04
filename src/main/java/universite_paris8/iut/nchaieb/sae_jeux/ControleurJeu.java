@@ -15,10 +15,7 @@ import javafx.util.Duration;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Environnement;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Terrain;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.CombinaisonValables;
-import universite_paris8.iut.nchaieb.sae_jeux.vue.BaseVue;
-import universite_paris8.iut.nchaieb.sae_jeux.vue.MonstreVue;
-import universite_paris8.iut.nchaieb.sae_jeux.vue.InterfaceVue;
-import universite_paris8.iut.nchaieb.sae_jeux.vue.TerrainVue;
+import universite_paris8.iut.nchaieb.sae_jeux.vue.*;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -55,8 +52,9 @@ public class ControleurJeu implements Initializable{
 
 
 
-    private boolean modePlacementTour = false;
+
     private MonObservateurSymbole monObservateurSymbole;
+    private SourisVue sourisVue;
 
     private void initAnimation() {
         gameLoop = new Timeline();
@@ -90,6 +88,7 @@ public class ControleurJeu implements Initializable{
 
 
 
+        this.sourisVue= new SourisVue(stackPane);
         this.monstreVue= new MonstreVue(pane);
         this.interfaceVue = new InterfaceVue(stackPane);
         this.baseVue= new BaseVue(this.pane);
@@ -124,6 +123,7 @@ public class ControleurJeu implements Initializable{
                         this.environnement.setModePlacementTour(false);
                         this.interfaceVue.viderSumbolesAffiches();
                         this.monObservateurSymbole.setCompteur(0);
+                        this.sourisVue.retirerImageSouris();
 
                     }
                 }
@@ -288,6 +288,7 @@ public class ControleurJeu implements Initializable{
     public void validerPentacle(){
         if (this.environnement.getSymboles().verifierCombinaison()){
             this.environnement.validerSymboles();
+            this.sourisVue.ajouterImageSouris(this.environnement.getSymboles().CombinaisonGetTourString());
 
         }
         else { this.interfaceVue.viderSumbolesAffiches();

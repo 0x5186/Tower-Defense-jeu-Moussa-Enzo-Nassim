@@ -30,9 +30,9 @@ public class TerrainVue {
             for (int col = 0; col < this.terrain.largeur(); col++) {
                 ImageView imageView = new ImageView();
 
-                // Retour à la taille normale (16x16)
-                imageView.setFitWidth(16);
-                imageView.setFitHeight(16);
+                // Retour à la taille normale
+                imageView.setFitWidth(24);
+                imageView.setFitHeight(24);
 
                 switch (this.terrain.codeTuile(l, col)) {
                     case 0: imageView.setImage(herbeBasse); break;
