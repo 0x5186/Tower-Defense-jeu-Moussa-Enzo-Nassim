@@ -14,7 +14,7 @@
       </StackPane>
    </center>
    <bottom>
-      <StackPane BorderPane.alignment="CENTER">
+      <StackPane  fx:id="stackPaneinterface"  BorderPane.alignment="CENTER">
          <children>
             <Pane prefHeight="164.0" prefWidth="718.0">
                <children>
@@ -105,9 +105,9 @@
                    </Label>
                    <Button fx:id="boutonValiderPentacle" layoutX="100.0" layoutY="-50.0" mnemonicParsing="false" onAction="#AppuyerSurValideePentacle" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;" >
                       <graphic>
-                          <ImageView fitHeight="200" fitWidth="200" layoutX="100.0" layoutY="-50.0" pickOnBounds="false" preserveRatio="true">
+                          <ImageView  fx:id="fiole" fitHeight="200" fitWidth="200" layoutX="100.0" layoutY="-50.0" pickOnBounds="false" preserveRatio="true">
                               <image>
-                                  <Image url="@images/fiole.png" />
+                                  <Image url="@images/fiole.png"/>
                               </image>
                           </ImageView>
                       </graphic>

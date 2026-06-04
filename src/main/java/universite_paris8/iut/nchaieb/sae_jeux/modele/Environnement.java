@@ -43,6 +43,7 @@ public class Environnement {
 		Entite.compteurID = 0;
 
 
+
 		this.modePlacementTour= new SimpleBooleanProperty(false);
 	}
 
@@ -91,6 +92,7 @@ public class Environnement {
 	public void ajouterTour(Tour tour){
 		System.out.println("tour prete");
 		this.lesTours.add(tour);
+		this.setArgent(this.getArgent()-tour.getCout());
 	}
 
 	public void ajouterMonstre(){

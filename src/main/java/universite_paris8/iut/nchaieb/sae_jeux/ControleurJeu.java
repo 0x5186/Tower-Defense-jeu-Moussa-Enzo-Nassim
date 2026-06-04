@@ -6,6 +6,8 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.TilePane;
@@ -31,7 +33,8 @@ public class ControleurJeu implements Initializable{
     private StackPane stackPane;
     @FXML
     private Pane pane;
-
+    @FXML
+    private ImageView fiole;
 
 
 
@@ -42,6 +45,7 @@ public class ControleurJeu implements Initializable{
     MonstreVue monstreVue;
     InterfaceVue interfaceVue;
     private BaseVue baseVue;
+    private FioleVue fioleVue;
 
 
     private MonObservateurMonstre observateur;
@@ -86,6 +90,7 @@ public class ControleurJeu implements Initializable{
 
 
 
+        this.fioleVue= new FioleVue(stackPane);
         this.sourisVue= new SourisVue(stackPane);
         this.monstreVue= new MonstreVue(pane);
         this.interfaceVue = new InterfaceVue(stackPane);
@@ -103,10 +108,18 @@ public class ControleurJeu implements Initializable{
         environnement.getLesTours().addListener(monObservateurTour);
         baseVue.ajouterSprite(this.environnement.getBase());
 
+        this.fioleVue.setFiole(fiole,this.environnement.getArgent());
+
+        this.environnement.argentProperty().addListener((observable, oldValue, newValue) -> {
 
 
+            int ancienneValeur=(int) oldValue ;
+            int nouvelleValeur=(int) newValue ;
+            if (nouvelleValeur!=ancienneValeur) {
+                this.fioleVue.setFiole(fiole,nouvelleValeur);
+            }
 
-
+        });
         initAnimation();
 
 
@@ -122,6 +135,7 @@ public class ControleurJeu implements Initializable{
                         this.interfaceVue.viderSumbolesAffiches();
                         this.monObservateurSymbole.setCompteur(0);
                         this.sourisVue.retirerImageSouris();
+
 
                     }
                 }
