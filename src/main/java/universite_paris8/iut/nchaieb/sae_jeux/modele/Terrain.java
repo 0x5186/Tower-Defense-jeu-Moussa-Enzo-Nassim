@@ -4,14 +4,11 @@ public class Terrain {
     private int[][] codeTuiles = new int[52][120];
 
     public void terrainPlainesCode() {
-        // 1. Initialisation de la carte avec des 0 et des 1 aléatoires
         for (int i = 0; i < hauteur(); i++) {
             for (int j = 0; j < largeur(); j++) {
                 codeTuiles[i][j] = Math.random() > 0.5 ? 0 : 1;
             }
         }
-
-        // 2. Traduction directe de chaque segment "tracerLigne" sans appeler la fonction
 
         // tracerLigne(0, 8, 30, 8);
         for (int i = 8; i <= 9; i++) { for (int j = 0; j <= 31; j++) { if (codeTuiles[i][j] < 2) codeTuiles[i][j] = 2; } }
