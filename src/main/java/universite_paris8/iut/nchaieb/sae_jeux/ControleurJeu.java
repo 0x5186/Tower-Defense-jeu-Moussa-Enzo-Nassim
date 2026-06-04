@@ -204,7 +204,6 @@ public class ControleurJeu implements Initializable{
     //élimination redondance
     @FXML
     public void actionsDesSymboles(Event event) {
-        System.out.println("cc");
         Button boutonSymbole = (Button) event.getSource();
         String symboleTexte = boutonSymbole.getText();
         String symbole = null;
