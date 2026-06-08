@@ -18,11 +18,12 @@ public class InterfaceVue {
     Image symboleSpirale = new Image(Main.class.getResourceAsStream("images/symboleSpirale.png"));
     Image symboleOeil = new Image(Main.class.getResourceAsStream("images/symboleOeil.png"));
     Image symboleEclipse = new Image(Main.class.getResourceAsStream("images/symboleEclipse.png"));
-    Image symboleOiseau = new Image(Main.class.getResourceAsStream("images/symboleOiseau.png"));
+    Image symboleCrystal = new Image(Main.class.getResourceAsStream("images/symboleCrystal.png"));
     Image symboleFleche = new Image(Main.class.getResourceAsStream("images/symboleFleche.png"));
-    Image symbolePic = new Image(Main.class.getResourceAsStream("images/symbolePic.png"));
+    Image symboleTomoe = new Image(Main.class.getResourceAsStream("images/symboleTomoe.png"));
     Image symboleTriangle = new Image(Main.class.getResourceAsStream("images/symboleTriangle.png"));
     Image symboleCorne = new Image(Main.class.getResourceAsStream("images/Corne.png"));
+    Image symboleFeu = new Image(Main.class.getResourceAsStream("images/symboleFeu.png"));
 
     private StackPane stackPane;
 
@@ -80,20 +81,23 @@ public class InterfaceVue {
             case "eclipse":
                 image = new ImageView(symboleEclipse);
                 break;
-            case "oiseau":
-                image = new ImageView(symboleOiseau);
+            case "crystal":
+                image = new ImageView(symboleCrystal);
                 break;
             case "fleche":
                 image = new ImageView(symboleFleche);
                 break;
-            case "pic":
-                image = new ImageView(symbolePic);
+            case "tomoe":
+                image = new ImageView(symboleTomoe);
                 break;
             case "triangle":
                 image = new ImageView(symboleTriangle);
                 break;
             case "corne":
                 image = new ImageView(symboleCorne);
+                break;
+            case "feu":
+                image = new ImageView(symboleFeu);
                 break;
         }
 

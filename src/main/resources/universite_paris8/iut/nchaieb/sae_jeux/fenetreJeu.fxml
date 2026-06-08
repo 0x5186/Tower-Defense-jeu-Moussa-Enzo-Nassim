@@ -25,7 +25,7 @@
                            <children>
 
 
-                               <Button fx:id="fleche" ellipsisString="" layoutX="0" layoutY="-3" mnemonicParsing="false" onAction="#actionsDesSymboles" prefHeight="7.0" prefWidth="2.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;" text="fleche">
+                               <Button fx:id="fleche" ellipsisString="" layoutX="10" layoutY="-1" mnemonicParsing="false" onAction="#actionsDesSymboles" prefHeight="7.0" prefWidth="2.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;" text="fleche">
                                    <graphic>
                                        <ImageView fitHeight="64.0" fitWidth="64.0" nodeOrientation="INHERIT" preserveRatio="true">
                                            <image>
@@ -80,11 +80,11 @@
                                    </graphic>
                                </Button>
 
-                               <Button ellipsisString="" layoutX="400" layoutY="-3" mnemonicParsing="false" onAction="#actionsDesSymboles" prefHeight="7.0" prefWidth="2.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;" text="oiseau">
+                               <Button ellipsisString="" layoutX="400" layoutY="-3" mnemonicParsing="false" onAction="#actionsDesSymboles" prefHeight="7.0" prefWidth="2.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;" text="crystal">
                                    <graphic>
                                        <ImageView fitHeight="64.0" fitWidth="64.0" nodeOrientation="INHERIT" preserveRatio="true">
                                            <image>
-                                               <Image url="@images/symboleOiseau.png">
+                                               <Image url="@images/symboleCrystal.png">
                                                </Image>
                                            </image>
                                        </ImageView>
@@ -102,11 +102,11 @@
                                    </graphic>
                                </Button>
 
-                               <Button ellipsisString="" layoutX="560" layoutY="-3" mnemonicParsing="false" onAction="#actionsDesSymboles" prefHeight="7.0" prefWidth="2.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;" text="pic">
+                               <Button ellipsisString="" layoutX="560" layoutY="-3" mnemonicParsing="false" onAction="#actionsDesSymboles" prefHeight="7.0" prefWidth="2.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;" text="tomoe">
                                    <graphic>
                                        <ImageView fitHeight="64.0" fitWidth="64.0" preserveRatio="true">
                                            <image>
-                                               <Image url="@images/symbolePic.png">
+                                               <Image url="@images/symboleTomoe.png">
                                                </Image>
                                            </image>
                                        </ImageView>
@@ -129,6 +129,17 @@
                                        <ImageView fitHeight="64.0" fitWidth="64.0" preserveRatio="true">
                                            <image>
                                                <Image url="@images/Corne.png">
+                                               </Image>
+                                           </image>
+                                       </ImageView>
+                                   </graphic>
+                               </Button>
+
+                               <Button ellipsisString="" layoutX="800" layoutY="-1" mnemonicParsing="false" onAction="#actionsDesSymboles" prefHeight="7.0" prefWidth="2.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;" text="feu">
+                                   <graphic>
+                                       <ImageView fitHeight="64.0" fitWidth="64.0" preserveRatio="true">
+                                           <image>
+                                               <Image url="@images/symboleFeu.png">
                                                </Image>
                                            </image>
                                        </ImageView>

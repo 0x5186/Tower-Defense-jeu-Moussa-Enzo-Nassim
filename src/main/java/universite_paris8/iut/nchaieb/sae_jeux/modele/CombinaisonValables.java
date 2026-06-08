@@ -10,7 +10,7 @@ public class CombinaisonValables {
 
     public CombinaisonValables() {
         this.tourOeil = new ArrayList<String>(List.of("oeil", "croix", "eclipse"));
-        this.tourHeal = new ArrayList<String>(List.of("croix","goutte" ,"oiseau", "spirale"));
+        this.tourHeal = new ArrayList<String>(List.of("croix","goutte" ,"crystal", "spirale"));
     }
 
 
