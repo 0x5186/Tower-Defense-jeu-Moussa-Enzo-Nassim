@@ -9,7 +9,7 @@ public class TourHeal extends Tour {
 
 
     public TourHeal(int x, int y) {
-        super(0,0,x,y, 12000, 50);
+        super(0,0,x,y, 6000, 50);
         this.heal=10;
 
     }

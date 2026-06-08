@@ -5,11 +5,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Scanner;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
+import javax.sound.sampled.*;
 
 public class JouerSon {
 
@@ -52,6 +48,19 @@ public class JouerSon {
         }
 
 
+    }
+
+
+    public void setVolume(float volume) {
+        // volume entre 0.0 et 1.0
+        FloatControl gainControl =
+                (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+
+        float min = gainControl.getMinimum();
+        float max = gainControl.getMaximum();
+
+        float gain = min + (max - min) * volume;
+        gainControl.setValue(gain);
     }
     // Work as the user enters his choice
 //

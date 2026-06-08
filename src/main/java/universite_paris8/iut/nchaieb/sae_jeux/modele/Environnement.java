@@ -8,6 +8,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Tours.Tour;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.monstres.Monstre;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.monstres.Sorcier;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.monstres.Squelette;
 
 public class Environnement {
@@ -104,7 +105,7 @@ public class Environnement {
 
 	public void ajouterMonstre(){
 
-		Monstre monstre=new Squelette(this.terrain);
+		Monstre monstre=new Sorcier(this.terrain);
 		lesMonstres.add(monstre);
 
 

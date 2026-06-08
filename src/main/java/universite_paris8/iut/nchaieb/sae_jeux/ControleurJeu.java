@@ -99,7 +99,9 @@ public class ControleurJeu implements Initializable{
         } catch (LineUnavailableException e) {
             throw new RuntimeException(e);
         }
+        musiqueFond.setVolume(0.75f);
         musiqueFond.play();
+
         if(musiqueFond.currentFrame!=null && musiqueFond.currentFrame==8.5){
             musiqueFond.currentFrame= Long.valueOf(5);
         }
@@ -123,7 +125,7 @@ public class ControleurJeu implements Initializable{
 
 
         System.out.println(Main.map);
-        terrainVue.dessine(Main.map);
+        terrainVue.dessine(Main.map, this.pane);
         MonObservateurMonstre observateurMonstres = new MonObservateurMonstre(pane);
         MonObservateurTour monObservateurTour = new MonObservateurTour(pane);
 
