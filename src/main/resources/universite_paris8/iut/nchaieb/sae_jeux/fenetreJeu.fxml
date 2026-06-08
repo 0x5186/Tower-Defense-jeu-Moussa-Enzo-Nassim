@@ -146,6 +146,17 @@
                                    </graphic>
                                </Button>
 
+                               <Button ellipsisString="" layoutX="880" layoutY="-1" mnemonicParsing="false" onAction="#actionsDesSymboles" prefHeight="7.0" prefWidth="2.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;" text="note">
+                                   <graphic>
+                                       <ImageView fitHeight="64.0" fitWidth="64.0" preserveRatio="true">
+                                           <image>
+                                               <Image url="@images/symboleNote.png">
+                                               </Image>
+                                           </image>
+                                       </ImageView>
+                                   </graphic>
+                               </Button>
+
 
                            </children></AnchorPane>
                     </content>

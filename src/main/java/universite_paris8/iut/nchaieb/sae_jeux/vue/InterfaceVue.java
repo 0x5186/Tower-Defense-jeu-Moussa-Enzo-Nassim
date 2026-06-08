@@ -24,6 +24,8 @@ public class InterfaceVue {
     Image symboleTriangle = new Image(Main.class.getResourceAsStream("images/symboleTriangle.png"));
     Image symboleCorne = new Image(Main.class.getResourceAsStream("images/Corne.png"));
     Image symboleFeu = new Image(Main.class.getResourceAsStream("images/symboleFeu.png"));
+    Image symboleNote = new Image(Main.class.getResourceAsStream("images/symboleNote.png"));
+
 
     private StackPane stackPane;
 
@@ -98,6 +100,9 @@ public class InterfaceVue {
                 break;
             case "feu":
                 image = new ImageView(symboleFeu);
+                break;
+            case "note":
+                image = new ImageView(symboleNote);
                 break;
         }
 
