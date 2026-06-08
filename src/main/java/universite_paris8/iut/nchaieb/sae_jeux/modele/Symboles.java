@@ -20,13 +20,22 @@ public class Symboles {
     }
 
     public void ajouterSymbole(String symbole){
+        boolean afficherAvertissement = false;
+
         if (this.combinaison.size() <6 ){
             this.combinaison.add(symbole);
         } else {
             System.out.println("ce symbole ne sera pas comptabilisé");
-            
+            afficherAvertissement = true;
         }
     }
+
+//    public boolean avertissement(){
+//
+//        if (this.symboles)
+//
+//        return false;
+//    }
 
 
     public void retirerSymbole (){
@@ -90,5 +99,4 @@ public class Symboles {
 
         return "rien";
     }
-
 }

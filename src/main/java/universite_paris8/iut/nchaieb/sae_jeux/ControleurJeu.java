@@ -285,17 +285,23 @@ public class ControleurJeu implements Initializable{
             case "eclipse":
                 symbole = "eclipse";
                 break;
-            case "oiseau":
-                symbole = "oiseau";
+            case "crystal":
+                symbole = "crystal";
                 break;
             case "fleche":
                 symbole = "fleche";
                 break;
-            case "pic":
-                symbole = "pic";
+            case "tomoe":
+                symbole = "tomoe";
                 break;
             case "triangle":
                 symbole = "triangle";
+                break;
+            case "corne":
+                symbole = "corne";
+                break;
+            case "feu":
+                symbole = "feu";
                 break;
         }
 
@@ -367,6 +373,5 @@ public class ControleurJeu implements Initializable{
             this.environnement.getSymboles().reset();
         }
     }
-
 }
 

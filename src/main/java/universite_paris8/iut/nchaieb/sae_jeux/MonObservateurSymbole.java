@@ -9,10 +9,12 @@ import universite_paris8.iut.nchaieb.sae_jeux.vue.InterfaceVue;
 public class MonObservateurSymbole implements ListChangeListener<String> {
 
     private InterfaceVue interfaceVue;
+//    private Symboles symboles;
     private int compteur;
 
     public MonObservateurSymbole(InterfaceVue interfaceVue){
         this.interfaceVue = interfaceVue;
+//        this.symboles = symboles;
         this.compteur=0;
     }
 
@@ -28,6 +30,13 @@ public class MonObservateurSymbole implements ListChangeListener<String> {
                     this.interfaceVue.afficherUnSeulSymbole(symbole, this.compteur);
                     compteur++;
                 }
+
+//                for (String symbole : change.getAddedSubList()){
+//                    this.symboles.ajouterSymbole(symbole);
+//                   if (this.symboles.avertissement()){
+//
+//                   }
+//                }
             }
         }
     }
