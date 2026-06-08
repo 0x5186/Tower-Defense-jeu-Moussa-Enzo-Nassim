@@ -91,7 +91,7 @@ public class ControleurJeu implements Initializable{
     public void initialize(URL url, ResourceBundle resourceBundle) {
         JouerSon musiqueFond = null;
         try {
-            musiqueFond = new JouerSon("src/main/resources/universite_paris8/iut/nchaieb/sae_jeux/Sons/musiqueJeu.wav",0);
+            musiqueFond = new JouerSon("src/main/resources/universite_paris8/iut/nchaieb/sae_jeux/Sons/musiqueJeu.wav",1000);
         } catch (UnsupportedAudioFileException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
@@ -99,12 +99,12 @@ public class ControleurJeu implements Initializable{
         } catch (LineUnavailableException e) {
             throw new RuntimeException(e);
         }
-        musiqueFond.setVolume(0.75f);
+        musiqueFond.setVolume(0.85f);
         musiqueFond.play();
 
-        if(musiqueFond.currentFrame!=null && musiqueFond.currentFrame==8.5){
-            musiqueFond.currentFrame= Long.valueOf(5);
-        }
+//        if(musiqueFond.currentFrame!=null && musiqueFond.currentFrame==8.5){
+//            musiqueFond.currentFrame= Long.valueOf(5);
+//        }
 
 
 
