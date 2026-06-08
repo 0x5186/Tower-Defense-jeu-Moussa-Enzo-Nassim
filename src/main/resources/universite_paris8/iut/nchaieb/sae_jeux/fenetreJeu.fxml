@@ -95,7 +95,6 @@
                                                 </ImageView>
                                             </graphic>
                                         </Button>
-
                                     </children>
                                 </AnchorPane>
                             </content>
@@ -118,10 +117,6 @@
                                 </ImageView>
                             </graphic>
                         </Button>
-
-                        <Label fx:id="labelVague" layoutX="1700.0" layoutY="-700.0" style="-fx-background-color: rgba(20, 20, 20, 0.8); -fx-text-fill: #ffffff; -fx-font-size: 20px; -fx-font-family: 'Cambria', serif; -fx-font-weight: bold; -fx-padding: 5px 15px; -fx-border-color: #DAA520; -fx-border-width: 2px; -fx-border-radius: 8px; -fx-background-radius: 8px;" text="Vague : 1 / 5" />
-                        <Label fx:id="labelChrono" layoutX="800.0" layoutY="-700.0" style="-fx-background-color: rgba(20, 20, 20, 0.8); -fx-text-fill: #FF4E50; -fx-font-size: 24px; -fx-font-family: 'Cambria', serif; -fx-font-weight: bold; -fx-padding: 8px 20px; -fx-border-color: #FF4E50; -fx-border-width: 1px; -fx-border-radius: 5px; -fx-background-radius: 5px;" text="Prochaine vague : 10s" />
-
                     </children>
                 </Pane>
             </children>

@@ -2,6 +2,8 @@ package universite_paris8.iut.nchaieb.sae_jeux.modele;
 
 import universite_paris8.iut.nchaieb.sae_jeux.Main;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class LecteurVague {
@@ -12,45 +14,61 @@ public class LecteurVague {
         lire();
     }
 
-    public int getNbVague() {
-        return nbVague;
-    }
-
-    public Vague[] getVagues() {
-        return vagues;
-    }
+    public int getNbVague() { return nbVague; }
+    public Vague[] getVagues() { return vagues; }
 
     public void lire() {
         try {
-            InputStream is = Main.class.getResourceAsStream("vagues.txt");
+            InputStream is = LecteurVague.class.getResourceAsStream("/universite_paris8/iut/nchaieb/sae_jeux/vagues.txt");
             if (is == null) {
-                System.out.println("Fichier vagues.txt introuvable !");
+                System.err.println(" vagues.txt introuvable !");
                 return;
             }
-            Scanner sc = new Scanner(is).useDelimiter("\n");
 
-            nbVague = sc.nextInt();
-            vagues = new Vague[nbVague];
-            sc.next(); // Passe le premier #
+            Scanner sc = new Scanner(is);
+            nbVague = 0;
+            List<Vague> vaguesLues = new ArrayList<>();
+            Vague vagueEnCours = null;
 
-            for (int indVague = 0; indVague < nbVague; indVague++) {
-                vagues[indVague] = new Vague();
-                String ligne = sc.next().trim();
+            while (sc.hasNextLine()) {
+                String ligne = sc.nextLine().trim();
 
-                while (!ligne.equals("#") && sc.hasNext()) {
-                    if (!ligne.isEmpty()) {
-                        String[] parts = ligne.split(" ");
-                        int quantite = Integer.parseInt(parts[0]);
-                        int codeMonstre = Integer.parseInt(parts[1]);
-                        int delaiTick = (int) (Double.parseDouble(parts[2]) * 60);
-                        for (int i = 0; i < quantite; i++) {
-                            vagues[indVague].getListeApparition().ajouter(codeMonstre, delaiTick);
-                        }
+                // Ligne vide ou commentaire = séparateur de vague
+                if (ligne.isEmpty() || ligne.startsWith("#")) {
+                    if (vagueEnCours != null) {
+                        vaguesLues.add(vagueEnCours);
+                        vagueEnCours = null;
                     }
-                    ligne = sc.next().trim();
+                    continue;
+                }
+
+                if (nbVague == 0 && vagueEnCours == null && vaguesLues.isEmpty()) {
+                    nbVague = Integer.parseInt(ligne);
+                    continue;
+                }
+
+                // Ligne de données : quantite code delai
+                if (vagueEnCours == null) vagueEnCours = new Vague();
+
+                String[] parts = ligne.split("\\s+");
+                int quantite = Integer.parseInt(parts[0]);
+                int code     = Integer.parseInt(parts[1]);
+                int delai    = (int)(Double.parseDouble(parts[2]) * 60);
+
+                for (int j = 0; j < quantite; j++) {
+                    vagueEnCours.getListeApparition().ajouter(code, delai);
                 }
             }
+
+            // Dernière vague sans # final
+            if (vagueEnCours != null) vaguesLues.add(vagueEnCours);
+
+            vagues = vaguesLues.toArray(new Vague[0]);
+            nbVague = vagues.length;
             sc.close();
+
+            System.out.println( nbVague + " vagues chargées");
+
         } catch (Exception e) {
             e.printStackTrace();
         }
