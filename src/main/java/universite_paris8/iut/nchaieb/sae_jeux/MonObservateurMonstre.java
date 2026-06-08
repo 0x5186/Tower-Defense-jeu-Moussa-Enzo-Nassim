@@ -26,9 +26,9 @@ public class MonObservateurMonstre implements ListChangeListener<Monstre> {
 
 
 
-    private void enleverSprite(Entite entite) {
+    private void enleverSprite(Monstre monstre) {
 
-        this.monstreVue.animationMort(entite);
+        this.monstreVue.animationMort(monstre);
 
     }
 
@@ -43,24 +43,19 @@ public class MonObservateurMonstre implements ListChangeListener<Monstre> {
                     creerSprite(nouveau);
                     nouveau.getActionActuelle().addListener((observable, oldValue, newValue) -> {
 
-                        if (newValue.equals("fixe")) {
-                        }
+//                        if (newValue.equals("fixe")) {
+//                        }
                         if (newValue.equals("marche")) {
                             this.monstreVue.animationMarche(nouveau);
                         }
-                        if (newValue.equals("attaque")) {
-                            this.monstreVue.animationAttaque(nouveau);
-                        }
+
                     });
-
-
-
 
                 }
             }
             if(change.wasRemoved()) {
                 System.out.println("je suis morttttttttttttt");
-                for (Entite mort : change.getRemoved()) {
+                for (Monstre mort : change.getRemoved()) {
                     enleverSprite(mort);
                 }
             }

@@ -31,12 +31,14 @@ public class MonstreVue {
         if (monstre instanceof Squelette) {
             iv = new ImageView(squelette);
             iv.setViewport(new Rectangle2D(0, 0, 50, 50));
+            // Sprite 50x50, tuile 16x16 → décalage (50-16)/2 = 17px pour centrer
             iv.translateXProperty().bind(monstre.posXProperty().subtract(17));
             iv.translateYProperty().bind(monstre.posYProperty().subtract(17));
         }
         if (monstre instanceof Sorcier) {
             iv = new ImageView(sorcier);
             iv.setViewport(new Rectangle2D(0, 0, 80, 80));
+            // Sprite 80x80, tuile 16x16 → décalage (80-16)/2 = 32px pour centrer
             iv.translateXProperty().bind(monstre.posXProperty().subtract(32));
             iv.translateYProperty().bind(monstre.posYProperty().subtract(32));
         }

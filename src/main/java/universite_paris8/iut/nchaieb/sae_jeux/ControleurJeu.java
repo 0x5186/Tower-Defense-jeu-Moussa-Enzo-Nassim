@@ -20,11 +20,14 @@ import universite_paris8.iut.nchaieb.sae_jeux.modele.Tours.Tour;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Tours.TourOeil;
 import universite_paris8.iut.nchaieb.sae_jeux.vue.*;
 
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-public class ControleurJeu implements Initializable{
+public class ControleurJeu implements Initializable {
     private Environnement environnement;
     private ArrayList<CombinaisonValables> lesSorts;
 
@@ -48,10 +51,10 @@ public class ControleurJeu implements Initializable{
         gameLoop = new Timeline();
         KeyFrame kf = new KeyFrame(
                 Duration.seconds(0.01),
-                (ev ->{
-                    temps.setValue(temps.getValue()+1);
+                (ev -> {
+                    temps.setValue(temps.getValue() + 1);
                     this.environnement.unTour();
-                    if (environnement.getBase().getPv() <= 0){
+                    if (environnement.getBase().getPv() <= 0) {
                         gameLoop.stop();
                         System.out.println("perdu");
                     }
@@ -63,6 +66,15 @@ public class ControleurJeu implements Initializable{
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        // Musique de fond
+        try {
+            JouerSon musiqueFond = new JouerSon("src/main/resources/universite_paris8/iut/nchaieb/sae_jeux/Sons/musiqueJeu.wav", 0);
+            musiqueFond.setVolume(0.75f);
+            musiqueFond.play();
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+            e.printStackTrace();
+        }
+
         this.terrain = new Terrain();
         this.fioleVue = new FioleVue(stackPane);
         this.sourisVue = new SourisVue(stackPane);
@@ -71,7 +83,7 @@ public class ControleurJeu implements Initializable{
         this.baseVue = new BaseVue(this.pane);
         this.terrainVue = new TerrainVue(terrain, tilePane);
 
-        terrainVue.dessine(Main.map);
+        terrainVue.dessine(Main.map, this.pane);
         MonObservateurMonstre observateurMonstres = new MonObservateurMonstre(pane);
         MonObservateurTour monObservateurTour = new MonObservateurTour(pane);
 
@@ -83,8 +95,8 @@ public class ControleurJeu implements Initializable{
         this.fioleVue.setFiole(fiole, this.environnement.getArgent());
 
         this.environnement.argentProperty().addListener((observable, oldValue, newValue) -> {
-            int ancienneValeur = (int) oldValue ;
-            int nouvelleValeur = (int) newValue ;
+            int ancienneValeur = (int) oldValue;
+            int nouvelleValeur = (int) newValue;
             if (nouvelleValeur != ancienneValeur) {
                 this.fioleVue.setFiole(fiole, nouvelleValeur);
             }
@@ -92,11 +104,17 @@ public class ControleurJeu implements Initializable{
 
         initAnimation();
 
-        if(stackPane != null){
+        if (stackPane != null) {
             stackPane.setOnMouseClicked(event -> {
                 if (environnement.isModePlacementTour()) {
-                    if(this.environnement.tourPosable(event.getX(), event.getY())){
-                        this.environnement.placerLaTourAttente(event.getX(), event.getY());
+                    if (this.environnement.tourPosable(event.getX(), event.getY())) {
+                        try {
+                            JouerSon sonInvocation = new JouerSon("src/main/resources/universite_paris8/iut/nchaieb/sae_jeux/Sons/invocationTour.wav", 0);
+                            sonInvocation.play();
+                        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+                            e.printStackTrace();
+                        }
+                        this.environnement.ajouterTour(this.environnement.getSymboles().CombinaisonGetTour((int) event.getX(), (int) event.getY()));
                         this.environnement.getSymboles().reset();
                         this.environnement.setModePlacementTour(false);
                         this.interfaceVue.viderSumbolesAffiches();
@@ -121,60 +139,62 @@ public class ControleurJeu implements Initializable{
     }
 
     @FXML
-    public void AjouterMonstreEnnemi() {
+    public void AjouterMonstreEnnemi() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         this.environnement.ajouterMonstre();
     }
 
     @FXML
-    public void actionsDesSymboles(Event event) {
+    public void actionsDesSymboles(Event event) throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         Button boutonSymbole = (Button) event.getSource();
         String symboleTexte = boutonSymbole.getText();
         String symbole = null;
 
-        switch (symboleTexte){
-            case "croix": symbole = "croix"; break;
-            case "goutte": symbole = "goutte"; break;
-            case "spirale": symbole = "spirale"; break;
-            case "oeil": symbole = "oeil"; break;
-            case "eclipse": symbole = "eclipse"; break;
-            case "oiseau": symbole = "oiseau"; break;
-            case "fleche": symbole = "fleche"; break;
-            case "pic": symbole = "pic"; break;
+        // Son d'écriture aléatoire
+        String fichierSon = Math.random() >= 0.5
+                ? "src/main/resources/universite_paris8/iut/nchaieb/sae_jeux/Sons/stylo1.wav"
+                : "src/main/resources/universite_paris8/iut/nchaieb/sae_jeux/Sons/stylo2.wav";
+        try {
+            new JouerSon(fichierSon, 0).play();
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+            e.printStackTrace();
+        }
+
+        switch (symboleTexte) {
+            case "croix":    symbole = "croix";    break;
+            case "goutte":   symbole = "goutte";   break;
+            case "spirale":  symbole = "spirale";  break;
+            case "oeil":     symbole = "oeil";     break;
+            case "eclipse":  symbole = "eclipse";  break;
+            case "oiseau":   symbole = "oiseau";   break;
+            case "fleche":   symbole = "fleche";   break;
+            case "pic":      symbole = "pic";      break;
             case "triangle": symbole = "triangle"; break;
         }
 
-        if (symbole != null){
+        if (symbole != null) {
             this.environnement.getSymboles().ajouterSymbole(symbole);
         }
     }
 
     @FXML
-    public void validerPentacle(){
-        Tour nouvelleTour = this.environnement.getSymboles().verifierCombinaison();
-
-        if (nouvelleTour != null){
-            if (this.environnement.getArgent() >= nouvelleTour.getCout()) {
-                this.environnement.setTourAPlacer(nouvelleTour);
-                this.environnement.setModePlacementTour(true);
-
-                if (nouvelleTour instanceof TourOeil) {
-                    this.sourisVue.ajouterImageSouris("tourOeil");
-                } else {
-                    this.sourisVue.ajouterImageSouris("tourHeal");
-                }
-                System.out.println("Tour prête à être placée ! Cliquez sur l'herbe.");
-            } else {
-                System.out.println("Pas assez de joyaux pour cette tour !");
-                this.environnement.getSymboles().reset();
-                this.interfaceVue.viderSumbolesAffiches();
-                this.monObservateurSymbole.setCompteur(0);
+    public void validerPentacle() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
+        if (this.environnement.getSymboles().verifierCombinaison()) {
+            this.environnement.validerSymboles();
+            this.sourisVue.ajouterImageSouris(this.environnement.getSymboles().CombinaisonGetTourString());
+            try {
+                new JouerSon("src/main/resources/universite_paris8/iut/nchaieb/sae_jeux/Sons/fiole.wav", 0).play();
+            } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+                e.printStackTrace();
             }
-        }
-        else {
-            System.out.println("Combinaison incorrecte !");
+        } else {
             this.interfaceVue.viderSumbolesAffiches();
             this.monObservateurSymbole.setCompteur(0);
             this.environnement.getSymboles().reset();
+            try {
+                new JouerSon("src/main/resources/universite_paris8/iut/nchaieb/sae_jeux/Sons/erreur.wav", 0).play();
+            } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

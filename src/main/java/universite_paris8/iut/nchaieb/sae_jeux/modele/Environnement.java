@@ -16,6 +16,7 @@ public class Environnement {
 	private Symboles symboles;
 	private final BooleanProperty modePlacementTour;
 
+	// Système de vagues (version 1)
 	private IntegerProperty numeroVague;
 	private IntegerProperty totalVague;
 	private IntegerProperty tempsPauseRestantSec;
@@ -48,9 +49,19 @@ public class Environnement {
 		this.compteurSpawn = 0;
 	}
 
+	// Getters / Setters
+
 	public IntegerProperty argentProperty() { return this.argent; }
 	public int getArgent() { return this.argent.getValue(); }
-	public void setArgent(int montant) { this.argent.set(montant); }
+
+	// Version 2 : setArgent plafonné à 100
+	public void setArgent(int montant) {
+		if (montant > 100)
+			this.argent.set(100);
+		else
+			this.argent.set(montant);
+	}
+
 	public ObservableList<Monstre> getLesMonstres() { return lesMonstres; }
 	public ObservableList<Tour> getLesTours() { return this.lesTours; }
 	public Symboles getSymboles() { return symboles; }
@@ -59,9 +70,19 @@ public class Environnement {
 	public boolean isModePlacementTour() { return modePlacementTour.get(); }
 	public BooleanProperty modePlacementTourProperty() { return modePlacementTour; }
 	public void setModePlacementTour(boolean modePlacementTour) { this.modePlacementTour.set(modePlacementTour); }
+	public final IntegerProperty nbToursProperty() { return this.nbTours; }
 	public void setTourAPlacer(Tour tour) { this.tourAPlacer = tour; }
 	public Tour getTourAPlacer() { return this.tourAPlacer; }
 
+	// Méthodes
+
+	// Version 2 : ajout manuel d'une tour sans passer par tourAPlacer
+	public void ajouterTour(Tour tour) {
+		this.lesTours.add(tour);
+		this.setArgent(this.getArgent() - tour.getCout());
+	}
+
+	// Version 1 : placement via clic pixel
 	public void placerLaTourAttente(double xPixel, double yPixel) {
 		int TAILLE_TUILE = 16;
 		int gridX = (int) (xPixel / TAILLE_TUILE);
@@ -81,6 +102,7 @@ public class Environnement {
 		lesMonstres.add(monstre);
 	}
 
+	// Version 1 : système de vagues
 	private void preparerVague(int numero) {
 		if (this.lecteurVague.getVagues() != null && numero > 0 && numero <= this.lecteurVague.getNbVague()) {
 			this.vagueActuelle = this.lecteurVague.getVagues()[numero - 1].getListeApparition();
@@ -101,6 +123,7 @@ public class Environnement {
 	}
 
 	public void unTour() {
+		// Gestion des vagues (version 1)
 		if (pauseEntreVagues) {
 			compteurPause--;
 			if (compteurPause <= 0) {
@@ -153,5 +176,12 @@ public class Environnement {
 		int gridX = (int) (xPixel / TAILLE_TUILE);
 		int gridY = (int) (yPixel / TAILLE_TUILE);
 		return !this.terrain.estPraticable(gridX, gridY);
+	}
+
+	// Version 2 : validation de symboles pour déclencher le placement
+	public void validerSymboles() {
+		if (this.getSymboles().verifierCombinaison()) {
+			this.setModePlacementTour(true);
+		}
 	}
 }

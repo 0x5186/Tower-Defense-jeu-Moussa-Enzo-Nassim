@@ -1,6 +1,7 @@
 package universite_paris8.iut.nchaieb.sae_jeux.vue;
 
 import javafx.beans.property.StringProperty;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
@@ -18,6 +19,7 @@ public class InterfaceVue {
     Image symboleFleche = new Image(Main.class.getResourceAsStream("images/symboleFleche.png"));
     Image symbolePic = new Image(Main.class.getResourceAsStream("images/symbolePic.png"));
     Image symboleTriangle = new Image(Main.class.getResourceAsStream("images/symboleTriangle.png"));
+
 //    Image tiroirDeSymboles = new Image(Main.class.getResourceAsStream("images/TiroirpourSymbole.png"));
 
     private StackPane stackPane;
@@ -34,10 +36,14 @@ public class InterfaceVue {
 
         ImageView feuillePentacle = new ImageView(FeuilleSort);
         ImageView interfaceDuBas = new ImageView(InterfaceBas);
+
+
+
 //        ImageView  tiroir= new ImageView(tiroirDeSymboles);
 
 
         if( this.stackPane!=null){
+
 
             this.stackPane.getChildren().add(interfaceDuBas);
 
