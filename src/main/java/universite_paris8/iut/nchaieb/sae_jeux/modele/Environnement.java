@@ -43,6 +43,7 @@ public class Environnement {
 		Entite.compteurID = 0;
 
 
+
 		this.modePlacementTour= new SimpleBooleanProperty(false);
 	}
 
@@ -52,7 +53,13 @@ public class Environnement {
 
 	public int getArgent() { return this.argent.getValue(); }
 
-	public void setArgent(int montant) { this.argent.set(montant); }
+	public void setArgent(int montant) {
+		if(montant>100)
+			this.argent.set(100);
+
+		else
+			this.argent.set(montant);
+	}
 
 	public ObservableList<Monstre> getLesMonstres() {
 		return lesMonstres;
@@ -91,6 +98,8 @@ public class Environnement {
 	public void ajouterTour(Tour tour){
 		System.out.println("tour prete");
 		this.lesTours.add(tour);
+		this.setArgent(this.getArgent()-tour.getCout());
+
 	}
 
 	public void ajouterMonstre(){

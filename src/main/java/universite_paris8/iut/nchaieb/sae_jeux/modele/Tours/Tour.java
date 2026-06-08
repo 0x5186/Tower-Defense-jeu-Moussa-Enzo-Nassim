@@ -19,7 +19,12 @@ public class Tour extends Entite {
 
     private int cooldown;
     private int cooldownPourAction; //temps de chargement d'une attaque
-    public Tour(int portee, int atq, int x, int y, int cooldownPourAction) {
+
+
+    private int cout;
+
+
+    public Tour(int portee, int atq, int x, int y, int cooldownPourAction, int cout) {
 
         this.posX = new SimpleIntegerProperty(x);
         this.posY = new SimpleIntegerProperty(y);
@@ -29,6 +34,13 @@ public class Tour extends Entite {
 
         this.cooldown=0;
         this.cooldownPourAction=cooldownPourAction;
+
+        this.cout=cout;
+
+    }
+
+    public int getCout() {
+        return cout;
     }
 
     public int getCooldown() {
