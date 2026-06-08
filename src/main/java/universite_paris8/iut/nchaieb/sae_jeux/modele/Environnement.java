@@ -9,7 +9,6 @@ import javafx.collections.ObservableList;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Tours.Tour;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.monstres.Monstre;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.monstres.Sorcier;
-import universite_paris8.iut.nchaieb.sae_jeux.modele.monstres.Squelette;
 
 public class Environnement {
 	private IntegerProperty nbTours;
@@ -20,6 +19,7 @@ public class Environnement {
 	private Base base;
 	private ObservableList<Tour> lesTours;
 	private ObservableList<Monstre> lesMonstres;
+	protected ObservableList<Projectile> lesProjectiles;
 	private Terrain terrain;
 	private IntegerProperty argent;
 
@@ -34,6 +34,7 @@ public class Environnement {
 		this.lesTours =FXCollections.observableArrayList();
 		this.lesMonstres = FXCollections.observableArrayList();
 		this.symboles = new Symboles();
+		this.lesProjectiles= FXCollections.observableArrayList();
 
 		this.argent = new SimpleIntegerProperty(100);
 
@@ -94,7 +95,18 @@ public class Environnement {
 		this.modePlacementTour.set(modePlacementTour);
 	}
 
-// autres Méthodes:
+	public void ajouterProjectiles(Projectile projectile){
+		this.lesProjectiles.add(projectile);
+	}
+	public void setLesProjectiles(ObservableList<Projectile> lesProjectile) {
+		this.lesProjectiles = lesProjectile;
+	}
+
+	public ObservableList<Projectile> getLesProjectiles() {
+		return lesProjectiles;
+	}
+
+	// autres Méthodes:
 
 	public void ajouterTour(Tour tour){
 		System.out.println("tour prete");
@@ -117,11 +129,23 @@ public class Environnement {
 
 	public void unTour() {
 
+		if (this.lesProjectiles!=null || !this.lesProjectiles.isEmpty()){
+			for(int i = 0; i < this.lesProjectiles.size(); i++){
+				if(this.lesProjectiles.get(i).verifPosition()){
+					this.lesProjectiles.remove(this.lesProjectiles.get(i));
+					System.out.println("retirer");
+				}
+				else{
+					this.lesProjectiles.get(i).projectilesAJour();
+				}
+
+			}
+		}
 		//faut les supp quand ils sont morts / sinon ils continuent d'avancer
 		if (!(this.lesTours == null) && !this.lesTours.isEmpty()) {
 
 			for (int i = 0; i < this.lesTours.size(); i++) {
-				this.lesTours.get(i).agir(this.lesMonstres, this.base);
+				this.lesTours.get(i).agir(this.lesMonstres, this.base, this.lesProjectiles);
 			}
 		}
 
@@ -142,6 +166,7 @@ public class Environnement {
 				}
 			}
 		}
+
 	}
 
 

@@ -2,6 +2,7 @@ package universite_paris8.iut.nchaieb.sae_jeux.modele.Tours;
 
 import javafx.collections.ObservableList;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Base;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.Projectile;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.monstres.Monstre;
 
 public class TourOeil extends Tour {
@@ -12,7 +13,7 @@ public class TourOeil extends Tour {
     }
 
     @Override
-    public void agir(ObservableList<Monstre> listeMonstre, Base base) {
+    public void agir(ObservableList<Monstre> listeMonstre, Base base, ObservableList<Projectile> projectiles) {
         Monstre monstrePlusProche;
         gererCooldown();
 

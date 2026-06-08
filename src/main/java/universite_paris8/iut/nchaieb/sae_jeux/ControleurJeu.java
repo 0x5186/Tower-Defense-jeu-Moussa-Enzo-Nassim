@@ -128,11 +128,13 @@ public class ControleurJeu implements Initializable{
         terrainVue.dessine(Main.map, this.pane);
         MonObservateurMonstre observateurMonstres = new MonObservateurMonstre(pane);
         MonObservateurTour monObservateurTour = new MonObservateurTour(pane);
+        MonObservateurProjectiles monObservateurProjectiles = new MonObservateurProjectiles(pane);
 
         environnement= new Environnement(this.terrain);
         environnement.getLesMonstres().addListener(observateurMonstres);
         environnement.getLesTours().addListener(monObservateurTour);
         baseVue.ajouterSprite(this.environnement.getBase());
+        environnement.getLesProjectiles().addListener(monObservateurProjectiles);
 
         this.fioleVue.setFiole(fiole,this.environnement.getArgent());
 
