@@ -13,6 +13,7 @@ import javafx.util.Duration;
 import universite_paris8.iut.nchaieb.sae_jeux.Main;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Entite;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Tours.TourHeal;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.Tours.TourMusique;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.monstres.Monstre;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Tours.Tour;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Tours.TourOeil;
@@ -25,6 +26,7 @@ public class TourVue {
     private HashMap hashMapAnimation= new HashMap<Tour, Timeline>();
     Image tourOeil = new Image(Main.class.getResourceAsStream("images/tourOeil.png"));
     Image tourHeal = new Image(Main.class.getResourceAsStream("images/tourHeal.png"));
+    Image tourMusic = new Image(Main.class.getResourceAsStream("images/tourMusic.png"));
 
 
 
@@ -52,6 +54,13 @@ public class TourVue {
 
             iv=new ImageView(tourHeal);
             iv.setViewport(new Rectangle2D(0,0,80,80));
+        }
+        if(tour instanceof TourMusique){
+            decalageX=33;
+            decalageY=67;
+            iv=new ImageView(tourMusic);
+            iv.setViewport(new Rectangle2D(0,0,80,100));
+
         }
 //        iv.translateXProperty().bind(tour.posXProperty());
 //        iv.translateYProperty().bind(

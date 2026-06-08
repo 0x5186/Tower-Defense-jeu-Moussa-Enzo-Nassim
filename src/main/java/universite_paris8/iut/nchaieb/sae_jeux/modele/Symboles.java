@@ -4,6 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Tours.Tour;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Tours.TourHeal;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.Tours.TourMusique;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Tours.TourOeil;
 
 public class Symboles {
@@ -50,7 +51,7 @@ public class Symboles {
 
         if (this.combinaison!=null ||    !this.combinaison.isEmpty()){
 
-            if (combinaison.equals(combinaisonValables.tourOeil) || combinaison.equals(combinaisonValables.tourHeal)){
+            if (combinaison.equals(combinaisonValables.tourOeil) || combinaison.equals(combinaisonValables.tourHeal) || combinaison.equals(combinaisonValables.tourMusic)){
               return true;
             }
         }
@@ -73,6 +74,10 @@ public class Symboles {
                 tour= new TourHeal(x,y);
 
             }
+            else if( combinaison.equals(combinaisonValables.tourMusic)){
+                tour= new TourMusique(x,y);
+
+            }
         }
 
         return tour;
@@ -93,6 +98,10 @@ public class Symboles {
             }
             else if(combinaison.equals(combinaisonValables.tourHeal)){
                 return "tourHeal";
+
+            }
+            else if(combinaison.equals(combinaisonValables.tourMusic)){
+                return "tourMusique";
 
             }
         }

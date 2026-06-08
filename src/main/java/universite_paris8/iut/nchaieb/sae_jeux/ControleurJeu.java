@@ -137,13 +137,9 @@ public class ControleurJeu implements Initializable{
         this.fioleVue.setFiole(fiole,this.environnement.getArgent());
 
         this.environnement.argentProperty().addListener((observable, oldValue, newValue) -> {
-
-
-            int ancienneValeur=(int) oldValue ;
             int nouvelleValeur=(int) newValue ;
-            if (nouvelleValeur!=ancienneValeur) {
-                this.fioleVue.setFiole(fiole,nouvelleValeur);
-            }
+            this.fioleVue.setFiole(fiole,nouvelleValeur);
+
 
         });
         initAnimation();
