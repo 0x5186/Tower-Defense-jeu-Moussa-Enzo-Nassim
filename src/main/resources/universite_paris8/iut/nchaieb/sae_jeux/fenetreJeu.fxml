@@ -4,7 +4,6 @@
 <?import javafx.scene.effect.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.paint.*?>
 
 <BorderPane prefHeight="1080" prefWidth="1920" style="-fx-background-color: #1a1a1a;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="universite_paris8.iut.nchaieb.sae_jeux.ControleurJeu">
    <center>
@@ -26,7 +25,7 @@
                            <children>
 
 
-                               <Button ellipsisString="" layoutX="0" layoutY="-3" mnemonicParsing="false" onAction="#actionsDesSymboles" prefHeight="7.0" prefWidth="2.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;" text="fleche">
+                               <Button fx:id="fleche" ellipsisString="" layoutX="0" layoutY="-3" mnemonicParsing="false" onAction="#actionsDesSymboles" prefHeight="7.0" prefWidth="2.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;" text="fleche">
                                    <graphic>
                                        <ImageView fitHeight="64.0" fitWidth="64.0" nodeOrientation="INHERIT" preserveRatio="true">
                                            <image>
@@ -37,7 +36,7 @@
                                    </graphic>
                                </Button>
 
-                              <Button ellipsisString="" layoutX="80" layoutY="-3" mnemonicParsing="false" onAction="#actionsDesSymboles" prefHeight="7.0" prefWidth="2.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;" text="goutte">
+                              <Button ellipsisString="" layoutX="80" layoutY="0" mnemonicParsing="false" onAction="#actionsDesSymboles" prefHeight="7.0" prefWidth="2.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;" text="goutte">
                                  <graphic>
                                     <ImageView fitHeight="64.0" fitWidth="64.0" nodeOrientation="INHERIT" preserveRatio="true">
                                        <image>
@@ -59,7 +58,7 @@
                                  </graphic>
                               </Button>
 
-                               <Button ellipsisString="" layoutX="240" layoutY="-2" mnemonicParsing="false" onAction="#actionsDesSymboles" prefHeight="7.0" prefWidth="2.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;" text="oeil">
+                               <Button ellipsisString="" layoutX="240" layoutY="-1" mnemonicParsing="false" onAction="#actionsDesSymboles" prefHeight="7.0" prefWidth="2.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;" text="oeil">
                                    <graphic>
                                        <ImageView fitHeight="64.0" fitWidth="64.0" nodeOrientation="INHERIT" preserveRatio="true">
                                            <image>
@@ -92,7 +91,7 @@
                                    </graphic>
                                </Button>
 
-                               <Button ellipsisString="" layoutX="480" layoutY="-3" mnemonicParsing="false" onAction="#actionsDesSymboles" prefHeight="7.0" prefWidth="2.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;" text="croix">
+                               <Button ellipsisString="" layoutX="480" layoutY="-1.5" mnemonicParsing="false" onAction="#actionsDesSymboles" prefHeight="7.0" prefWidth="2.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;" text="croix">
                                    <graphic>
                                        <ImageView fitHeight="64.0" fitWidth="64.0" preserveRatio="true">
                                            <image>
@@ -119,6 +118,17 @@
                                        <ImageView fitHeight="64.0" fitWidth="64.0" preserveRatio="true">
                                            <image>
                                                <Image url="@images/symboleTriangle.png">
+                                               </Image>
+                                           </image>
+                                       </ImageView>
+                                   </graphic>
+                               </Button>
+
+                               <Button ellipsisString="" layoutX="720" layoutY="-1" mnemonicParsing="false" onAction="#actionsDesSymboles" prefHeight="7.0" prefWidth="2.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;" text="corne">
+                                   <graphic>
+                                       <ImageView fitHeight="64.0" fitWidth="64.0" preserveRatio="true">
+                                           <image>
+                                               <Image url="@images/Corne.png">
                                                </Image>
                                            </image>
                                        </ImageView>
@@ -152,11 +162,7 @@
                                    </Image>
                                </image>
                            <effect>
-                              <InnerShadow radius="37.1125" width="129.45">
-                                 <color>
-                                    <Color red="1.0" green="1.0" blue="1.0" />
-                                 </color>
-                              </InnerShadow>
+                              <Bloom threshold="0.58" />
                            </effect>
                            </ImageView>
                        </graphic>

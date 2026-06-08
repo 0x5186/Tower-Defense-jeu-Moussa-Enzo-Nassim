@@ -1,10 +1,14 @@
 package universite_paris8.iut.nchaieb.sae_jeux.vue;
 
 import javafx.beans.property.StringProperty;
+import javafx.scene.effect.Bloom;
+import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import universite_paris8.iut.nchaieb.sae_jeux.Main;
+
+import java.awt.*;
 
 public class InterfaceVue {
     Image FeuilleSort = new Image(Main.class.getResourceAsStream("images/FeuillePourLesSorts.png"));
@@ -18,7 +22,7 @@ public class InterfaceVue {
     Image symboleFleche = new Image(Main.class.getResourceAsStream("images/symboleFleche.png"));
     Image symbolePic = new Image(Main.class.getResourceAsStream("images/symbolePic.png"));
     Image symboleTriangle = new Image(Main.class.getResourceAsStream("images/symboleTriangle.png"));
-//    Image tiroirDeSymboles = new Image(Main.class.getResourceAsStream("images/TiroirpourSymbole.png"));
+    Image symboleCorne = new Image(Main.class.getResourceAsStream("images/Corne.png"));
 
     private StackPane stackPane;
 
@@ -88,6 +92,9 @@ public class InterfaceVue {
             case "triangle":
                 image = new ImageView(symboleTriangle);
                 break;
+            case "corne":
+                image = new ImageView(symboleCorne);
+                break;
         }
 
         if (image != null){
@@ -111,6 +118,9 @@ public class InterfaceVue {
             image.setTranslateY(positionDeBaseY );
             image.setScaleY(0.1);
             image.setScaleX(0.1);
+            //effet glow
+            image.setEffect(new Glow(1));
+
             this.contientSymbole.getChildren().add(image);
         }
 

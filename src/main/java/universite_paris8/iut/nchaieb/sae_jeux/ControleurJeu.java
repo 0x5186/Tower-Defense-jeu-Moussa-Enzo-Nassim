@@ -237,6 +237,9 @@ public class ControleurJeu implements Initializable{
             case "triangle":
                 symbole = "triangle";
                 break;
+            case "corne":
+                symbole = "corne";
+                break;
         }
 
         if (symbole != null){
@@ -296,6 +299,5 @@ public class ControleurJeu implements Initializable{
             this.environnement.getSymboles().reset();
         }
     }
-
 }
 
