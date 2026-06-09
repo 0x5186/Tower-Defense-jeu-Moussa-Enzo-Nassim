@@ -7,30 +7,36 @@ public class Terrain {
         codeTuiles = new int[25][60];
 
         // Ligne du haut (Spawn 1)
-        for (int x = 0; x <= 45; x++) codeTuiles[8][x] = 1;
-        for (int x = 0; x <= 45; x++) codeTuiles[7][x] = 1;
+        for (int colonne = 0; colonne <= 45; colonne++) codeTuiles[8][colonne] = 1;
+        for (int colonne = 0; colonne <= 45; colonne++) codeTuiles[7][colonne] = 1;
         // Ligne du milieu
-        for (int x = 10; x <= 45; x++) codeTuiles[14][x] = 1;
-        for (int x = 10; x <= 45; x++) codeTuiles[15][x] = 1;
+        for (int colonne = 10; colonne <= 45; colonne++) codeTuiles[14][colonne] = 1;
+        for (int colonne = 10; colonne <= 45; colonne++) codeTuiles[15][colonne] = 1;
         // Ligne du bas (spawn 3)
-        for (int x = 0; x <= 10; x++) codeTuiles[21][x] = 1;
-        for (int x = 0; x <= 10; x++) codeTuiles[22][x] = 1;
+        for (int colonne = 0; colonne <= 10; colonne++) codeTuiles[21][colonne] = 1;
+        for (int colonne = 0; colonne <= 10; colonne++) codeTuiles[22][colonne] = 1;
         // Ligne finale vers la base
-        for (int x = 45; x <= 59; x++) codeTuiles[11][x] = 1;
-        for (int x = 45; x <= 59; x++) codeTuiles[12][x] = 1;
+        for (int colonne = 45; colonne <= 59; colonne++) codeTuiles[11][colonne] = 1;
+        for (int colonne = 45; colonne <= 59; colonne++) codeTuiles[12][colonne] = 1;
 
+        for (int colonne = 0; colonne <= 51; colonne++) codeTuiles[21][colonne] = 1;
+        for (int colonne = 0; colonne <= 51; colonne++) codeTuiles[22][colonne] = 1;
 
         // Descente du Spawn 2
-        for (int y = 0; y <= 15; y++) codeTuiles[y][24] = 1;
-        for (int y = 0; y <= 15; y++) codeTuiles[y][25] = 1;
+        for (int ligne = 0; ligne <= 15; ligne++) codeTuiles[ligne][24] = 1;
+        for (int ligne = 0; ligne <= 15; ligne++) codeTuiles[ligne][25] = 1;
 
         // Remontée depuis le trait noir du bas
-        for (int y = 15; y <= 22; y++) codeTuiles[y][11] = 1;
-        for (int y = 15; y <= 22; y++) codeTuiles[y][10] = 1;
+        for (int ligne = 8; ligne <= 15; ligne++) codeTuiles[ligne][11] = 1;
+        for (int ligne = 8; ligne <= 15; ligne++) codeTuiles[ligne][10] = 1;
 
         // Descente vers la base
-        for (int y = 8; y <= 14; y++) codeTuiles[y][44] = 1;
-        for (int y = 8; y <= 14; y++) codeTuiles[y][45] = 1;
+        for (int ligne = 8; ligne <= 14; ligne++) codeTuiles[ligne][44] = 1;
+        for (int ligne = 8; ligne <= 14; ligne++) codeTuiles[ligne][45] = 1;
+
+        for (int ligne = 11; ligne <= 22; ligne++) codeTuiles[ligne][50] = 1;
+        for (int ligne = 11; ligne <= 22; ligne++) codeTuiles[ligne][51] = 1;
+
 
     }
 
@@ -38,8 +44,8 @@ public class Terrain {
     public int largeur() { return codeTuiles[0].length; }
     public int codeTuile(int ligne, int col) { return codeTuiles[ligne][col]; }
 
-    public boolean estPraticable(int x, int y) {
-        if (x < 0 || x >= largeur() || y < 0 || y >= hauteur()) return false;
-        return codeTuiles[y][x] == 1;
+    public boolean estPraticable(int colonne, int ligne) {
+        if (colonne < 0 || colonne >= largeur() || ligne < 0 || ligne >= hauteur()) return false;
+        return codeTuiles[ligne][colonne] == 1;
     }
 }

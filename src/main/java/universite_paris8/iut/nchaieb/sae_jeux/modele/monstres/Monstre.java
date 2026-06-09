@@ -50,13 +50,19 @@ public abstract class Monstre extends Entite {
         if (portailAleatoire == 0) {
             this.setPosX(0);
             this.setPosY(8 * TAILLE_TUILE); // Spawn 1 (Haut gauche)
+            this.targetX = 58;              // Cible : La Base
+            this.targetY = 12;
         } else if (portailAleatoire == 1) {
-            this.setPosX(25 * TAILLE_TUILE);
-            this.setPosY(0); // Spawn 2 (Haut milieu)
+            this.setPosX(24 * TAILLE_TUILE);
+            this.setPosY(0);                // Spawn 2 (Haut milieu)
+            this.targetX = 24;              // Cible temporaire (cercle rouge)
+            this.targetY = 14;
         } else {
             // Le nouveau Spawn sur le trait noir en bas à gauche (Ligne 22)
             this.setPosX(0);
             this.setPosY(22 * TAILLE_TUILE);
+            this.targetX = 58;              // Cible : La Base
+            this.targetY = 12;
         }
 
         // Sécurité
@@ -65,11 +71,9 @@ public abstract class Monstre extends Entite {
         if (!terrain.estPraticable(gx, gy)) {
             this.setPosX(0);
             this.setPosY(8 * TAILLE_TUILE);
+            this.targetX = 58;              // Cible de sécurité
+            this.targetY = 12;
         }
-
-        // Cible : La Base
-        this.targetX = 58;
-        this.targetY = 12;
     }
 
     public void agir(ObservableList<Monstre> collegues, Terrain terrain, Base base) {
@@ -99,6 +103,7 @@ public abstract class Monstre extends Entite {
     private void avancer(Terrain terrain) {
         if (terrain == null) return;
 
+        // Calcul du chemin si ce n'est pas encore fait ou s'il faut le recalculer
         if (!cheminCalcule) {
             int gx = this.getPosX() / TAILLE_TUILE;
             int gy = this.getPosY() / TAILLE_TUILE;
@@ -115,20 +120,33 @@ public abstract class Monstre extends Entite {
 
         if (this.chemin == null || this.chemin.isEmpty()) return;
 
+        // Récup du prochain nœud à atteindre
         Noeud n = this.chemin.get(0);
         int cibleX = n.x * TAILLE_TUILE;
         int cibleY = n.y * TAILLE_TUILE;
         int dx = cibleX - this.getPosX();
         int dy = cibleY - this.getPosY();
 
+        // Déplacement du monstre
         if (dx != 0) {
             this.setPosX(this.getPosX() + (dx > 0 ? 1 : -1));
         } else if (dy != 0) {
             this.setPosY(this.getPosY() + (dy > 0 ? 1 : -1));
         }
 
+        // vérif si le monstre a atteint la case visée
         if (this.getPosX() == cibleX && this.getPosY() == cibleY) {
             this.chemin.remove(0);
+            // On retire le nœud atteint
+
+            // Si le monstre a terminé son chemin actuel
+            if (this.chemin.isEmpty()) {
+                if (this.targetX != 58 || this.targetY != 12) {
+                    this.targetX = 58;
+                    this.targetY = 12;
+                    this.cheminCalcule = false;
+                }
+            }
         }
     }
 
