@@ -86,7 +86,7 @@ public class ControleurJeu implements Initializable {
         environnement = new Environnement(this.terrain);
 
         // V2 : Nouveaux constructeurs et ajout des Projectiles
-        this.baseVue = new BaseVue(this.pane, this.environnement.getBase());
+        this.baseVue = new BaseVue(this.pane);
         MonObservateurMonstre observateurMonstres = new MonObservateurMonstre(pane, this.baseVue);
         MonObservateurTour monObservateurTour = new MonObservateurTour(pane);
         MonObservateurProjectiles monObservateurProjectiles = new MonObservateurProjectiles(pane);
@@ -95,7 +95,7 @@ public class ControleurJeu implements Initializable {
         environnement.getLesTours().addListener(monObservateurTour);
         environnement.getLesProjectiles().addListener(monObservateurProjectiles);
 
-        baseVue.ajouterSprite();
+        baseVue.ajouterSprite(this.environnement.getBase());
 
         this.fioleVue.setFiole(fiole, this.environnement.getArgent());
 
