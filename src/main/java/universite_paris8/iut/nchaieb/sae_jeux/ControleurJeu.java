@@ -50,6 +50,7 @@ public class ControleurJeu implements Initializable{
     Terrain terrain;
     MonstreVue monstreVue;
     InterfaceVue interfaceVue;
+    TutorielVue tutorielVue;
     private BaseVue baseVue;
     private FioleVue fioleVue;
 
@@ -60,7 +61,7 @@ public class ControleurJeu implements Initializable{
 
 
 
-
+    private MonObservateurTutoriel monObservateurTutoriel;
     private MonObservateurSymbole monObservateurSymbole;
     private SourisVue sourisVue;
 
@@ -120,6 +121,7 @@ public class ControleurJeu implements Initializable{
         this.interfaceVue = new InterfaceVue(stackPane);
         this.baseVue= new BaseVue(this.pane);
         this.terrainVue = new TerrainVue(terrain, tilePane);
+        this.tutorielVue = new TutorielVue(stackPane);
 
 
         System.out.println(Main.map);
@@ -195,8 +197,9 @@ public class ControleurJeu implements Initializable{
         this.interfaceVue.dessinMenu();
 
 
-
-
+        //partie tuto
+        MonObservateurTutoriel monObservateurTutoriel = new MonObservateurTutoriel(this.tutorielVue);
+        this.tutorielVue.tutoProperty().addListener(monObservateurTutoriel);
 
     }
 
@@ -374,5 +377,12 @@ public class ControleurJeu implements Initializable{
             this.environnement.getSymboles().reset();
         }
     }
+
+    @FXML
+    public void deroulerParcheminTutoriel() {
+        System.out.println("je suis ici");
+        this.tutorielVue.afficherTutot();
+    }
+
 }
 

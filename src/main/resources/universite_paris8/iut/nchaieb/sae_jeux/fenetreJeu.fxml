@@ -157,7 +157,6 @@
                                    </graphic>
                                </Button>
 
-
                            </children></AnchorPane>
                     </content>
 <!--                     <effect><Glow level="0.07" />-->
@@ -173,6 +172,28 @@
                            </ImageView>
                        </graphic>
                    </Label>
+
+                   <Button fx:id="parcheminTuto" layoutX="1820" layoutY="50" mnemonicParsing="false" onAction="#deroulerParcheminTutoriel" prefHeight="7.0" prefWidth="2.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;" text="parcheminTuto">
+                       <graphic>
+                           <ImageView fitHeight="64.0" fitWidth="64.0" preserveRatio="true">
+                               <image>
+                                   <Image url="@images/barriere.png">
+                                   </Image>
+                               </image>
+                           </ImageView>
+                       </graphic>
+                   </Button>
+
+                   <Button fx:id="boutonPageSuivante" layoutX="1820" layoutY="50" mnemonicParsing="false" onAction="#tournerDePage" prefHeight="7.0" prefWidth="2.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;" text="parcheminTuto">
+                       <graphic>
+                           <ImageView fitHeight="64.0" fitWidth="64.0" preserveRatio="true">
+                               <image>
+                                   <Image url="@images/barriere.png">
+                                   </Image>
+                               </image>
+                           </ImageView>
+                       </graphic>
+                   </Button>
 <!--                   <Button fx:id="boutonAjouterTour" layoutX="500.0" layoutY="95.0" prefHeight="50.0" prefWidth="150.0" style="-fx-font-size: 16px;" mnemonicParsing="false" onAction="#activerModePlacementTour" text="Ajouter tour" />-->
 <!--                   <Button fx:id="boutonOuvrirTiroir" layoutX="1461.0" layoutY="-262.0" mnemonicParsing="false" onAction="#AppuyerSurOuvrirTiroir" prefHeight="206.0" prefWidth="160.0" scaleX="3.0" scaleY="3.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;" />-->
 <!--                     <ImageView fitHeight="200" fitWidth="200" layoutX="1478.0" layoutY="-298.0" pickOnBounds="false" preserveRatio="true" scaleX="3.0" scaleY="3.0">-->
