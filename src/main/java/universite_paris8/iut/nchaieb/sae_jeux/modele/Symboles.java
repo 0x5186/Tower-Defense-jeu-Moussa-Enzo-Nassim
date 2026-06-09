@@ -37,17 +37,41 @@ public class Symboles {
         this.combinaison.clear();
     }
 
-    public Tour verifierCombinaison(){
+    public boolean verifierCombinaison(){
         if (this.combinaison != null && !this.combinaison.isEmpty()){
             if (combinaison.equals(combinaisonValables.tourOeil)){
                 System.out.println("Combinaison validée : Tour Oeil");
-                return new TourOeil(0, 0);
+                return true;
             }
             else if(combinaison.equals(combinaisonValables.tourHeal)){
                 System.out.println("Combinaison validée : Tour Heal");
-                return new TourHeal(0, 0);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public Tour CombinaisonGetTour(int x, int y) {
+        if (this.combinaison != null && !this.combinaison.isEmpty()){
+            if (combinaison.equals(combinaisonValables.tourOeil)){
+                return new TourOeil(x, y);
+            }
+            else if(combinaison.equals(combinaisonValables.tourHeal)){
+                return new TourHeal(x, y);
             }
         }
         return null;
+    }
+
+    public String CombinaisonGetTourString() {
+        if (this.combinaison != null && !this.combinaison.isEmpty()){
+            if (combinaison.equals(combinaisonValables.tourOeil)){
+                return "tourOeil";
+            }
+            else if(combinaison.equals(combinaisonValables.tourHeal)){
+                return "tourHeal";
+            }
+        }
+        return "";
     }
 }

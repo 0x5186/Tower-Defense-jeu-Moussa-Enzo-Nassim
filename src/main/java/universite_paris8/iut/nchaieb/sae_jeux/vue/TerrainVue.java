@@ -11,6 +11,7 @@ import universite_paris8.iut.nchaieb.sae_jeux.Main;
 public class TerrainVue {
     Image herbeBasse = new Image(Main.class.getResourceAsStream("images/herbe-basse.png"));
     Image herbeHaute = new Image(Main.class.getResourceAsStream("images/herbe-haute.png"));
+    Image herbeDefaut = new Image(Main.class.getResourceAsStream("images/herbehaute2.png"));
     Image terrainChemin = new Image(Main.class.getResourceAsStream("images/terrain.png"));
     Image portail = new Image(Main.class.getResourceAsStream("images/portail.png"));
 
@@ -23,28 +24,26 @@ public class TerrainVue {
     }
 
     public void dessine(int map, Pane pane) {
-        // Portail de spawn gauche
         ImageView portailSpawn1 = new ImageView(portail);
         portailSpawn1.setLayoutX(0);
-        portailSpawn1.setTranslateY(100);
+        portailSpawn1.setTranslateY(256);
         portailSpawn1.setViewport(new Rectangle2D(125, 0, 125, 80));
         pane.getChildren().add(portailSpawn1);
 
         if (map == 1) { return; }
-
-        terrain.terrainPlainesCode();
         this.tilePane.getChildren().clear();
 
         for (int l = 0; l < this.terrain.hauteur(); l++) {
             for (int col = 0; col < this.terrain.largeur(); col++) {
                 ImageView imageView = new ImageView();
-                imageView.setFitWidth(24);
-                imageView.setFitHeight(24);
+
+                imageView.setFitWidth(32);
+                imageView.setFitHeight(32);
 
                 switch (this.terrain.codeTuile(l, col)) {
-                    case 0: imageView.setImage(herbeBasse);    break;
-                    case 1: imageView.setImage(herbeHaute);    break;
-                    case 2: imageView.setImage(terrainChemin); break;
+                    case 0: imageView.setImage(herbeDefaut);    break;
+                    case 1: imageView.setImage(terrainChemin); break;
+                    case 2: imageView.setImage(herbeDefaut);    break;
                 }
 
                 if (imageView.getImage() != null) {

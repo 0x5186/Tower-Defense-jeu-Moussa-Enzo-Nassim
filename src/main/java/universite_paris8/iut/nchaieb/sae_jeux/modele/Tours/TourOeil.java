@@ -7,7 +7,7 @@ import universite_paris8.iut.nchaieb.sae_jeux.modele.monstres.Monstre;
 public class TourOeil extends Tour {
 
     public TourOeil(int x, int y) {
-        super(100,5,x,y, 50,25);
+        super(150,5,x,y, 50,25);
 
     }
 

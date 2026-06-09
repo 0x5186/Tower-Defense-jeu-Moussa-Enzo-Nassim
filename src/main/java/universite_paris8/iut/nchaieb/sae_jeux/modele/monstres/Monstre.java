@@ -24,7 +24,7 @@ public abstract class Monstre extends Entite {
 
     private ArrayList<Noeud> chemin;
     private boolean cheminCalcule = false;
-    private final int TAILLE_TUILE = 16;
+    private final int TAILLE_TUILE = 32; // FIXÉ À 32 !
     private int targetX;
     private int targetY;
 
@@ -49,16 +49,17 @@ public abstract class Monstre extends Entite {
 
         if (portailAleatoire == 0) {
             this.setPosX(0);
-            this.setPosY(8 * TAILLE_TUILE);
+            this.setPosY(8 * TAILLE_TUILE); // Spawn 1 (Haut gauche)
         } else if (portailAleatoire == 1) {
-            this.setPosX(50 * TAILLE_TUILE);
-            this.setPosY(0);
+            this.setPosX(25 * TAILLE_TUILE);
+            this.setPosY(0); // Spawn 2 (Haut milieu)
         } else {
-            this.setPosX(10 * TAILLE_TUILE);
-            this.setPosY(43 * TAILLE_TUILE);
+            // Le nouveau Spawn sur le trait noir en bas à gauche (Ligne 22)
+            this.setPosX(0);
+            this.setPosY(22 * TAILLE_TUILE);
         }
 
-        // Fallback si la case n'est pas praticable
+        // Sécurité
         int gx = this.getPosX() / TAILLE_TUILE;
         int gy = this.getPosY() / TAILLE_TUILE;
         if (!terrain.estPraticable(gx, gy)) {
@@ -66,8 +67,9 @@ public abstract class Monstre extends Entite {
             this.setPosY(8 * TAILLE_TUILE);
         }
 
-        this.targetX = 119;
-        this.targetY = 26;
+        // Cible : La Base
+        this.targetX = 58;
+        this.targetY = 12;
     }
 
     public void agir(ObservableList<Monstre> collegues, Terrain terrain, Base base) {

@@ -7,7 +7,6 @@ import universite_paris8.iut.nchaieb.sae_jeux.modele.monstres.Monstre;
 public class TourHeal extends Tour {
     private int heal;
 
-
     public TourHeal(int x, int y) {
         super(0,0,x,y, 6000, 50);
         this.heal=10;

@@ -37,7 +37,7 @@ public class MonstreVue {
         }
         if (monstre instanceof Sorcier) {
             iv = new ImageView(sorcier);
-            iv.setViewport(new Rectangle2D(0, 0, 80, 80));
+            iv.setViewport(new Rectangle2D(0, 0, 72, 72));
             // Sprite 80x80, tuile 16x16 → décalage (80-16)/2 = 32px pour centrer
             iv.translateXProperty().bind(monstre.posXProperty().subtract(32));
             iv.translateYProperty().bind(monstre.posYProperty().subtract(32));

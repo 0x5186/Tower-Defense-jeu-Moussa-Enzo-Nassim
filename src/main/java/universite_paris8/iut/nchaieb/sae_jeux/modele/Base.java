@@ -7,11 +7,10 @@ public class Base {
     private int posY;
 
     public Base() {
-        this.posY = 70;
-        this.posX = 1735;
+        this.posX = 1856; // 58 * 32px
+        this.posY = 384;  // 12 * 32px
         this.pvMax = 100;
         this.pv = this.pvMax;
-
     }
 
     public int getPv() {

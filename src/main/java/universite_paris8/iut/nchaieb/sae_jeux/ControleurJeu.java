@@ -114,7 +114,10 @@ public class ControleurJeu implements Initializable {
                         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
                             e.printStackTrace();
                         }
-                        this.environnement.ajouterTour(this.environnement.getSymboles().CombinaisonGetTour((int) event.getX(), (int) event.getY()));
+
+                        int snappedX = ((int) event.getX() / 32) * 32;
+                        int snappedY = ((int) event.getY() / 32) * 32;
+                        this.environnement.ajouterTour(this.environnement.getSymboles().CombinaisonGetTour(snappedX, snappedY));
                         this.environnement.getSymboles().reset();
                         this.environnement.setModePlacementTour(false);
                         this.interfaceVue.viderSumbolesAffiches();

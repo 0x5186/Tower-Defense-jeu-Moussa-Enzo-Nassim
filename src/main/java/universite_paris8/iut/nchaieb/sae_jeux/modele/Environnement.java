@@ -84,7 +84,7 @@ public class Environnement {
 
 	// Version 1 : placement via clic pixel
 	public void placerLaTourAttente(double xPixel, double yPixel) {
-		int TAILLE_TUILE = 16;
+		int TAILLE_TUILE = 32;
 		int gridX = (int) (xPixel / TAILLE_TUILE);
 		int gridY = (int) (yPixel / TAILLE_TUILE);
 
@@ -172,9 +172,10 @@ public class Environnement {
 	}
 
 	public boolean tourPosable(double xPixel, double yPixel) {
-		int TAILLE_TUILE = 16;
+		int TAILLE_TUILE = 32;
 		int gridX = (int) (xPixel / TAILLE_TUILE);
 		int gridY = (int) (yPixel / TAILLE_TUILE);
+		if(gridY >= 25) return false;
 		return !this.terrain.estPraticable(gridX, gridY);
 	}
 
