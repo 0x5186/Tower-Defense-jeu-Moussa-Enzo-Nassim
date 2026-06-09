@@ -41,6 +41,8 @@ public class ControleurJeu implements Initializable{
     private Pane pane;
     @FXML
     private ImageView fiole;
+    @FXML
+    private Button boutonPageSuivante;
 
 
 
@@ -200,6 +202,7 @@ public class ControleurJeu implements Initializable{
         //partie tuto
         MonObservateurTutoriel monObservateurTutoriel = new MonObservateurTutoriel(this.tutorielVue);
         this.tutorielVue.tutoProperty().addListener(monObservateurTutoriel);
+        this.boutonPageSuivante.setVisible(false);
 
     }
 
@@ -382,7 +385,16 @@ public class ControleurJeu implements Initializable{
     public void deroulerParcheminTutoriel() {
         System.out.println("je suis ici");
         this.tutorielVue.afficherTutot();
+        this.boutonPageSuivante.setVisible(!this.boutonPageSuivante.isVisible());
     }
+
+    @FXML
+    public void tournerDePage(){
+        this.tutorielVue.changerPage();
+    }
+
+
+
 
 }
 

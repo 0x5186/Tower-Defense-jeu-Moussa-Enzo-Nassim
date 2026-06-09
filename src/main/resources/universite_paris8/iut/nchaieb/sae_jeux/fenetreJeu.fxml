@@ -173,7 +173,7 @@
                        </graphic>
                    </Label>
 
-                   <Button fx:id="parcheminTuto" layoutX="1820" layoutY="50" mnemonicParsing="false" onAction="#deroulerParcheminTutoriel" prefHeight="7.0" prefWidth="2.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;" text="parcheminTuto">
+                   <Button fx:id="parcheminTuto" layoutX="1820" layoutY="50" mnemonicParsing="false" onAction="#deroulerParcheminTutoriel" prefHeight="7.0" prefWidth="2.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;">
                        <graphic>
                            <ImageView fitHeight="64.0" fitWidth="64.0" preserveRatio="true">
                                <image>
@@ -184,7 +184,7 @@
                        </graphic>
                    </Button>
 
-                   <Button fx:id="boutonPageSuivante" layoutX="1820" layoutY="50" mnemonicParsing="false" onAction="#tournerDePage" prefHeight="7.0" prefWidth="2.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;" text="parcheminTuto">
+                   <Button fx:id="boutonPageSuivante" layoutX="1820" layoutY="-200" mnemonicParsing="false" onAction="#tournerDePage" prefHeight="7.0" prefWidth="2.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;">
                        <graphic>
                            <ImageView fitHeight="64.0" fitWidth="64.0" preserveRatio="true">
                                <image>
