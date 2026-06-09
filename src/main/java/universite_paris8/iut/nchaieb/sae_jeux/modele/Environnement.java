@@ -98,7 +98,7 @@ public class Environnement {
 	}
 
 	public void ajouterMonstre() {
-		Monstre monstre = new Squelette(this.terrain);
+		Monstre monstre = new Nargacuga(this.terrain);
 		lesMonstres.add(monstre);
 	}
 
@@ -116,6 +116,7 @@ public class Environnement {
 		switch (codeMonstre) {
 			case 0: monstre = new Squelette(this.terrain); break;
 			case 1: monstre = new Sorcier(this.terrain); break;
+			case 2: monstre = new Nargacuga(this.terrain); break;
 		}
 		if (monstre != null) {
 			this.lesMonstres.add(monstre);

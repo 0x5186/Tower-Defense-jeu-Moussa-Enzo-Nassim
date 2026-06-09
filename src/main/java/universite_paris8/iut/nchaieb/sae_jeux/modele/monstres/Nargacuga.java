@@ -1,15 +1,13 @@
 package universite_paris8.iut.nchaieb.sae_jeux.modele.monstres;
 
+import universite_paris8.iut.nchaieb.sae_jeux.modele.Entite;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Terrain;
 
-public class Sorcier extends Monstre {
-
-    public  Sorcier(Terrain terrain){
-        super(1, 10, 1,terrain);
+public class Nargacuga extends Monstre {
+    public Nargacuga (Terrain terrain){
+        super(1, 10, 4,terrain);
         this.nombreDePV=pvMax;
         this.actionActuelle.set("fixe");
-        this.portee= 100;
+        this.portee= 2;
     }
-
-
 }

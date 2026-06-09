@@ -55,7 +55,7 @@ public abstract class Monstre extends Entite {
         } else if (portailAleatoire == 1) {
             this.setPosX(24 * TAILLE_TUILE);
             this.setPosY(0);                // Spawn 2 (Haut milieu)
-            this.targetX = 24;              // Cible temporaire (cercle rouge)
+            this.targetX = 24;              // Cible temporaire pour diriger le monstre vers le bas
             this.targetY = 14;
         } else {
             // Le nouveau Spawn sur le trait noir en bas à gauche (Ligne 22)

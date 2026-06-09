@@ -8,6 +8,7 @@ import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 import universite_paris8.iut.nchaieb.sae_jeux.Main;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.*;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.monstres.Nargacuga;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.monstres.Sorcier;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.monstres.Squelette;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.monstres.Monstre;
@@ -20,6 +21,7 @@ public class MonstreVue {
     private HashMap hashMapAnimation = new HashMap<Monstre, Timeline>();
     Image squelette = new Image(Main.class.getResourceAsStream("images/squelette(3).png"));
     Image sorcier = new Image(Main.class.getResourceAsStream("images/sorcier.png"));
+    Image nargacuga = new Image(Main.class.getResourceAsStream("images/nargacuga.png"));
 
     public MonstreVue(Pane pane) {
         this.pane = pane;
@@ -41,6 +43,13 @@ public class MonstreVue {
             // Sprite 80x80, tuile 16x16 → décalage (80-16)/2 = 32px pour centrer
             iv.translateXProperty().bind(monstre.posXProperty().subtract(32));
             iv.translateYProperty().bind(monstre.posYProperty().subtract(32));
+        }
+        if (monstre instanceof Nargacuga) {
+            iv = new ImageView(nargacuga);
+            iv.setViewport(new Rectangle2D(0, 0, 100,100));
+            iv.translateXProperty().bind(monstre.posXProperty().subtract(48));
+            iv.translateYProperty().bind(monstre.posYProperty().subtract(48));
+
         }
 
         this.hashMap.put(monstre, iv);
@@ -87,6 +96,29 @@ public class MonstreVue {
             this.hashMapAnimation.put(monstre, squeletteMarche);
             squeletteMarche.setCycleCount(Animation.INDEFINITE);
             squeletteMarche.play();
+        }
+
+        if(monstre instanceof Nargacuga ) {
+            int[] frameIndex = {0};
+            int largeurCaseNargacuga = 100;
+            int hauteurCaseNargacuga = 100;
+
+            Timeline nargacugaMarche = new Timeline(
+                    new KeyFrame(Duration.millis(150), event -> {
+                        int x = frameIndex [0] % 2;
+                        int y = frameIndex[0] / 2;
+
+                        iv.setViewport(new Rectangle2D(x * largeurCaseNargacuga, y * hauteurCaseNargacuga, largeurCaseNargacuga, hauteurCaseNargacuga));
+
+                        frameIndex[0]++;
+                        if(frameIndex[0] >= 3){
+                            frameIndex[0] = 0;
+                        }
+                    })
+            );
+            this.hashMapAnimation.put(monstre, nargacugaMarche);
+            nargacugaMarche.setCycleCount(Animation.INDEFINITE);
+            nargacugaMarche.play();
         }
     }
 
@@ -149,5 +181,16 @@ public class MonstreVue {
             fade.play();
         });
         squeletteMort.play();
+
+        if (monstre instanceof Nargacuga) {
+            FadeTransition fade = new FadeTransition(Duration.seconds(1), iv);
+            fade.setFromValue(1.0);
+            fade.setToValue(0.0);
+            fade.setOnFinished(fadeEvent -> {
+                this.hashMap.remove(iv);
+                this.retirer(monstre);
+            });
+            fade.play();
+        }
     }
 }
