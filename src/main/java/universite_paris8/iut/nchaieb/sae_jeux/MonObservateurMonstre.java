@@ -5,17 +5,21 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Entite;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.monstres.Monstre;
+import universite_paris8.iut.nchaieb.sae_jeux.vue.BaseVue;
 import universite_paris8.iut.nchaieb.sae_jeux.vue.MonstreVue;
 
 public class MonObservateurMonstre implements ListChangeListener<Monstre> {
 
     private Pane pane;
     private MonstreVue monstreVue;
+    private BaseVue baseVue;
 
-    public MonObservateurMonstre(Pane pane) {
+    public MonObservateurMonstre(Pane pane, BaseVue baseVue) {
         super();
         this.pane = pane;
         this.monstreVue = new MonstreVue(this.pane);
+        this.baseVue= baseVue;
+        System.out.println(baseVue);
     }
 
 
@@ -51,7 +55,12 @@ public class MonObservateurMonstre implements ListChangeListener<Monstre> {
 
                     });
 
+                }System.out.println(baseVue);
+                if(this.baseVue!=null) {
+
+                    this.baseVue.rechargerpart2();
                 }
+
             }
             if(change.wasRemoved()) {
                 System.out.println("je suis morttttttttttttt");

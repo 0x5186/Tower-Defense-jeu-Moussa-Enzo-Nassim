@@ -72,6 +72,7 @@ public class ControleurJeu implements Initializable{
                 Duration.seconds(0.01),
 
                 (ev ->{
+
                     temps.setValue(temps.getValue()+1);
                     this.environnement.unTour();
                     if (environnement.getBase().getPv()==0){
@@ -118,26 +119,36 @@ public class ControleurJeu implements Initializable{
 
         this.fioleVue= new FioleVue(stackPane);
         this.sourisVue= new SourisVue(stackPane);
-        this.monstreVue= new MonstreVue(pane);
+        this.monstreVue= new MonstreVue(this.pane);
         this.interfaceVue = new InterfaceVue(stackPane);
-        this.baseVue= new BaseVue(this.pane);
+
         this.terrainVue = new TerrainVue(terrain, tilePane);
 
 
         System.out.println(Main.map);
         terrainVue.dessine(Main.map, this.pane);
-        MonObservateurMonstre observateurMonstres = new MonObservateurMonstre(pane);
+        environnement= new Environnement(this.terrain);
+        this.baseVue= new BaseVue(this.pane, this.environnement.getBase());
+        MonObservateurMonstre observateurMonstres = new MonObservateurMonstre(pane, this.baseVue);
         MonObservateurTour monObservateurTour = new MonObservateurTour(pane);
         MonObservateurProjectiles monObservateurProjectiles = new MonObservateurProjectiles(pane);
 
-        environnement= new Environnement(this.terrain);
+        System.out.println(this.baseVue);
+
+
+
+
         environnement.getLesMonstres().addListener(observateurMonstres);
         environnement.getLesTours().addListener(monObservateurTour);
-        baseVue.ajouterSprite(this.environnement.getBase());
         environnement.getLesProjectiles().addListener(monObservateurProjectiles);
+
+
+
 
         this.fioleVue.setFiole(fiole,this.environnement.getArgent());
 
+
+        baseVue.ajouterSprite();
         this.environnement.argentProperty().addListener((observable, oldValue, newValue) -> {
             int nouvelleValeur=(int) newValue ;
             this.fioleVue.setFiole(fiole,nouvelleValeur);

@@ -7,7 +7,7 @@ public class Base {
     private int posY;
 
     public Base() {
-        this.posY = 70;
+        this.posY = 40;
         this.posX = 1735;
         this.pvMax = 100;
         this.pv = this.pvMax;

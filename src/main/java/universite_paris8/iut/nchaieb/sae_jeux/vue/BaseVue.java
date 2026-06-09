@@ -10,24 +10,39 @@ import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 import universite_paris8.iut.nchaieb.sae_jeux.Main;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Base;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.monstres.Monstre;
 
 public class BaseVue {
     private Pane pane;
+    private Base base;
     Image tour_magicien = new Image(Main.class.getResourceAsStream("images/tour_magicien.png"));
+    Image tour_magicien_part2 = new Image(Main.class.getResourceAsStream("images/tour_magicien_part2.png"));
+    ImageView part2 =new ImageView(tour_magicien_part2);
 
-    public BaseVue(Pane pane) {
+
+
+    public BaseVue(Pane pane,Base base) {
         this.pane = pane;
+        this.base=base;
     }
-    public void ajouterSprite (Base base) {
+
+
+    public void ajouterSprite () {
         ImageView imageView=  new ImageView(tour_magicien);
+
         imageView.setViewport(new Rectangle2D(0,0,219,375));
+
+        part2.setLayoutX(base.getPosX());
+        part2.setLayoutY(base.getPosY());
         imageView.setLayoutX(base.getPosX());
         imageView.setLayoutY(base.getPosY());
         pane.getChildren().add(imageView);
+        pane.getChildren().add(part2);
+
 
 
         int largeurCase = 219;
-        int hauteurCase = 375;
+        int hauteurCase = 400;
         int[] frameIndex = {0};
 
 
@@ -36,20 +51,11 @@ public class BaseVue {
 
                 new KeyFrame(Duration.seconds(0.15), e -> {
 
-                    int x, y;
-                    if (frameIndex[0] < 8) {
-                        x = frameIndex[0] % 4;
-                        y= frameIndex[0] / 4;
-                    } else {
-                        x = frameIndex[0] - 8;
-                        y = 2;
-                    }
-
 
 
                     frameIndex[0]++;
                     if (frameIndex[0] == 11) frameIndex[0] = 0;
-                    imageView.setViewport(new Rectangle2D(x* largeurCase, y * hauteurCase, largeurCase, hauteurCase));
+                    imageView.setViewport(new Rectangle2D(frameIndex[0] * largeurCase, 0, largeurCase, hauteurCase));
 
                 })
         );
@@ -63,6 +69,12 @@ public class BaseVue {
 
 
     }
+    public void rechargerpart2(){
+        part2.toFront();
+
+
+    }
+
 
 
 }
