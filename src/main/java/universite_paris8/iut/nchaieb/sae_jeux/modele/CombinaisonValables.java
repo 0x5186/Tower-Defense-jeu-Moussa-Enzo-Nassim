@@ -6,11 +6,14 @@ import java.util.List;
 public class CombinaisonValables {
     protected ArrayList<String> tourOeil;
     protected ArrayList<String> tourHeal;
+    protected ArrayList<String> tourMusic;
 
 
     public CombinaisonValables() {
         this.tourOeil = new ArrayList<String>(List.of("oeil", "croix", "eclipse"));
-        this.tourHeal = new ArrayList<String>(List.of("croix","goutte" ,"oiseau", "spirale"));
+        this.tourHeal = new ArrayList<String>(List.of("croix","goutte" ,"crystal", "spirale"));
+        this.tourMusic = new ArrayList<String>(List.of("eclipse","spirale"));
+
     }
 
 

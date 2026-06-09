@@ -8,6 +8,11 @@
     -fx-background-insets: 1;
 }
 
+/*.scroll-bar:horizontal *.increment-arrow .content,*/
+/*.scroll-bar:horizontal *.decrement-arrow .content{*/
+/*    -fx-background-color: #6800ca;*/
+/*}*/
+
 .scroll-bar:horizontal, .scroll-bar:horizontal{
     -fx-background-color:transparent;
 }

@@ -2,13 +2,14 @@ package universite_paris8.iut.nchaieb.sae_jeux.modele.Tours;
 
 import javafx.collections.ObservableList;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Base;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.Environnement;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Projectile;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.monstres.Monstre;
 
-public class TourOeil extends Tour {
+public class TourMusique extends Tour{
 
-    public TourOeil(int x, int y) {
-        super(150,5,x,y, 50,25);
+    public TourMusique(int x, int y) {
+        super(300,3,x,y, 150,15);
 
     }
 
@@ -23,8 +24,11 @@ public class TourOeil extends Tour {
                 monstrePlusProche = this.plusProche(listeMonstre);
                 if (monstrePlusProche != null) {
                     this.setActionActuelle("fixe");
-
-                    this.infligerDegat(monstrePlusProche);
+                    System.out.println("x="+this.getPosX());
+                    System.out.println("y="+this.getPosY());
+                    Projectile note = new Projectile(this.getPosX(), this.getPosY(),monstrePlusProche, "tourmusique",this.getAtq(), 5);
+                    projectiles.add(note);
+//                    this.infligerDegat(monstrePlusProche);
                     this.setActionActuelle("attaque");
                     this.setCooldown(0);
                     System.out.println("j'attaque");
@@ -34,5 +38,4 @@ public class TourOeil extends Tour {
         }
 
     }
-
 }

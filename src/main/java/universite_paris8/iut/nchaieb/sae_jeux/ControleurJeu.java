@@ -16,8 +16,6 @@ import javafx.util.Duration;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Environnement;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Terrain;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.CombinaisonValables;
-import universite_paris8.iut.nchaieb.sae_jeux.modele.Tours.Tour;
-import universite_paris8.iut.nchaieb.sae_jeux.modele.Tours.TourOeil;
 import universite_paris8.iut.nchaieb.sae_jeux.vue.*;
 
 import javax.sound.sampled.LineUnavailableException;
@@ -44,6 +42,7 @@ public class ControleurJeu implements Initializable {
     InterfaceVue interfaceVue;
     private BaseVue baseVue;
     private FioleVue fioleVue;
+
     private MonObservateurSymbole monObservateurSymbole;
     private SourisVue sourisVue;
 
@@ -66,10 +65,10 @@ public class ControleurJeu implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        // Musique de fond
+        // Musique de fond (Boucle 1000 fois selon la V2)
         try {
-            JouerSon musiqueFond = new JouerSon("src/main/resources/universite_paris8/iut/nchaieb/sae_jeux/Sons/musiqueJeu.wav", 0);
-            musiqueFond.setVolume(0.75f);
+            JouerSon musiqueFond = new JouerSon("src/main/resources/universite_paris8/iut/nchaieb/sae_jeux/Sons/musiqueJeu.wav", 1000);
+            musiqueFond.setVolume(0.85f);
             musiqueFond.play();
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
             e.printStackTrace();
@@ -78,19 +77,25 @@ public class ControleurJeu implements Initializable {
         this.terrain = new Terrain();
         this.fioleVue = new FioleVue(stackPane);
         this.sourisVue = new SourisVue(stackPane);
-        this.monstreVue = new MonstreVue(pane);
+        this.monstreVue = new MonstreVue(this.pane);
         this.interfaceVue = new InterfaceVue(stackPane);
-        this.baseVue = new BaseVue(this.pane);
         this.terrainVue = new TerrainVue(terrain, tilePane);
 
         terrainVue.dessine(Main.map, this.pane);
-        MonObservateurMonstre observateurMonstres = new MonObservateurMonstre(pane);
-        MonObservateurTour monObservateurTour = new MonObservateurTour(pane);
 
         environnement = new Environnement(this.terrain);
+
+        // V2 : Nouveaux constructeurs et ajout des Projectiles
+        this.baseVue = new BaseVue(this.pane, this.environnement.getBase());
+        MonObservateurMonstre observateurMonstres = new MonObservateurMonstre(pane, this.baseVue);
+        MonObservateurTour monObservateurTour = new MonObservateurTour(pane);
+        MonObservateurProjectiles monObservateurProjectiles = new MonObservateurProjectiles(pane);
+
         environnement.getLesMonstres().addListener(observateurMonstres);
         environnement.getLesTours().addListener(monObservateurTour);
-        baseVue.ajouterSprite(this.environnement.getBase());
+        environnement.getLesProjectiles().addListener(monObservateurProjectiles);
+
+        baseVue.ajouterSprite();
 
         this.fioleVue.setFiole(fiole, this.environnement.getArgent());
 
@@ -115,8 +120,10 @@ public class ControleurJeu implements Initializable {
                             e.printStackTrace();
                         }
 
+                        // V1 : Conservation du snapping pour aligner les tours sur la grille !
                         int snappedX = ((int) event.getX() / 32) * 32;
                         int snappedY = ((int) event.getY() / 32) * 32;
+
                         this.environnement.ajouterTour(this.environnement.getSymboles().CombinaisonGetTour(snappedX, snappedY));
                         this.environnement.getSymboles().reset();
                         this.environnement.setModePlacementTour(false);
@@ -136,6 +143,7 @@ public class ControleurJeu implements Initializable {
             initAnimation();
         }
 
+        // Partie symbole
         this.monObservateurSymbole = new MonObservateurSymbole(this.interfaceVue);
         this.environnement.getSymbolesProperty().addListener(monObservateurSymbole);
         this.interfaceVue.dessinMenu();
@@ -147,21 +155,22 @@ public class ControleurJeu implements Initializable {
     }
 
     @FXML
-    public void actionsDesSymboles(Event event) throws UnsupportedAudioFileException, LineUnavailableException, IOException {
+    public void actionsDesSymboles(Event event) {
         Button boutonSymbole = (Button) event.getSource();
         String symboleTexte = boutonSymbole.getText();
         String symbole = null;
 
-        // Son d'écriture aléatoire
-        String fichierSon = Math.random() >= 0.5
-                ? "src/main/resources/universite_paris8/iut/nchaieb/sae_jeux/Sons/stylo1.wav"
-                : "src/main/resources/universite_paris8/iut/nchaieb/sae_jeux/Sons/stylo2.wav";
+        // Son d'écriture aléatoire (sécurisé avec try/catch)
         try {
+            String fichierSon = Math.random() >= 0.5
+                    ? "src/main/resources/universite_paris8/iut/nchaieb/sae_jeux/Sons/stylo1.wav"
+                    : "src/main/resources/universite_paris8/iut/nchaieb/sae_jeux/Sons/stylo2.wav";
             new JouerSon(fichierSon, 0).play();
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
             e.printStackTrace();
         }
 
+        // Fusion de tous vos symboles (V1 + V2)
         switch (symboleTexte) {
             case "croix":    symbole = "croix";    break;
             case "goutte":   symbole = "goutte";   break;
@@ -169,9 +178,13 @@ public class ControleurJeu implements Initializable {
             case "oeil":     symbole = "oeil";     break;
             case "eclipse":  symbole = "eclipse";  break;
             case "oiseau":   symbole = "oiseau";   break;
-            case "fleche":   symbole = "fleche";   break;
             case "pic":      symbole = "pic";      break;
+            case "crystal":  symbole = "crystal";  break;
+            case "fleche":   symbole = "fleche";   break;
+            case "tomoe":    symbole = "tomoe";    break;
             case "triangle": symbole = "triangle"; break;
+            case "corne":    symbole = "corne";    break;
+            case "feu":      symbole = "feu";      break;
         }
 
         if (symbole != null) {
@@ -180,7 +193,7 @@ public class ControleurJeu implements Initializable {
     }
 
     @FXML
-    public void validerPentacle() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
+    public void validerPentacle() {
         if (this.environnement.getSymboles().verifierCombinaison()) {
             this.environnement.validerSymboles();
             this.sourisVue.ajouterImageSouris(this.environnement.getSymboles().CombinaisonGetTourString());

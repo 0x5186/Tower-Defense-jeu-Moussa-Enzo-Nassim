@@ -7,7 +7,10 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.ObservableList;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Base;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Entite;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.Projectile;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.monstres.Monstre;
+
+import java.util.ArrayList;
 
 public class Tour extends Entite {
 
@@ -41,6 +44,10 @@ public class Tour extends Entite {
 
     public int getCout() {
         return cout;
+    }
+
+    public int getAtq() {
+        return atq;
     }
 
     public int getCooldown() {
@@ -109,8 +116,8 @@ public class Tour extends Entite {
 
     public void gererCooldown() {
         if(this.cooldown<this.cooldownPourAction){
-            System.out.println("+1");
-            System.out.println("cooldown action: "+ this.cooldownPourAction);
+
+
             this.cooldown++;
         }
         else {
@@ -121,7 +128,7 @@ public class Tour extends Entite {
 
 
 
-    public void agir(ObservableList<Monstre> listeMonstre, Base base){}
+    public void agir(ObservableList<Monstre> listeMonstre, Base base, ObservableList<Projectile> projectiles){}
 
     public boolean estDansLeRayon (Monstre monstre){
         //on va calculer la distance entre la tour et le mosntre

@@ -9,23 +9,23 @@
 <BorderPane prefHeight="1080" prefWidth="1920" style="-fx-background-color: #1a1a1a;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="universite_paris8.iut.nchaieb.sae_jeux.ControleurJeu">
     <center>
         <StackPane fx:id="stackPane" alignment="TOP_LEFT">
-            <TilePane fx:id="tilePane" alignment="TOP_LEFT" hgap="0" prefColumns="60" prefRows="26" prefTileHeight="32" prefTileWidth="32" vgap="0" BorderPane.alignment="TOP_LEFT">
-            </TilePane>
+            <TilePane fx:id="tilePane" alignment="TOP_LEFT" hgap="0" prefColumns="60" prefRows="26" prefTileHeight="32" prefTileWidth="32" vgap="0" BorderPane.alignment="TOP_LEFT" />
             <Pane fx:id="pane" />
         </StackPane>
     </center>
+
     <bottom>
         <StackPane fx:id="stackPaneinterface" BorderPane.alignment="CENTER">
             <children>
                 <Pane prefHeight="164.0" prefWidth="718.0">
                     <children>
-                        <!-- onScroll conservé depuis la version 2 -->
+
                         <ScrollPane cache="true" cacheHint="SCALE_AND_ROTATE" depthTest="ENABLE" layoutX="723.0" onScroll="#actionsDesSymboles" prefHeight="81.0" prefWidth="547.0" scaleX="1.7" scaleY="1.7" stylesheets="@application.css">
                             <content>
-                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="16.0" prefWidth="1018.0">
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="16.0" prefWidth="1100.0">
                                     <children>
 
-                                        <Button ellipsisString="" layoutX="0" layoutY="-3" mnemonicParsing="false" onAction="#actionsDesSymboles" prefHeight="7.0" prefWidth="2.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;" text="fleche">
+                                        <Button fx:id="fleche" ellipsisString="" layoutX="10" layoutY="-1" mnemonicParsing="false" onAction="#actionsDesSymboles" prefHeight="7.0" prefWidth="2.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;" text="fleche">
                                             <graphic>
                                                 <ImageView fitHeight="64.0" fitWidth="64.0" nodeOrientation="INHERIT" preserveRatio="true">
                                                     <image><Image url="@images/symboleFleche.png" /></image>
@@ -33,7 +33,7 @@
                                             </graphic>
                                         </Button>
 
-                                        <Button ellipsisString="" layoutX="80" layoutY="-3" mnemonicParsing="false" onAction="#actionsDesSymboles" prefHeight="7.0" prefWidth="2.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;" text="goutte">
+                                        <Button ellipsisString="" layoutX="80" layoutY="0" mnemonicParsing="false" onAction="#actionsDesSymboles" prefHeight="7.0" prefWidth="2.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;" text="goutte">
                                             <graphic>
                                                 <ImageView fitHeight="64.0" fitWidth="64.0" nodeOrientation="INHERIT" preserveRatio="true">
                                                     <image><Image url="@images/symboleGoutteDeau.png" /></image>
@@ -49,7 +49,7 @@
                                             </graphic>
                                         </Button>
 
-                                        <Button ellipsisString="" layoutX="240" layoutY="-2" mnemonicParsing="false" onAction="#actionsDesSymboles" prefHeight="7.0" prefWidth="2.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;" text="oeil">
+                                        <Button ellipsisString="" layoutX="240" layoutY="-1" mnemonicParsing="false" onAction="#actionsDesSymboles" prefHeight="7.0" prefWidth="2.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;" text="oeil">
                                             <graphic>
                                                 <ImageView fitHeight="64.0" fitWidth="64.0" nodeOrientation="INHERIT" preserveRatio="true">
                                                     <image><Image url="@images/symboleOeil.png" /></image>
@@ -65,15 +65,15 @@
                                             </graphic>
                                         </Button>
 
-                                        <Button ellipsisString="" layoutX="400" layoutY="-3" mnemonicParsing="false" onAction="#actionsDesSymboles" prefHeight="7.0" prefWidth="2.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;" text="oiseau">
+                                        <Button ellipsisString="" layoutX="400" layoutY="-3" mnemonicParsing="false" onAction="#actionsDesSymboles" prefHeight="7.0" prefWidth="2.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;" text="crystal">
                                             <graphic>
                                                 <ImageView fitHeight="64.0" fitWidth="64.0" nodeOrientation="INHERIT" preserveRatio="true">
-                                                    <image><Image url="@images/symboleOiseau.png" /></image>
+                                                    <image><Image url="@images/symboleCrystal.png" /></image>
                                                 </ImageView>
                                             </graphic>
                                         </Button>
 
-                                        <Button ellipsisString="" layoutX="480" layoutY="-3" mnemonicParsing="false" onAction="#actionsDesSymboles" prefHeight="7.0" prefWidth="2.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;" text="croix">
+                                        <Button ellipsisString="" layoutX="480" layoutY="-1.5" mnemonicParsing="false" onAction="#actionsDesSymboles" prefHeight="7.0" prefWidth="2.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;" text="croix">
                                             <graphic>
                                                 <ImageView fitHeight="64.0" fitWidth="64.0" preserveRatio="true">
                                                     <image><Image url="@images/symboleCroix.png" /></image>
@@ -81,10 +81,10 @@
                                             </graphic>
                                         </Button>
 
-                                        <Button ellipsisString="" layoutX="560" layoutY="-3" mnemonicParsing="false" onAction="#actionsDesSymboles" prefHeight="7.0" prefWidth="2.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;" text="pic">
+                                        <Button ellipsisString="" layoutX="560" layoutY="-3" mnemonicParsing="false" onAction="#actionsDesSymboles" prefHeight="7.0" prefWidth="2.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;" text="tomoe">
                                             <graphic>
                                                 <ImageView fitHeight="64.0" fitWidth="64.0" preserveRatio="true">
-                                                    <image><Image url="@images/symbolePic.png" /></image>
+                                                    <image><Image url="@images/symboleTomoe.png" /></image>
                                                 </ImageView>
                                             </graphic>
                                         </Button>
@@ -93,6 +93,38 @@
                                             <graphic>
                                                 <ImageView fitHeight="64.0" fitWidth="64.0" preserveRatio="true">
                                                     <image><Image url="@images/symboleTriangle.png" /></image>
+                                                </ImageView>
+                                            </graphic>
+                                        </Button>
+
+                                        <Button ellipsisString="" layoutX="720" layoutY="-1" mnemonicParsing="false" onAction="#actionsDesSymboles" prefHeight="7.0" prefWidth="2.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;" text="corne">
+                                            <graphic>
+                                                <ImageView fitHeight="64.0" fitWidth="64.0" preserveRatio="true">
+                                                    <image><Image url="@images/Corne.png" /></image>
+                                                </ImageView>
+                                            </graphic>
+                                        </Button>
+
+                                        <Button ellipsisString="" layoutX="800" layoutY="-1" mnemonicParsing="false" onAction="#actionsDesSymboles" prefHeight="7.0" prefWidth="2.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;" text="feu">
+                                            <graphic>
+                                                <ImageView fitHeight="64.0" fitWidth="64.0" preserveRatio="true">
+                                                    <image><Image url="@images/symboleFeu.png" /></image>
+                                                </ImageView>
+                                            </graphic>
+                                        </Button>
+
+                                        <Button ellipsisString="" layoutX="880" layoutY="-3" mnemonicParsing="false" onAction="#actionsDesSymboles" prefHeight="7.0" prefWidth="2.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;" text="oiseau">
+                                            <graphic>
+                                                <ImageView fitHeight="64.0" fitWidth="64.0" nodeOrientation="INHERIT" preserveRatio="true">
+                                                    <image><Image url="@images/symboleOiseau.png" /></image>
+                                                </ImageView>
+                                            </graphic>
+                                        </Button>
+
+                                        <Button ellipsisString="" layoutX="960" layoutY="-3" mnemonicParsing="false" onAction="#actionsDesSymboles" prefHeight="7.0" prefWidth="2.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;" text="pic">
+                                            <graphic>
+                                                <ImageView fitHeight="64.0" fitWidth="64.0" preserveRatio="true">
+                                                    <image><Image url="@images/symbolePic.png" /></image>
                                                 </ImageView>
                                             </graphic>
                                         </Button>
@@ -112,10 +144,11 @@
                             </graphic>
                         </Label>
 
-                        <Button fx:id="boutonValiderPentacle" layoutX="100.0" layoutY="-50.0" mnemonicParsing="false" onAction="#validerPentacle" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;">
+                        <Button fx:id="boutonValiderPentacle" layoutX="200.0" layoutY="-52.0" mnemonicParsing="false" onAction="#validerPentacle" prefHeight="7.0" prefWidth="2.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;">
                             <graphic>
-                                <ImageView fx:id="fiole" fitHeight="200" fitWidth="200" pickOnBounds="false" preserveRatio="true">
+                                <ImageView fx:id="fiole" fitHeight="200.0" fitWidth="200.0" nodeOrientation="INHERIT" preserveRatio="true">
                                     <image><Image url="@images/fiole.png" /></image>
+                                    <effect><Bloom threshold="0.58" /></effect>
                                 </ImageView>
                             </graphic>
                         </Button>

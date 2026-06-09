@@ -56,11 +56,11 @@ public class MonstreVue {
         this.pane.getChildren().add(iv);
     }
 
-    public void retirer(Entite entite) {
-        ImageView iv = (ImageView) hashMap.get(entite);
+    public void retirer(Monstre monstre) {
+        ImageView iv = (ImageView) hashMap.get(monstre);
         iv.setImage(null);
         this.pane.getChildren().remove(iv);
-        this.hashMap.remove(entite, iv);
+        this.hashMap.remove(monstre, iv);
     }
 
     public void stopAnimation(Monstre monstre) {
@@ -168,7 +168,7 @@ public class MonstreVue {
                     frameIndex[0]++;
                 })
         );
-        squeletteMort.setCycleCount(7);
+        squeletteMort.setCycleCount(9);
 
         squeletteMort.setOnFinished(e -> {
             FadeTransition fade = new FadeTransition(Duration.seconds(2), iv);

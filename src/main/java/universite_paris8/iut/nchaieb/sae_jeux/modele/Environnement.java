@@ -11,6 +11,7 @@ public class Environnement {
 	private Base base;
 	private ObservableList<Tour> lesTours;
 	private ObservableList<Monstre> lesMonstres;
+	protected ObservableList<Projectile> lesProjectiles;
 	private Terrain terrain;
 	private IntegerProperty argent;
 	private Symboles symboles;
@@ -33,9 +34,12 @@ public class Environnement {
 		this.lesTours = FXCollections.observableArrayList();
 		this.lesMonstres = FXCollections.observableArrayList();
 		this.symboles = new Symboles();
+		this.lesProjectiles= FXCollections.observableArrayList();
+
 		this.argent = new SimpleIntegerProperty(100);
-		this.base = new Base();
-		this.modePlacementTour = new SimpleBooleanProperty(false);
+
+
+		this.base=new Base();
 
 		Monstre.compteurID = 0;
 		Entite.compteurID = 0;
@@ -54,10 +58,10 @@ public class Environnement {
 	public IntegerProperty argentProperty() { return this.argent; }
 	public int getArgent() { return this.argent.getValue(); }
 
-	// Version 2 : setArgent plafonné à 100
 	public void setArgent(int montant) {
-		if (montant > 100)
+		if(montant>100)
 			this.argent.set(100);
+
 		else
 			this.argent.set(montant);
 	}
@@ -78,6 +82,30 @@ public class Environnement {
 
 	// Version 2 : ajout manuel d'une tour sans passer par tourAPlacer
 	public void ajouterTour(Tour tour) {
+	public BooleanProperty modePlacementTourProperty() {
+		return modePlacementTour;
+	}
+
+
+	public void setModePlacementTour(boolean modePlacementTour) {
+		this.modePlacementTour.set(modePlacementTour);
+	}
+
+	public void ajouterProjectiles(Projectile projectile){
+		this.lesProjectiles.add(projectile);
+	}
+	public void setLesProjectiles(ObservableList<Projectile> lesProjectile) {
+		this.lesProjectiles = lesProjectile;
+	}
+
+	public ObservableList<Projectile> getLesProjectiles() {
+		return lesProjectiles;
+	}
+
+	// autres Méthodes:
+
+	public void ajouterTour(Tour tour){
+		System.out.println("tour prete");
 		this.lesTours.add(tour);
 		this.setArgent(this.getArgent() - tour.getCout());
 	}
@@ -124,6 +152,21 @@ public class Environnement {
 	}
 
 	public void unTour() {
+
+		if (this.lesProjectiles!=null || !this.lesProjectiles.isEmpty()){
+			for(int i = 0; i < this.lesProjectiles.size(); i++){
+				if(this.lesProjectiles.get(i).verifPosition()){
+					this.lesProjectiles.remove(this.lesProjectiles.get(i));
+					System.out.println("retirer");
+				}
+				else{
+					this.lesProjectiles.get(i).projectilesAJour();
+				}
+
+			}
+		}
+		//faut les supp quand ils sont morts / sinon ils continuent d'avancer
+		if (!(this.lesTours == null) && !this.lesTours.isEmpty()) {
 		// Gestion des vagues (version 1)
 		if (pauseEntreVagues) {
 			compteurPause--;
@@ -152,6 +195,9 @@ public class Environnement {
 			}
 		}
 
+			for (int i = 0; i < this.lesTours.size(); i++) {
+				this.lesTours.get(i).agir(this.lesMonstres, this.base, this.lesProjectiles);
+			}
 		if (this.lesTours != null && !this.lesTours.isEmpty()) {
 			for (Tour t : this.lesTours) t.agir(this.lesMonstres, this.base);
 		}
@@ -165,11 +211,14 @@ public class Environnement {
 				} else if (m.aAtteintSaCible()) {
 					this.base.retirerPv(m.getAtq());
 					this.lesMonstres.remove(i);
-				} else {
-					m.agir(this.lesMonstres, this.terrain, this.base);
+
+				}
+				else {
+					m.agir(this.lesMonstres, this.terrain, this.getBase());
 				}
 			}
 		}
+
 	}
 
 	public boolean tourPosable(double xPixel, double yPixel) {
@@ -182,7 +231,11 @@ public class Environnement {
 
 	// Version 2 : validation de symboles pour déclencher le placement
 	public void validerSymboles() {
-		if (this.getSymboles().verifierCombinaison()) {
+		System.out.println(this.getSymboles());
+		System.out.println(this.getSymboles().getCombinaison());
+		if(this.getSymboles().verifierCombinaison()){
+
+			System.out.println("dans le if");
 			this.setModePlacementTour(true);
 		}
 	}
