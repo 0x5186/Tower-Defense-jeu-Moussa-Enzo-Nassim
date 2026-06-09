@@ -8,7 +8,6 @@ import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -17,6 +16,8 @@ import javafx.util.Duration;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Environnement;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Terrain;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.CombinaisonValables;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.Tours.Tour;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.Tours.TourOeil;
 import universite_paris8.iut.nchaieb.sae_jeux.vue.*;
 
 import javax.sound.sampled.LineUnavailableException;
@@ -25,7 +26,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-import java.util.Scanner;
 
 public class ControleurJeu implements Initializable{
     private Environnement environnement;
@@ -382,5 +382,6 @@ public class ControleurJeu implements Initializable{
             this.environnement.getSymboles().reset();
         }
     }
+
 }
 

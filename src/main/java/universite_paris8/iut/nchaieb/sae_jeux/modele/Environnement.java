@@ -1,9 +1,6 @@
 package universite_paris8.iut.nchaieb.sae_jeux.modele;
 
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Tours.Tour;
@@ -28,6 +25,17 @@ public class Environnement {
 	 //pour savoir si on est entrain de placer une tour ou pas
 	private final BooleanProperty modePlacementTour;
 
+	// Système de vagues (version 1)
+	private IntegerProperty numeroVague;
+	private IntegerProperty totalVague;
+	private IntegerProperty tempsPauseRestantSec;
+	private LecteurVague lecteurVague;
+	private ListeApparition vagueActuelle;
+	private int compteurSpawn;
+	private boolean pauseEntreVagues;
+	private int compteurPause;
+	private Tour tourAPlacer;
+
 	public Environnement(Terrain terrain) {
 		this.terrain = terrain;
 		this.nbTours = new SimpleIntegerProperty();
@@ -37,16 +45,19 @@ public class Environnement {
 		this.lesProjectiles= FXCollections.observableArrayList();
 
 		this.argent = new SimpleIntegerProperty(100);
-
-
-		this.base=new Base();
+		this.base = new Base();
+		this.modePlacementTour = new SimpleBooleanProperty(false);
 
 		Monstre.compteurID = 0;
 		Entite.compteurID = 0;
 
-
-
-		this.modePlacementTour= new SimpleBooleanProperty(false);
+		this.lecteurVague = new LecteurVague();
+		this.numeroVague = new SimpleIntegerProperty(1);
+		this.totalVague = new SimpleIntegerProperty(this.lecteurVague.getNbVague());
+		this.tempsPauseRestantSec = new SimpleIntegerProperty(10);
+		this.pauseEntreVagues = true;
+		this.compteurPause = 300;
+		this.compteurSpawn = 0;
 	}
 
 // 	les Get / set:
@@ -115,17 +126,30 @@ public class Environnement {
 
 	}
 
-	public void ajouterMonstre(){
-
-		Monstre monstre=new Sorcier(this.terrain);
+	public void ajouterMonstre() {
+		Monstre monstre = new Squelette(this.terrain);
 		lesMonstres.add(monstre);
+	}
 
+	// Version 1 : système de vagues
+	private void preparerVague(int numero) {
+		if (this.lecteurVague.getVagues() != null && numero > 0 && numero <= this.lecteurVague.getNbVague()) {
+			this.vagueActuelle = this.lecteurVague.getVagues()[numero - 1].getListeApparition();
+		} else {
+			this.vagueActuelle = null;
+		}
+	}
 
-    }
-
-
-	public final IntegerProperty nbToursProperty(){ return this.nbTours; }
-
+	private void faireApparaitreMonstre(int codeMonstre) {
+		Monstre monstre = null;
+		switch (codeMonstre) {
+			case 0: monstre = new Squelette(this.terrain); break;
+			case 1: monstre = new Sorcier(this.terrain); break;
+		}
+		if (monstre != null) {
+			this.lesMonstres.add(monstre);
+		}
+	}
 
 	public void unTour() {
 
@@ -143,6 +167,33 @@ public class Environnement {
 		}
 		//faut les supp quand ils sont morts / sinon ils continuent d'avancer
 		if (!(this.lesTours == null) && !this.lesTours.isEmpty()) {
+		// Gestion des vagues (version 1)
+		if (pauseEntreVagues) {
+			compteurPause--;
+			if (compteurPause <= 0) {
+				pauseEntreVagues = false;
+				preparerVague(this.numeroVague.get());
+				compteurSpawn = 0;
+			}
+		} else {
+			if (vagueActuelle != null && vagueActuelle.resteProchain()) {
+				compteurSpawn--;
+				if (compteurSpawn <= 0) {
+					faireApparaitreMonstre(vagueActuelle.prochainMonstre());
+					compteurSpawn = vagueActuelle.prochainDelai();
+					vagueActuelle.avancer();
+				}
+			} else if (this.lesMonstres.isEmpty()) {
+				if (this.numeroVague.get() >= this.lecteurVague.getNbVague()) {
+					return;
+				}
+				int bonusArgent = 50 + (this.numeroVague.get() * 10);
+				this.setArgent(this.getArgent() + bonusArgent);
+				this.numeroVague.set(this.numeroVague.get() + 1);
+				this.pauseEntreVagues = true;
+				this.compteurPause = 900;
+			}
+		}
 
 			for (int i = 0; i < this.lesTours.size(); i++) {
 				this.lesTours.get(i).agir(this.lesMonstres, this.base, this.lesProjectiles);
@@ -156,14 +207,13 @@ public class Environnement {
 					System.out.println("Monstre tué");
 					this.setArgent(this.getArgent() + m.getRecompense());
 					this.lesMonstres.remove(i);
-				}
-				else if (m.getPosX()>this.base.getPosX()+110) {
+				} else if (m.aAtteintSaCible()) {
+					this.base.retirerPv(m.getAtq());
 					this.lesMonstres.remove(i);
+				} else {
+					m.agir(this.lesMonstres, this.terrain, this.base);
+				}
 
-				}
-				else {
-					m.agir(this.lesMonstres, this.terrain, this.getBase());
-				}
 			}
 		}
 
@@ -172,15 +222,11 @@ public class Environnement {
 
 
 	public boolean tourPosable(double xPixel, double yPixel) {
-		System.out.println("presque");
-		int TAILLE_TUILE = 16;
+		int TAILLE_TUILE = 32;
 		int gridX = (int) (xPixel / TAILLE_TUILE);
 		int gridY = (int) (yPixel / TAILLE_TUILE);
-
-		if (!this.terrain.estPraticable(gridX, gridY)) {
-			return true;
-		}
-		return false;
+		if(gridY >= 25) return false;
+		return !this.terrain.estPraticable(gridX, gridY);
 	}
 
 	public void validerSymboles() {

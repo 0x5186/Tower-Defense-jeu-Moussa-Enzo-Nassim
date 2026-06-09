@@ -134,11 +134,7 @@ public class Tour extends Entite {
         //on va calculer la distance entre la tour et le mosntre
         int distanceX = Math.abs(monstre.getPosX() - this.getPosX());
         int distanceY = Math.abs(monstre.getPosY() - this.getPosY());
-
-        //on va multiplier la distance de monstre*tour(x) et monstre*tour(y)
         int distance = distanceX+distanceY;
-
-        //on compare la distance a la porte mais on doit les mettre à unité égale
         if (distance <= this.portee) {
             return true;
         }
@@ -169,13 +165,10 @@ public class Tour extends Entite {
     }
 
     private int calculDistance(Monstre monstre) {
-        int distance = (monstre.getPosX()+ monstre.getPosY())-(getPosY()+getPosX());
-        if (distance<0)
-            distance=distance*-1;
-        return distance;
+        int distanceX = Math.abs(monstre.getPosX() - this.getPosX());
+        int distanceY = Math.abs(monstre.getPosY() - this.getPosY());
+        return distanceX + distanceY;
     }
-
-
 
     public  void infligerDegat(Monstre monstre){
         System.out.println("tour attaque");

@@ -5,61 +5,50 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.util.Duration;
 import universite_paris8.iut.nchaieb.sae_jeux.Main;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.*;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.monstres.Sorcier;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.monstres.Squelette;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.monstres.Monstre;
-//import universite_paris8.iut.nchaieb.sae_jeux.modele.Squelette;
 
 import java.util.HashMap;
 
 public class MonstreVue {
     private Pane pane;
-    private HashMap hashMap= new HashMap<Monstre,ImageView>();
-    private HashMap hashMapAnimation= new HashMap<Monstre, Timeline>();
-    Image  squelette = new Image(Main.class.getResourceAsStream("images/squelette(3).png"));
-    Image  sorcier = new Image(Main.class.getResourceAsStream("images/sorcier.png"));
-
-
-
+    private HashMap hashMap = new HashMap<Monstre, ImageView>();
+    private HashMap hashMapAnimation = new HashMap<Monstre, Timeline>();
+    Image squelette = new Image(Main.class.getResourceAsStream("images/squelette(3).png"));
+    Image sorcier = new Image(Main.class.getResourceAsStream("images/sorcier.png"));
 
     public MonstreVue(Pane pane) {
-        this.pane= pane;
+        this.pane = pane;
     }
 
-    public void ajouterSprite(Monstre monstre){
+    public void ajouterSprite(Monstre monstre) {
+        ImageView iv = new ImageView();
 
-
-
-        ImageView  iv= new ImageView();
         if (monstre instanceof Squelette) {
             iv = new ImageView(squelette);
-            iv.setViewport(new Rectangle2D(0,0,50,50));
+            iv.setViewport(new Rectangle2D(0, 0, 50, 50));
+            // Sprite 50x50, tuile 16x16 → décalage (50-16)/2 = 17px pour centrer
+            iv.translateXProperty().bind(monstre.posXProperty().subtract(17));
+            iv.translateYProperty().bind(monstre.posYProperty().subtract(17));
         }
         if (monstre instanceof Sorcier) {
-
             iv = new ImageView(sorcier);
-            iv.setViewport(new Rectangle2D(0,0,72,72));
-
+            iv.setViewport(new Rectangle2D(0, 0, 72, 72));
+            // Sprite 80x80, tuile 16x16 → décalage (80-16)/2 = 32px pour centrer
+            iv.translateXProperty().bind(monstre.posXProperty().subtract(32));
+            iv.translateYProperty().bind(monstre.posYProperty().subtract(32));
         }
-        iv.translateXProperty().bind(monstre.posXProperty());
-        iv.translateYProperty().bind(monstre.posYProperty()
-        );
-
 
         this.hashMap.put(monstre, iv);
-
-//        iv.setLayoutX(72/2);
-//        iv.setLayoutX(0);
-
         this.pane.getChildren().add(iv);
     }
 
+    public void retirer(Entite entite) {
+        ImageView iv = (ImageView) hashMap.get(entite);
     public void retirer(Monstre monstre){
         ImageView  iv= (ImageView) hashMap.get(monstre);
         iv.setImage(null);
@@ -67,9 +56,9 @@ public class MonstreVue {
         this.hashMap.remove(monstre, iv);
     }
 
-    public void stopAnimation(Monstre monstre){
-        if(this.hashMapAnimation.containsKey(monstre)){
-            Timeline timeline= (Timeline) this.hashMapAnimation.get(monstre);
+    public void stopAnimation(Monstre monstre) {
+        if (this.hashMapAnimation.containsKey(monstre)) {
+            Timeline timeline = (Timeline) this.hashMapAnimation.get(monstre);
             timeline.stop();
             this.hashMapAnimation.remove(monstre);
         }
