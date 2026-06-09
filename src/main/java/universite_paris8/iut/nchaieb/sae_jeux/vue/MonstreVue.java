@@ -33,34 +33,34 @@ public class MonstreVue {
         if (monstre instanceof Squelette) {
             iv = new ImageView(squelette);
             iv.setViewport(new Rectangle2D(0, 0, 50, 50));
-            // Sprite 50x50, tuile 16x16 → décalage (50-16)/2 = 17px pour centrer
             iv.translateXProperty().bind(monstre.posXProperty().subtract(17));
             iv.translateYProperty().bind(monstre.posYProperty().subtract(17));
         }
         if (monstre instanceof Sorcier) {
             iv = new ImageView(sorcier);
             iv.setViewport(new Rectangle2D(0, 0, 72, 72));
-            // Sprite 80x80, tuile 16x16 → décalage (80-16)/2 = 32px pour centrer
             iv.translateXProperty().bind(monstre.posXProperty().subtract(32));
             iv.translateYProperty().bind(monstre.posYProperty().subtract(32));
         }
         if (monstre instanceof Nargacuga) {
             iv = new ImageView(nargacuga);
-            iv.setViewport(new Rectangle2D(0, 0, 100,100));
+            iv.setViewport(new Rectangle2D(0, 0, 100, 100));
             iv.translateXProperty().bind(monstre.posXProperty().subtract(48));
             iv.translateYProperty().bind(monstre.posYProperty().subtract(48));
-
         }
 
         this.hashMap.put(monstre, iv);
         this.pane.getChildren().add(iv);
     }
 
-    public void retirer(Monstre monstre) {
-        ImageView iv = (ImageView) hashMap.get(monstre);
-        iv.setImage(null);
-        this.pane.getChildren().remove(iv);
-        this.hashMap.remove(monstre, iv);
+    // CORRECTION 1 : On remet Entite ici pour correspondre aux appels des autres méthodes
+    public void retirer(Entite entite) {
+        ImageView iv = (ImageView) hashMap.get(entite);
+        if (iv != null) {
+            iv.setImage(null);
+            this.pane.getChildren().remove(iv);
+            this.hashMap.remove(entite);
+        }
     }
 
     public void stopAnimation(Monstre monstre) {
@@ -98,20 +98,20 @@ public class MonstreVue {
             squeletteMarche.play();
         }
 
-        if(monstre instanceof Nargacuga ) {
+        if (monstre instanceof Nargacuga) {
             int[] frameIndex = {0};
             int largeurCaseNargacuga = 100;
             int hauteurCaseNargacuga = 100;
 
             Timeline nargacugaMarche = new Timeline(
                     new KeyFrame(Duration.millis(150), event -> {
-                        int x = frameIndex [0] % 2;
+                        int x = frameIndex[0] % 2;
                         int y = frameIndex[0] / 2;
 
                         iv.setViewport(new Rectangle2D(x * largeurCaseNargacuga, y * hauteurCaseNargacuga, largeurCaseNargacuga, hauteurCaseNargacuga));
 
                         frameIndex[0]++;
-                        if(frameIndex[0] >= 3){
+                        if (frameIndex[0] >= 3) {
                             frameIndex[0] = 0;
                         }
                     })
@@ -150,15 +150,30 @@ public class MonstreVue {
 
     public void animationMort(Entite monstre) {
         ImageView iv = (ImageView) this.hashMap.get(monstre);
-        int largeurCase = 240;
-        int hauteurCase = 240;
-        int[] frameIndex = {27};
 
         if (this.hashMapAnimation.containsKey(monstre)) {
             Timeline timeline = (Timeline) this.hashMapAnimation.get(monstre);
             timeline.stop();
             this.hashMapAnimation.remove(monstre);
         }
+
+        // CORRECTION 2 : Le Nargacuga DOIT être traité avant le squelette, avec un return à la fin !
+        if (monstre instanceof Nargacuga) {
+            FadeTransition fade = new FadeTransition(Duration.seconds(1), iv);
+            fade.setFromValue(1.0);
+            fade.setToValue(0.0);
+            fade.setOnFinished(fadeEvent -> {
+                this.hashMap.remove(monstre);
+                this.retirer(monstre);
+            });
+            fade.play();
+            return; // INDISPENSABLE pour empêcher l'exécution de l'animation du Squelette juste en dessous
+        }
+
+        // Si le code arrive ici, c'est que ce n'est PAS un Nargacuga
+        int largeurCase = 240;
+        int hauteurCase = 240;
+        int[] frameIndex = {27};
 
         Timeline squeletteMort = new Timeline(
                 new KeyFrame(Duration.millis(120), e -> {
@@ -175,22 +190,11 @@ public class MonstreVue {
             fade.setFromValue(1.0);
             fade.setToValue(0.0);
             fade.setOnFinished(fadeEvent -> {
-                this.hashMap.remove(iv);
+                this.hashMap.remove(monstre);
                 this.retirer(monstre);
             });
             fade.play();
         });
         squeletteMort.play();
-
-        if (monstre instanceof Nargacuga) {
-            FadeTransition fade = new FadeTransition(Duration.seconds(1), iv);
-            fade.setFromValue(1.0);
-            fade.setToValue(0.0);
-            fade.setOnFinished(fadeEvent -> {
-                this.hashMap.remove(iv);
-                this.retirer(monstre);
-            });
-            fade.play();
-        }
     }
 }

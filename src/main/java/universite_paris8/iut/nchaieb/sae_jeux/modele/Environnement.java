@@ -17,7 +17,7 @@ public class Environnement {
 	private Symboles symboles;
 	private final BooleanProperty modePlacementTour;
 
-	// Système de vagues (version 1)
+	// Système de vagues
 	private IntegerProperty numeroVague;
 	private IntegerProperty totalVague;
 	private IntegerProperty tempsPauseRestantSec;
@@ -34,12 +34,11 @@ public class Environnement {
 		this.lesTours = FXCollections.observableArrayList();
 		this.lesMonstres = FXCollections.observableArrayList();
 		this.symboles = new Symboles();
-		this.lesProjectiles= FXCollections.observableArrayList();
+		this.lesProjectiles = FXCollections.observableArrayList();
 
 		this.argent = new SimpleIntegerProperty(100);
-
-
-		this.base=new Base();
+		this.base = new Base();
+		this.modePlacementTour = new SimpleBooleanProperty(false);
 
 		Monstre.compteurID = 0;
 		Entite.compteurID = 0;
@@ -53,17 +52,14 @@ public class Environnement {
 		this.compteurSpawn = 0;
 	}
 
-	// Getters / Setters
+	// --- Getters / Setters ---
 
 	public IntegerProperty argentProperty() { return this.argent; }
 	public int getArgent() { return this.argent.getValue(); }
 
 	public void setArgent(int montant) {
-		if(montant>100)
-			this.argent.set(100);
-
-		else
-			this.argent.set(montant);
+		if (montant > 100) this.argent.set(100);
+		else this.argent.set(Math.max(montant, 0)); // Sécurité pour ne pas tomber en dessous de 0
 	}
 
 	public ObservableList<Monstre> getLesMonstres() { return lesMonstres; }
@@ -71,46 +67,30 @@ public class Environnement {
 	public Symboles getSymboles() { return symboles; }
 	public ObservableList<String> getSymbolesProperty() { return symboles.getCombinaison(); }
 	public Base getBase() { return base; }
+
 	public boolean isModePlacementTour() { return modePlacementTour.get(); }
 	public BooleanProperty modePlacementTourProperty() { return modePlacementTour; }
 	public void setModePlacementTour(boolean modePlacementTour) { this.modePlacementTour.set(modePlacementTour); }
+
 	public final IntegerProperty nbToursProperty() { return this.nbTours; }
 	public void setTourAPlacer(Tour tour) { this.tourAPlacer = tour; }
 	public Tour getTourAPlacer() { return this.tourAPlacer; }
 
-	// Méthodes
+	public void ajouterProjectiles(Projectile projectile) { this.lesProjectiles.add(projectile); }
+	public void setLesProjectiles(ObservableList<Projectile> lesProjectiles) { this.lesProjectiles = lesProjectiles; }
+	public ObservableList<Projectile> getLesProjectiles() { return lesProjectiles; }
 
-	// Version 2 : ajout manuel d'une tour sans passer par tourAPlacer
+
+	// --- Méthodes du jeu ---
+
 	public void ajouterTour(Tour tour) {
-	public BooleanProperty modePlacementTourProperty() {
-		return modePlacementTour;
+		if (tour != null) {
+			System.out.println("tour prete");
+			this.lesTours.add(tour);
+			this.setArgent(this.getArgent() - tour.getCout());
+		}
 	}
 
-
-	public void setModePlacementTour(boolean modePlacementTour) {
-		this.modePlacementTour.set(modePlacementTour);
-	}
-
-	public void ajouterProjectiles(Projectile projectile){
-		this.lesProjectiles.add(projectile);
-	}
-	public void setLesProjectiles(ObservableList<Projectile> lesProjectile) {
-		this.lesProjectiles = lesProjectile;
-	}
-
-	public ObservableList<Projectile> getLesProjectiles() {
-		return lesProjectiles;
-	}
-
-	// autres Méthodes:
-
-	public void ajouterTour(Tour tour){
-		System.out.println("tour prete");
-		this.lesTours.add(tour);
-		this.setArgent(this.getArgent() - tour.getCout());
-	}
-
-	// Version 1 : placement via clic pixel
 	public void placerLaTourAttente(double xPixel, double yPixel) {
 		int TAILLE_TUILE = 32;
 		int gridX = (int) (xPixel / TAILLE_TUILE);
@@ -130,7 +110,6 @@ public class Environnement {
 		lesMonstres.add(monstre);
 	}
 
-	// Version 1 : système de vagues
 	private void preparerVague(int numero) {
 		if (this.lecteurVague.getVagues() != null && numero > 0 && numero <= this.lecteurVague.getNbVague()) {
 			this.vagueActuelle = this.lecteurVague.getVagues()[numero - 1].getListeApparition();
@@ -153,21 +132,20 @@ public class Environnement {
 
 	public void unTour() {
 
-		if (this.lesProjectiles!=null || !this.lesProjectiles.isEmpty()){
-			for(int i = 0; i < this.lesProjectiles.size(); i++){
-				if(this.lesProjectiles.get(i).verifPosition()){
-					this.lesProjectiles.remove(this.lesProjectiles.get(i));
-					System.out.println("retirer");
-				}
-				else{
+		// 1. Gestion des projectiles
+		if (this.lesProjectiles != null && !this.lesProjectiles.isEmpty()) {
+			// Parcours à l'envers pour pouvoir supprimer sans problème d'index
+			for (int i = this.lesProjectiles.size() - 1; i >= 0; i--) {
+				if (this.lesProjectiles.get(i).verifPosition()) {
+					this.lesProjectiles.remove(i);
+					System.out.println("Projectile retiré");
+				} else {
 					this.lesProjectiles.get(i).projectilesAJour();
 				}
-
 			}
 		}
-		//faut les supp quand ils sont morts / sinon ils continuent d'avancer
-		if (!(this.lesTours == null) && !this.lesTours.isEmpty()) {
-		// Gestion des vagues (version 1)
+
+		// 2. Gestion des vagues
 		if (pauseEntreVagues) {
 			compteurPause--;
 			if (compteurPause <= 0) {
@@ -195,13 +173,16 @@ public class Environnement {
 			}
 		}
 
-			for (int i = 0; i < this.lesTours.size(); i++) {
-				this.lesTours.get(i).agir(this.lesMonstres, this.base, this.lesProjectiles);
-			}
+		// 3. Action des tours
 		if (this.lesTours != null && !this.lesTours.isEmpty()) {
-			for (Tour t : this.lesTours) t.agir(this.lesMonstres, this.base);
+			for (Tour t : this.lesTours) {
+				// Si votre méthode agir() prend 3 arguments, commentez la ligne du dessous et décommentez l'autre.
+				// t.agir(this.lesMonstres, this.base, this.lesProjectiles);
+				t.agir(this.lesMonstres, this.base, this.lesProjectiles);
+			}
 		}
 
+		// 4. Action des monstres
 		if (this.lesMonstres != null && !this.lesMonstres.isEmpty()) {
 			for (int i = this.lesMonstres.size() - 1; i >= 0; i--) {
 				Monstre m = this.lesMonstres.get(i);
@@ -211,14 +192,11 @@ public class Environnement {
 				} else if (m.aAtteintSaCible()) {
 					this.base.retirerPv(m.getAtq());
 					this.lesMonstres.remove(i);
-
-				}
-				else {
+				} else {
 					m.agir(this.lesMonstres, this.terrain, this.getBase());
 				}
 			}
 		}
-
 	}
 
 	public boolean tourPosable(double xPixel, double yPixel) {
@@ -229,13 +207,8 @@ public class Environnement {
 		return !this.terrain.estPraticable(gridX, gridY);
 	}
 
-	// Version 2 : validation de symboles pour déclencher le placement
 	public void validerSymboles() {
-		System.out.println(this.getSymboles());
-		System.out.println(this.getSymboles().getCombinaison());
-		if(this.getSymboles().verifierCombinaison()){
-
-			System.out.println("dans le if");
+		if (this.getSymboles().verifierCombinaison()) {
 			this.setModePlacementTour(true);
 		}
 	}
