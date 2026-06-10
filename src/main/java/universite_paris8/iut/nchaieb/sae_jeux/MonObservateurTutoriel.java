@@ -19,10 +19,10 @@ public class MonObservateurTutoriel implements ChangeListener<Boolean> {
     public void changed(ObservableValue<? extends Boolean> obs, Boolean ancien, Boolean nouveau) {
         if (nouveau == true) {
             System.out.println("tuto activé");
-            this.tutorielVue.getRectangle().setVisible(true);
+            this.tutorielVue.getImage().setVisible(true);
         } else {
             System.out.println("tuto desactivé ");
-            this.tutorielVue.getRectangle().setVisible(false);
+            this.tutorielVue.getImage().setVisible(false);
         }
     }
 }
