@@ -26,6 +26,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.Scanner;
 
 public class ControleurJeu implements Initializable{
     private Environnement environnement;
@@ -41,6 +42,8 @@ public class ControleurJeu implements Initializable{
     private Pane pane;
     @FXML
     private ImageView fiole;
+    @FXML
+    private Button boutonPageSuivante;
 
 
 
@@ -50,6 +53,7 @@ public class ControleurJeu implements Initializable{
     Terrain terrain;
     MonstreVue monstreVue;
     InterfaceVue interfaceVue;
+    TutorielVue tutorielVue;
     private BaseVue baseVue;
     private FioleVue fioleVue;
 
@@ -60,7 +64,7 @@ public class ControleurJeu implements Initializable{
 
 
 
-
+    private MonObservateurTutoriel monObservateurTutoriel;
     private MonObservateurSymbole monObservateurSymbole;
     private SourisVue sourisVue;
 
@@ -123,6 +127,7 @@ public class ControleurJeu implements Initializable{
         this.interfaceVue = new InterfaceVue(stackPane);
 
         this.terrainVue = new TerrainVue(terrain, tilePane);
+        this.tutorielVue = new TutorielVue(stackPane);
 
 
         System.out.println(Main.map);
@@ -206,8 +211,10 @@ public class ControleurJeu implements Initializable{
         this.interfaceVue.dessinMenu();
 
 
-
-
+        //partie tuto
+        MonObservateurTutoriel monObservateurTutoriel = new MonObservateurTutoriel(this.tutorielVue);
+        this.tutorielVue.tutoProperty().addListener(monObservateurTutoriel);
+        this.boutonPageSuivante.setVisible(false);
 
     }
 
@@ -312,6 +319,9 @@ public class ControleurJeu implements Initializable{
             case "feu":
                 symbole = "feu";
                 break;
+            case "note":
+                symbole = "note";
+                break;
         }
 
         if (symbole != null){
@@ -382,6 +392,21 @@ public class ControleurJeu implements Initializable{
             this.environnement.getSymboles().reset();
         }
     }
+
+    @FXML
+    public void deroulerParcheminTutoriel() {
+        System.out.println("je suis ici");
+        this.tutorielVue.afficherTutot();
+        this.boutonPageSuivante.setVisible(!this.boutonPageSuivante.isVisible());
+    }
+
+    @FXML
+    public void tournerDePage(){
+        this.tutorielVue.changerPage();
+    }
+
+
+
 
 }
 
