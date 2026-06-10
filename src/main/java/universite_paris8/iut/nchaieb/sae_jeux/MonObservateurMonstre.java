@@ -28,11 +28,16 @@ public class MonObservateurMonstre implements ListChangeListener<Monstre> {
         this.monstreVue.ajouterSprite(monstreDeBase);
     }
 
+    private void mort(Monstre monstre) {
+
+        this.monstreVue.animationMort(monstre);
+
+    }
 
 
     private void enleverSprite(Monstre monstre) {
 
-        this.monstreVue.animationMort(monstre);
+        this.monstreVue.retirer(monstre);
 
     }
 
@@ -50,6 +55,14 @@ public class MonObservateurMonstre implements ListChangeListener<Monstre> {
 //                        if (newValue.equals("fixe")) {
 //                        }
                         if (newValue.equals("marche")) {
+                            this.monstreVue.animationMarche(nouveau);
+                        }
+
+                    });
+                    nouveau.pvProperty().addListener((observable, oldValue, newValue) -> {
+
+//
+                        if (newValue.equals(0)) {
                             this.monstreVue.animationMarche(nouveau);
                         }
 

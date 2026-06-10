@@ -15,7 +15,7 @@ public abstract class Monstre extends Entite {
 
     public static int compteurID = 0;
     private String id;
-    protected int nombreDePV;
+    protected IntegerProperty nombreDePV;
     protected int pvMax;
     private int atq;
     protected int vitesse;
@@ -36,7 +36,7 @@ public abstract class Monstre extends Entite {
         this.posY = new SimpleIntegerProperty();
         this.atq = atq;
         this.pvMax = pvMax;
-        this.nombreDePV = pvMax;
+        this.nombreDePV= new SimpleIntegerProperty(pvMax);
         this.recompense = recompense;
         this.id = "M" + this.compteurID;
         this.compteurID++;
@@ -55,7 +55,7 @@ public abstract class Monstre extends Entite {
         } else if (portailAleatoire == 1) {
             this.setPosX(24 * TAILLE_TUILE);
             this.setPosY(0);                // Spawn 2 (Haut milieu)
-            this.targetX = 24;              // Cible temporaire (cercle rouge)
+            this.targetX = 24;              // Cible temporaire pour diriger le monstre vers le bas
             this.targetY = 14;
         } else {
             // Le nouveau Spawn sur le trait noir en bas à gauche (Ligne 22)
@@ -80,6 +80,9 @@ public abstract class Monstre extends Entite {
         if (!estBloqueParAllie(collegues)) {
             this.setActionActuelle("marche");
             this.avancer(terrain);
+        }
+        if(this.aAtteintSaCible()){
+            base.retirerPv(this.atq);
         }
     }
 
@@ -152,20 +155,30 @@ public abstract class Monstre extends Entite {
 
     public boolean aAtteintSaCible() {
         return this.cheminCalcule && this.chemin != null && this.chemin.isEmpty()
-                && this.getPosX() == (this.targetX * TAILLE_TUILE)
+                && this.getPosX() == ((this.targetX * TAILLE_TUILE))
                 && this.getPosY() == (this.targetY * TAILLE_TUILE);
     }
 
     public int getAtq() { return atq; }
-    public void infligerDegat(Monstre monstre) { if (monstre.nombreDePV != 0) monstre.retirerPV(this.atq); }
-    public void ajouterPV(int soin) { this.nombreDePV = Math.min(this.nombreDePV + soin, this.pvMax); }
-    public void retirerPV(int degat) { this.nombreDePV = Math.max(this.nombreDePV - degat, 0); }
+    public void infligerDegat(Monstre monstre) { if (monstre.nombreDePV.get() != 0) monstre.retirerPV(this.atq); }
+
+    public void ajouterPV(int soin) { this.nombreDePV.set(Math.min(this.nombreDePV.get() + soin, this.pvMax));}
+
+    public void retirerPV(int degat) { this.nombreDePV.set( Math.max(this.nombreDePV.get() - degat, 0)); }
+
     public int getPortee() { return portee; }
+
     public int getRecompense() { return recompense; }
+
     public boolean estDansLeRayon(Monstre monstre) { return (Math.abs(monstre.getPosX() - this.getPosX()) + Math.abs(monstre.getPosY() - this.getPosY())) <= this.portee; }
-    public boolean estVivant() { return this.nombreDePV > 0; }
+
+    public boolean estVivant() { return this.nombreDePV.get() > 0; }
+
     public int getVitesse() { return vitesse; }
-    public int getPV() { return this.nombreDePV; }
+
+    public int getPV() { return this.nombreDePV.get(); }
+    public IntegerProperty pvProperty() { return this.nombreDePV; }
+
     public String getId() { return this.id; }
     @Override public int getPosX() { return posX.get(); }
     @Override public IntegerProperty posXProperty() { return posX; }

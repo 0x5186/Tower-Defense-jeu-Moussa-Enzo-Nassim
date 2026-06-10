@@ -3,9 +3,12 @@ package universite_paris8.iut.nchaieb.sae_jeux.modele;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.SortTours.Projectile;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.SortTours.SortTour;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Tours.Tour;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.monstres.Monstre;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.monstres.Sorcier;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.monstres.Squelette;
 
 public class Environnement {
 	private IntegerProperty nbTours;
@@ -16,7 +19,7 @@ public class Environnement {
 	private Base base;
 	private ObservableList<Tour> lesTours;
 	private ObservableList<Monstre> lesMonstres;
-	protected ObservableList<Projectile> lesProjectiles;
+	protected ObservableList<SortTour> sortTours;
 	private Terrain terrain;
 	private IntegerProperty argent;
 
@@ -34,7 +37,7 @@ public class Environnement {
 	private int compteurSpawn;
 	private boolean pauseEntreVagues;
 	private int compteurPause;
-	private Tour tourAPlacer;
+
 
 	public Environnement(Terrain terrain) {
 		this.terrain = terrain;
@@ -42,7 +45,7 @@ public class Environnement {
 		this.lesTours =FXCollections.observableArrayList();
 		this.lesMonstres = FXCollections.observableArrayList();
 		this.symboles = new Symboles();
-		this.lesProjectiles= FXCollections.observableArrayList();
+		this.sortTours= FXCollections.observableArrayList();
 
 		this.argent = new SimpleIntegerProperty(100);
 		this.base = new Base();
@@ -106,15 +109,13 @@ public class Environnement {
 		this.modePlacementTour.set(modePlacementTour);
 	}
 
-	public void ajouterProjectiles(Projectile projectile){
-		this.lesProjectiles.add(projectile);
-	}
-	public void setLesProjectiles(ObservableList<Projectile> lesProjectile) {
-		this.lesProjectiles = lesProjectile;
+	public void ajouterProjectiles(SortTour sortTour){
+		this.sortTours.add(sortTour);
 	}
 
-	public ObservableList<Projectile> getLesProjectiles() {
-		return lesProjectiles;
+
+	public ObservableList<SortTour> getLesProjectiles() {
+		return sortTours;
 	}
 
 	// autres Méthodes:
@@ -152,15 +153,18 @@ public class Environnement {
 	}
 
 	public void unTour() {
+		for (int i=0; i<sortTours.size(); i++){
+			System.out.println(sortTours.get(i));
+		}
 
-		if (this.lesProjectiles!=null || !this.lesProjectiles.isEmpty()){
-			for(int i = 0; i < this.lesProjectiles.size(); i++){
-				if(this.lesProjectiles.get(i).verifPosition()){
-					this.lesProjectiles.remove(this.lesProjectiles.get(i));
+		if (this.sortTours!=null || !this.sortTours.isEmpty()){
+			for(int i = 0; i < this.sortTours.size(); i++){
+				if(this.sortTours.get(i).isAttaqueFini()){
+					this.sortTours.remove(this.sortTours.get(i));
 					System.out.println("retirer");
 				}
 				else{
-					this.lesProjectiles.get(i).projectilesAJour();
+					this.sortTours.get(i).sortAJour();
 				}
 
 			}
@@ -196,7 +200,7 @@ public class Environnement {
 		}
 
 			for (int i = 0; i < this.lesTours.size(); i++) {
-				this.lesTours.get(i).agir(this.lesMonstres, this.base, this.lesProjectiles);
+				this.lesTours.get(i).agir(this.lesMonstres, this.base, this.sortTours);
 			}
 		}
 
@@ -208,7 +212,7 @@ public class Environnement {
 					this.setArgent(this.getArgent() + m.getRecompense());
 					this.lesMonstres.remove(i);
 				} else if (m.aAtteintSaCible()) {
-					this.base.retirerPv(m.getAtq());
+
 					this.lesMonstres.remove(i);
 				} else {
 					m.agir(this.lesMonstres, this.terrain, this.base);

@@ -47,8 +47,7 @@ public class MonstreVue {
         this.pane.getChildren().add(iv);
     }
 
-    public void retirer(Entite entite) {
-        ImageView iv = (ImageView) hashMap.get(entite);
+
     public void retirer(Monstre monstre){
         ImageView  iv= (ImageView) hashMap.get(monstre);
         iv.setImage(null);

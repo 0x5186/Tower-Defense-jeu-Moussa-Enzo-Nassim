@@ -11,7 +11,7 @@ import universite_paris8.iut.nchaieb.sae_jeux.Main;
 public class TerrainVue {
     Image herbeBasse = new Image(Main.class.getResourceAsStream("images/herbe-basse.png"));
     Image herbeHaute = new Image(Main.class.getResourceAsStream("images/herbe-haute.png"));
-    Image herbeDefaut = new Image(Main.class.getResourceAsStream("images/herbehaute2.png"));
+    Image herbeDefaut = new Image(Main.class.getResourceAsStream("images/herbe.png"));
     Image terrainChemin = new Image(Main.class.getResourceAsStream("images/terrain.png"));
     Image portail = new Image(Main.class.getResourceAsStream("images/portail.png"));
 

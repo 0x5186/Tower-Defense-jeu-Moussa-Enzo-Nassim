@@ -131,7 +131,7 @@ public class ControleurJeu implements Initializable{
         this.baseVue= new BaseVue(this.pane, this.environnement.getBase());
         MonObservateurMonstre observateurMonstres = new MonObservateurMonstre(pane, this.baseVue);
         MonObservateurTour monObservateurTour = new MonObservateurTour(pane);
-        MonObservateurProjectiles monObservateurProjectiles = new MonObservateurProjectiles(pane);
+        MonObservateurSortsTours monObservateurSortsTours = new MonObservateurSortsTours(pane);
 
         System.out.println(this.baseVue);
 
@@ -140,7 +140,7 @@ public class ControleurJeu implements Initializable{
 
         environnement.getLesMonstres().addListener(observateurMonstres);
         environnement.getLesTours().addListener(monObservateurTour);
-        environnement.getLesProjectiles().addListener(monObservateurProjectiles);
+        environnement.getLesProjectiles().addListener(monObservateurSortsTours);
 
 
 

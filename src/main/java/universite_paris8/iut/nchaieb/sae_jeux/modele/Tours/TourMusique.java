@@ -2,8 +2,8 @@ package universite_paris8.iut.nchaieb.sae_jeux.modele.Tours;
 
 import javafx.collections.ObservableList;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Base;
-import universite_paris8.iut.nchaieb.sae_jeux.modele.Environnement;
-import universite_paris8.iut.nchaieb.sae_jeux.modele.Projectile;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.SortTours.Projectile;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.SortTours.SortTour;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.monstres.Monstre;
 
 public class TourMusique extends Tour{
@@ -14,7 +14,7 @@ public class TourMusique extends Tour{
     }
 
     @Override
-    public void agir(ObservableList<Monstre> listeMonstre, Base base, ObservableList<Projectile> projectiles) {
+    public void agir(ObservableList<Monstre> listeMonstre, Base base, ObservableList<SortTour> projectiles) {
         Monstre monstrePlusProche;
         gererCooldown();
 
