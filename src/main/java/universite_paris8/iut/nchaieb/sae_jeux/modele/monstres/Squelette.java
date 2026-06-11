@@ -4,7 +4,7 @@ import universite_paris8.iut.nchaieb.sae_jeux.modele.Terrain;
 
 public class Squelette extends Monstre {
     public Squelette(Terrain terrain) {
-        super(100, 1,10,terrain);
+        super(2, 1,2,terrain);
 
         this.actionActuelle.set("fixe");
         this.portee= 100;

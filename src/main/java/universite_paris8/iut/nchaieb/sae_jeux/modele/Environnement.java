@@ -7,6 +7,7 @@ import universite_paris8.iut.nchaieb.sae_jeux.modele.SortTours.Projectile;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.SortTours.SortTour;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Tours.Tour;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.monstres.Monstre;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.monstres.Nargacuga;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.monstres.Sorcier;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.monstres.Squelette;
 
@@ -128,7 +129,7 @@ public class Environnement {
 	}
 
 	public void ajouterMonstre() {
-		Monstre monstre = new Squelette(this.terrain);
+		Monstre monstre = new Nargacuga(this.terrain);
 		lesMonstres.add(monstre);
 	}
 
@@ -146,6 +147,7 @@ public class Environnement {
 		switch (codeMonstre) {
 			case 0: monstre = new Squelette(this.terrain); break;
 			case 1: monstre = new Sorcier(this.terrain); break;
+			case 2: monstre = new Nargacuga(this.terrain); break;
 		}
 		if (monstre != null) {
 			this.lesMonstres.add(monstre);
@@ -167,9 +169,14 @@ public class Environnement {
 
 			}
 		}
-		//faut les supp quand ils sont morts / sinon ils continuent d'avancer
+
 		if (!(this.lesTours == null) && !this.lesTours.isEmpty()) {
-		// Gestion des vagues (version 1)
+			for (int i = 0; i < this.lesTours.size(); i++) {
+				this.lesTours.get(i).agir(this.lesMonstres, this.base, this.sortTours);
+			}
+		}
+
+
 		if (pauseEntreVagues) {
 			compteurPause--;
 			if (compteurPause <= 0) {
@@ -197,10 +204,8 @@ public class Environnement {
 			}
 		}
 
-			for (int i = 0; i < this.lesTours.size(); i++) {
-				this.lesTours.get(i).agir(this.lesMonstres, this.base, this.sortTours);
-			}
-		}
+
+
 
 		if (!(this.lesMonstres == null) && !this.lesMonstres.isEmpty()) {
 			for (int i = this.lesMonstres.size() - 1; i >= 0; i--) {

@@ -170,7 +170,7 @@ public class MonstreVue {
 
     }
 
-    public void animationMort(Entite monstre) {
+    public void animationMort(Monstre monstre) {
         ImageView iv = (ImageView) this.hashMap.get(monstre);
         int largeurCase = 240;
         int hauteurCase = 240;
@@ -182,7 +182,7 @@ public class MonstreVue {
             this.hashMapAnimation.remove(monstre);
         }
 
-        // CORRECTION 2 : Le Nargacuga DOIT être traité avant le squelette, avec un return à la fin !
+
         if (monstre instanceof Nargacuga) {
             FadeTransition fade = new FadeTransition(Duration.seconds(1), iv);
             fade.setFromValue(1.0);
@@ -192,36 +192,36 @@ public class MonstreVue {
                 this.retirer(monstre);
             });
             fade.play();
-            return; // INDISPENSABLE pour empêcher l'exécution de l'animation du Squelette juste en dessous
+
         }
 
-        // Si le code arrive ici, c'est que ce n'est PAS un Nargacuga
-        int largeurCase = 240;
-        int hauteurCase = 240;
-        int[] frameIndex = {27};
+        if(monstre instanceof Squelette){
 
-        Timeline squeletteMort = new Timeline(
-                new KeyFrame(Duration.millis(120), e -> {
-                    int x = frameIndex[0] % 6;
-                    int y = frameIndex[0] / 6;
+            Timeline squeletteMort = new Timeline(
+                    new KeyFrame(Duration.millis(120), e -> {
+                        int x = frameIndex[0] % 6;
+                        int y = frameIndex[0] / 6;
 
-                    iv.setViewport(new Rectangle2D(x * largeurCase, y * hauteurCase, largeurCase, hauteurCase));
-                    frameIndex[0]++;
-                })
-        );
-        squeletteMort.setCycleCount(9);
+                        iv.setViewport(new Rectangle2D(x * largeurCase, y * hauteurCase, largeurCase, hauteurCase));
+                        frameIndex[0]++;
+                    })
+            );
+            squeletteMort.setCycleCount(9);
 
 
-        squeletteMort.setOnFinished(e -> {
-            FadeTransition fade = new FadeTransition(Duration.seconds(2), iv);
-            fade.setFromValue(1.0);
-            fade.setToValue(0.0);
-            fade.setOnFinished(fadeEvent -> {
-                this.hashMap.remove(iv);
-                this.retirer(monstre);
+            squeletteMort.setOnFinished(e -> {
+                FadeTransition fade = new FadeTransition(Duration.seconds(2), iv);
+                fade.setFromValue(1.0);
+                fade.setToValue(0.0);
+                fade.setOnFinished(fadeEvent -> {
+                    this.hashMap.remove(iv);
+                    this.retirer(monstre);
+                });
+                fade.play();
             });
-            fade.play();
-        });
-        squeletteMort.play();
-    }
+            squeletteMort.play();
+        }
+        }
+
+
 }

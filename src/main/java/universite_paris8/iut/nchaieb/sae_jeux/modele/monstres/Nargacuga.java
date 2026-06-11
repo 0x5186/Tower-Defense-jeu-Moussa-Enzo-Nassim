@@ -5,8 +5,8 @@ import universite_paris8.iut.nchaieb.sae_jeux.modele.Terrain;
 
 public class Nargacuga extends Monstre {
     public Nargacuga (Terrain terrain){
-        super(1, 10, 4,terrain);
-        this.nombreDePV=pvMax;
+        super(15, 10, 10,terrain);
+        this.nombreDePV.set(pvMax);
         this.actionActuelle.set("fixe");
         this.portee= 2;
     }
