@@ -1,20 +1,26 @@
 package universite_paris8.iut.nchaieb.sae_jeux.modele;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+
 public class Base {
     private int pvMax;
-    private int pv;
+    private IntegerProperty pv;
     private int posX;
     private int posY;
 
     public Base() {
-        this.posY = 20;
-        this.posX = 1735;
+        this.posX = 1856; // 58 * 32px
+        this.posY = 384;  // 12 * 32px
         this.pvMax = 100;
-        this.pv = this.pvMax;
-
+        this.pv = new SimpleIntegerProperty(this.pvMax);
     }
 
     public int getPv() {
+        return pv.get();
+    }
+
+    public IntegerProperty pvProperty(){
         return pv;
     }
 
@@ -31,25 +37,19 @@ public class Base {
     }
 
     public void ajouterPv(int pvAjoutes){
-        if(this.pv+pvAjoutes >this.pvMax){
-            this.pv= this.pvMax;
+        if(this.pv.get()+pvAjoutes >this.pvMax){
+            this.pv.set(this.pvMax);
         }
         else {
-            this.pv= this.pv+pvAjoutes;
+            this.pv.set(this.pv.get() + pvAjoutes);
         }
     }
     public void retirerPv(int pvRetires){
-        if (this.pv-pvRetires<0){
-            this.pv=0;
+        if (this.pv.get() - pvRetires<0){
+            this.pv.set(0);
         }
         else{
-            this.pv=this.pv-pvRetires;
+            this.pv.set(this.pv.get() - pvRetires);
         }
     }
-
-
-
-
-
-
 }

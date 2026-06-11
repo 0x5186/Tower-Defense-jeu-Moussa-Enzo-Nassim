@@ -16,8 +16,6 @@ import javafx.util.Duration;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Environnement;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Terrain;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.CombinaisonValables;
-import universite_paris8.iut.nchaieb.sae_jeux.modele.Tours.Tour;
-import universite_paris8.iut.nchaieb.sae_jeux.modele.Tours.TourOeil;
 import universite_paris8.iut.nchaieb.sae_jeux.vue.*;
 
 import javax.sound.sampled.LineUnavailableException;
@@ -28,7 +26,7 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.Scanner;
 
-public class ControleurJeu implements Initializable{
+public class ControleurJeu implements Initializable {
     private Environnement environnement;
     private ArrayList<CombinaisonValables> lesSorts;
 
@@ -83,13 +81,10 @@ public class ControleurJeu implements Initializable{
                         gameLoop.stop();
                         System.out.println("perdu");
                     }
-
                 })
-
         );
         gameLoop.setCycleCount(Timeline.INDEFINITE);
         gameLoop.getKeyFrames().add(kf);
-
     }
 
     @Override
@@ -113,8 +108,6 @@ public class ControleurJeu implements Initializable{
 
 
 
-
-        //ajout du pane
         this.terrain = new Terrain();
 
 

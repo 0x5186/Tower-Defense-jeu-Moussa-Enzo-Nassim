@@ -9,7 +9,6 @@ public class Sorcier extends Monstre {
 
         this.actionActuelle.set("fixe");
         this.portee= 100;
-
     }
 
 

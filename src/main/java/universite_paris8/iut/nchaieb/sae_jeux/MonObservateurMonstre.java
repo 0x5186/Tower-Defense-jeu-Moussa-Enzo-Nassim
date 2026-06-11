@@ -70,8 +70,6 @@ public class MonObservateurMonstre implements ListChangeListener<Monstre> {
 
                 }System.out.println(baseVue);
                 if(this.baseVue!=null) {
-
-                    this.baseVue.rechargerpart2();
                 }
 
             }
