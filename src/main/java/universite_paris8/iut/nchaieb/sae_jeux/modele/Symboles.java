@@ -2,10 +2,7 @@ package universite_paris8.iut.nchaieb.sae_jeux.modele;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import universite_paris8.iut.nchaieb.sae_jeux.modele.Tours.Tour;
-import universite_paris8.iut.nchaieb.sae_jeux.modele.Tours.TourHeal;
-import universite_paris8.iut.nchaieb.sae_jeux.modele.Tours.TourMusique;
-import universite_paris8.iut.nchaieb.sae_jeux.modele.Tours.TourOeil;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.Tours.*;
 
 public class Symboles {
     private ObservableList<String> combinaison;
@@ -52,6 +49,10 @@ public class Symboles {
                 System.out.println("Combinaison validée : Tour Musique");
                 return true;
             }
+            else if (combinaison.equals(combinaisonValables.tourGlace)){
+                System.out.println("Combinaison validée : Tour Glace");
+                return true;
+            }
         }
         return false;
     }
@@ -64,6 +65,8 @@ public class Symboles {
                 return new TourHeal(x, y);
             } else if (combinaison.equals(combinaisonValables.tourMusic)) { // Intégration V2
                 return new TourMusique(x, y);
+            } else if (combinaison.equals(combinaisonValables.tourGlace)) {
+                return new TourGlace(x, y);
             }
         }
         return null;
@@ -77,6 +80,8 @@ public class Symboles {
                 return "tourHeal";
             } else if (combinaison.equals(combinaisonValables.tourMusic)) { // Intégration V2
                 return "tourMusique";
+            } else if (combinaison.equals(combinaisonValables.tourGlace)) {
+                return "tourGlace";
             }
         }
         return ""; // Retourne une chaîne vide propre si aucune correspondance

@@ -150,11 +150,6 @@ public class ControleurJeu implements Initializable {
     }
 
     @FXML
-    public void AjouterMonstreEnnemi() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
-        this.environnement.ajouterMonstre();
-    }
-
-    @FXML
     public void actionsDesSymboles(Event event) {
         Button boutonSymbole = (Button) event.getSource();
         String symboleTexte = boutonSymbole.getText();

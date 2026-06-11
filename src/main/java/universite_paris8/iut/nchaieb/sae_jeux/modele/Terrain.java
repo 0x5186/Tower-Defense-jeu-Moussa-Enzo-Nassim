@@ -2,9 +2,11 @@ package universite_paris8.iut.nchaieb.sae_jeux.modele;
 
 public class Terrain {
     private int[][] codeTuiles;
+    private boolean [][] casesBloquees;
 
     public Terrain() {
         codeTuiles = new int[25][60];
+        casesBloquees = new boolean[25][60];
 
         // Ligne du haut (Spawn 1)
         for (int colonne = 0; colonne <= 45; colonne++) codeTuiles[8][colonne] = 1;
@@ -26,7 +28,10 @@ public class Terrain {
         for (int ligne = 0; ligne <= 15; ligne++) codeTuiles[ligne][24] = 1;
         for (int ligne = 0; ligne <= 15; ligne++) codeTuiles[ligne][25] = 1;
 
-        // Remontée depuis le trait noir du bas
+        //deuxieme voie de remontée possible du bas pour éviter problème avec la tour de glace
+        for (int ligne = 16; ligne <= 22; ligne++) codeTuiles[ligne][30] = 1;
+        for (int ligne = 16; ligne <= 22; ligne++) codeTuiles[ligne][31] = 1;
+
         for (int ligne = 8; ligne <= 15; ligne++) codeTuiles[ligne][11] = 1;
         for (int ligne = 8; ligne <= 15; ligne++) codeTuiles[ligne][10] = 1;
 
@@ -46,6 +51,19 @@ public class Terrain {
 
     public boolean estPraticable(int colonne, int ligne) {
         if (colonne < 0 || colonne >= largeur() || ligne < 0 || ligne >= hauteur()) return false;
+        return codeTuiles[ligne][colonne] == 1 && !casesBloquees[ligne][colonne];
+    }
+
+    public boolean estCheminNaturel(int colonne, int ligne){
+        if(colonne < 0 || colonne >= largeur() || ligne < 0 || ligne >= hauteur()) {
+            return false;
+        }
         return codeTuiles[ligne][colonne] == 1;
+    }
+
+    public void setCaseBloquee(int x, int y, boolean bloquee){
+        if(x >= 0 && x < largeur() && y >= 0 && y < hauteur()) {
+            casesBloquees[y][x] = bloquee;
+        }
     }
 }

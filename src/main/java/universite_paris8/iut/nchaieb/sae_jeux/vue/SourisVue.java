@@ -16,6 +16,10 @@ public class SourisVue {
             Main.class.getResourceAsStream("images/tourOeilCurseur.png"),
             80, 80, true, true
     );
+    Image tourGlaceCurseur = new Image(
+            Main.class.getResourceAsStream("images/tour-de-glace.png"),
+            80, 80, true, true
+    );
 
 
     public SourisVue(StackPane pane) {
@@ -26,8 +30,12 @@ public class SourisVue {
 
     public void ajouterImageSouris(String tour){// change l'image de la souris pour la tour qu'on veut placer
         System.out.println("souris changée");
+
         if(tour.equals("tourOeil")) {
             pane.setCursor(new ImageCursor(tourOeilCurseur));
+        }
+        if(tour.equals("tourGlace")){
+            pane.setCursor(new ImageCursor(tourGlaceCurseur));
         }
 
     }

@@ -7,13 +7,14 @@ public class CombinaisonValables {
     protected ArrayList<String> tourOeil;
     protected ArrayList<String> tourHeal;
     protected ArrayList<String> tourMusic;
+    protected ArrayList<String> tourGlace;
 
 
     public CombinaisonValables() {
         this.tourOeil = new ArrayList<String>(List.of("oeil", "croix", "eclipse"));
         this.tourHeal = new ArrayList<String>(List.of("croix","goutte" ,"crystal", "spirale"));
         this.tourMusic = new ArrayList<String>(List.of("eclipse","spirale"));
-
+        this.tourGlace = new ArrayList<String>(List.of("spirale","crystal"));
     }
 
 

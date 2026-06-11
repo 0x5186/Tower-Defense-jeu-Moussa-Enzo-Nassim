@@ -134,7 +134,6 @@
                             </content>
                         </ScrollPane>
 
-                        <Button fx:id="boutonMonstreEnnemi" layoutX="22.0" layoutY="70.0" mnemonicParsing="false" onAction="#AjouterMonstreEnnemi" text="ajouter ennemi" />
                         <Button fx:id="boutonValiderPentacle" layoutX="200.0" layoutY="-52.0" mnemonicParsing="false" onAction="#validerPentacle" prefHeight="7.0" prefWidth="2.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;">
                             <graphic>
                                 <ImageView fx:id="fiole" fitHeight="200.0" fitWidth="200.0" nodeOrientation="INHERIT" preserveRatio="true">

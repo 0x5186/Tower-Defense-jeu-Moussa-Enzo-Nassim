@@ -156,6 +156,17 @@ public abstract class Monstre extends Entite {
                 && this.getPosY() == (this.targetY * TAILLE_TUILE);
     }
 
+    public void recalculerItineraire(Terrain terrain, Base base){
+        int rx = this.getPosX() / TAILLE_TUILE;
+        int ry = this.getPosY() / TAILLE_TUILE;
+
+        ArrayList<Noeud> nouveuChemin = AlgorithmeAEtoile.trouverChemin(terrain, rx, ry, this.targetX, this.targetY );
+        if(nouveuChemin != null && !nouveuChemin.isEmpty()){
+            this.chemin = nouveuChemin;
+            this.cheminCalcule = true;
+        }
+    }
+
     public int getAtq() { return atq; }
     public void infligerDegat(Monstre monstre) { if (monstre.nombreDePV != 0) monstre.retirerPV(this.atq); }
     public void ajouterPV(int soin) { this.nombreDePV = Math.min(this.nombreDePV + soin, this.pvMax); }

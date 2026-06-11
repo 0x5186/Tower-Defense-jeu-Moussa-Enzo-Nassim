@@ -37,9 +37,6 @@ public class BaseVue {
         imageView.setLayoutX(ancreBasX);
         imageView.setLayoutY(ancreBasY - hauteurCase);
 
-        // ══════════════════════════════════════════════════════════
-        //  BARRE DE VIE — placée EN DESSOUS des pieds de la tour
-        // ══════════════════════════════════════════════════════════
         double largeurBarre = 120;
         double hauteurBarre = 18;
 
@@ -55,8 +52,6 @@ public class BaseVue {
         textePV.setFill(Color.WHITE);
         textePV.setStyle("-fx-font-weight: bold; -fx-font-family: 'Arial'; -fx-font-size: 14px;");
 
-        // ancreBasY = les pieds de la tour
-        // on descend de 10px sous les pieds
         double barX = base.getPosX() + 16 - (largeurBarre / 2.0);
         double barY = ancreBasY + 10;
 
