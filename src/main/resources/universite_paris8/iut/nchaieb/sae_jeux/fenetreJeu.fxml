@@ -15,13 +15,13 @@
       </StackPane>
    </center>
    <bottom>
-      <StackPane  fx:id="stackPaneinterface"  BorderPane.alignment="CENTER">
+      <StackPane fx:id="stackPaneinterface" BorderPane.alignment="CENTER">
          <children>
             <Pane prefHeight="164.0" prefWidth="718.0">
                <children>
                   <ScrollPane cache="true" cacheHint="SCALE_AND_ROTATE" depthTest="ENABLE" layoutX="723.0" onScroll="#actionsDesSymboles" prefHeight="81.0" prefWidth="547.0" scaleX="1.7" scaleY="1.7" stylesheets="@application.css">
                     <content>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="16.0" prefWidth="1018.0">
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="16.0" prefWidth="2000.0">
                            <children>
 
 
@@ -157,6 +157,17 @@
                                    </graphic>
                                </Button>
 
+                               <Button ellipsisString="" layoutX="960" layoutY="-13" mnemonicParsing="false" onAction="#actionsDesSymboles" prefHeight="7.0" prefWidth="2.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;" text="flocon">
+                                   <graphic>
+                                       <ImageView fitHeight="94.0" fitWidth="94.0" preserveRatio="true">
+                                           <image>
+                                               <Image url="@images/symboleFlocon.png">
+                                               </Image>
+                                           </image>
+                                       </ImageView>
+                                   </graphic>
+                               </Button>
+
                            </children></AnchorPane>
                     </content>
 <!--                     <effect><Glow level="0.07" />-->
@@ -173,11 +184,11 @@
                        </graphic>
                    </Label>
 
-                   <Button fx:id="parcheminTuto" layoutX="1820" layoutY="50" mnemonicParsing="false" onAction="#deroulerParcheminTutoriel" prefHeight="7.0" prefWidth="2.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;">
+                   <Button fx:id="parcheminTuto" layoutX="1820" layoutY="50" mnemonicParsing="false" onAction="#deroulerParcheminTutoriel" prefHeight="7.0" prefWidth="2.0" scaleX="1.5" scaleY="1.5" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;">
                        <graphic>
                            <ImageView fitHeight="64.0" fitWidth="64.0" preserveRatio="true">
                                <image>
-                                   <Image url="@images/barriere.png">
+                                   <Image url="@images/ParcheminTutoPourOuvrir.png">
                                    </Image>
                                </image>
                            </ImageView>
@@ -202,11 +213,11 @@
 <!--                         </image>-->
 <!--                     </ImageView>-->
 
-                   <Button fx:id="boutonValiderPentacle" layoutX="100.0" layoutY="-52.0" mnemonicParsing="false" onAction="#validerPentacle" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;" >
+                   <Button fx:id="boutonValiderPentacle" layoutX="100.0" layoutY="-52.0" mnemonicParsing="false" onAction="#validerPentacle" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 0;">
                       <graphic>
-                          <ImageView  fx:id="fiole" fitHeight="200" fitWidth="200" layoutX="100.0" layoutY="-50.0" pickOnBounds="false" preserveRatio="true">
+                          <ImageView fx:id="fiole" fitHeight="200" fitWidth="200" layoutX="100.0" layoutY="-50.0" pickOnBounds="false" preserveRatio="true">
                               <image>
-                                  <Image url="@images/fiole.png"/>
+                                  <Image url="@images/fiole.png" />
                               </image>
                               <effect>
                                   <Bloom threshold="0.58" />
