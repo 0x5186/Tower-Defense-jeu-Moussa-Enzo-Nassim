@@ -16,7 +16,8 @@ public class TutorielVue {
 
     //affiche le parchemin
     Image parcheminTuto = new Image(Main.class.getResourceAsStream("images/ParcheminTuto.png"));
-    Image imageCombinaison = new Image(Main.class.getResourceAsStream("images/imageCombinaison.png"));
+    Image imageCombinaison1 = new Image(Main.class.getResourceAsStream("images/imageCombinaison.png"));
+    Image imageCombinaison2 = new Image(Main.class.getResourceAsStream("images/imageCombinaison2.png"));
 
 
     private StackPane stackPane;
@@ -27,11 +28,13 @@ public class TutorielVue {
     private Label paragraphe;
     private Label pageDefilee;
     private ImageView image;
-    private ImageView imageCombi;
+    private ImageView imageCombi1;
+    private ImageView imageCombi2;
 
     public TutorielVue(StackPane stackPane){
         this.image = new ImageView(parcheminTuto);
-        this.imageCombi = new ImageView(imageCombinaison);
+        this.imageCombi1 = new ImageView(imageCombinaison1);
+        this.imageCombi2 = new ImageView(imageCombinaison2);
         this.stackPane =stackPane;
         this.hbox = new HBox();
         this.titre = new Label();
@@ -58,7 +61,8 @@ public class TutorielVue {
         this.hbox.getChildren().add(this.titre);
         this.hbox.getChildren().add(this.pageDefilee);
         this.hbox.getChildren().add(this.paragraphe);
-        this.hbox.getChildren().add(this.imageCombi);
+        this.hbox.getChildren().add(this.imageCombi1);
+        this.hbox.getChildren().add(this.imageCombi2);
         this.hbox.setTranslateX(1420);
         this.hbox.setTranslateY(50);
         //images positions + deja caché
@@ -67,11 +71,16 @@ public class TutorielVue {
         this.image.setTranslateX(1360);
         this.image.setTranslateY(90);
         this.image.setVisible(false);
-        this.imageCombi.setScaleX(0.5);
-        this.imageCombi.setScaleY(0.5);
-        this.imageCombi.setTranslateX(-680);
-        this.imageCombi.setTranslateY(140);
-        this.imageCombi.setVisible(false);
+        this.imageCombi1.setScaleX(0.5);
+        this.imageCombi1.setScaleY(0.5);
+        this.imageCombi1.setTranslateX(-705);
+        this.imageCombi1.setTranslateY(140);
+        this.imageCombi1.setVisible(false);
+        this.imageCombi2.setScaleX(0.5);
+        this.imageCombi2.setScaleY(0.5);
+        this.imageCombi2.setTranslateX(-1370);
+        this.imageCombi2.setTranslateY(400);
+        this.imageCombi2.setVisible(false);
         //ajout rectangle dans hbox + ajout hbox dans stackpane
         this.stackPane.getChildren().add(image);
         this.stackPane.getChildren().add(hbox);
@@ -83,7 +92,8 @@ public class TutorielVue {
         //le paragraphes/pageDefilee est toujours vidé sinon il restera afficher même après avoir fermer le tuto
         this.paragraphe.setText("");
         this.pageDefilee.setText("");
-        this.imageCombi.setVisible(false);
+        this.imageCombi1.setVisible(false);
+        this.imageCombi2.setVisible(false);
         //vu que le simpleProperty est sur false, on veut s'assurer de le mettre en true avant
         this.afficher.set(!this.afficher.get());
         //si maintenant il est true, il affiche
@@ -120,14 +130,16 @@ public class TutorielVue {
 
     public void paragraphes() {
         if (this.page == 1) {
-            this.paragraphe.setText("                   Premièrement, pour faire apparaître des tours, \n                   vous devez suivre des combinaisons de symboles spécifique \n                    et dans l'ordre." +
-                    "\n\n                   Essayez avec cette combinaison ci-dessous." +
-                    "\n\n\n\nMaintenant grâce à ce sort, vous pouvez faire apparaitre une \n     ou plusieurs tours d'attaques basique" +
+            this.paragraphe.setText("            Premièrement, pour faire apparaître des tours, \n            vous devez suivre des combinaisons de symboles spécifique \n             et dans l'ordre." +
+                    "\n\n            Essayez avec cette combinaison ci-dessous." +
+                    "\n\n\n\nMaintenant grâce à ce sort, vous pouvez faire apparaitre une \nou plusieurs tours d'attaques basique" +
                     "\n\n\nEssayez à présent avec ces combinaisons suivantes : ");
-            this.imageCombi.setVisible(true);
+            this.imageCombi1.setVisible(true);
+            this.imageCombi2.setVisible(true);
         } else if (this.page == 2) {
             this.paragraphe.setText("lolo, \n ~Nassim");
-            this.imageCombi.setVisible(false);
+            this.imageCombi1.setVisible(false);
+            this.imageCombi2.setVisible(false);
         }
     }
 
