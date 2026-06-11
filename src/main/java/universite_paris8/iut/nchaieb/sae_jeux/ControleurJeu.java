@@ -315,6 +315,9 @@ public class ControleurJeu implements Initializable {
             case "note":
                 symbole = "note";
                 break;
+            case "flocon":
+                symbole = "flocon";
+                break;
         }
 
         if (symbole != null){
