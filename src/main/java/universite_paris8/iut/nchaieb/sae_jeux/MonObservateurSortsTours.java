@@ -2,19 +2,18 @@ package universite_paris8.iut.nchaieb.sae_jeux;
 
 import javafx.collections.ListChangeListener;
 import javafx.scene.layout.Pane;
-import universite_paris8.iut.nchaieb.sae_jeux.modele.SortTours.Projectile;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.SortTours.SortTour;
-import universite_paris8.iut.nchaieb.sae_jeux.vue.ProjectilesVue;
+import universite_paris8.iut.nchaieb.sae_jeux.vue.SortTourVue;
 
 public class MonObservateurSortsTours implements ListChangeListener<SortTour> {
 
     private Pane pane;
-    private ProjectilesVue projectilesVue;
+    private SortTourVue projectilesVue;
 
     public MonObservateurSortsTours(Pane pane) {
         super();
         this.pane = pane;
-        this.projectilesVue = new ProjectilesVue(this.pane);
+        this.projectilesVue = new SortTourVue(this.pane);
     }
 
 

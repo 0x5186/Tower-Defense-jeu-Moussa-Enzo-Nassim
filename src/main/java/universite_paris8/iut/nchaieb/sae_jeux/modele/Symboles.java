@@ -2,10 +2,7 @@ package universite_paris8.iut.nchaieb.sae_jeux.modele;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import universite_paris8.iut.nchaieb.sae_jeux.modele.Tours.Tour;
-import universite_paris8.iut.nchaieb.sae_jeux.modele.Tours.TourHeal;
-import universite_paris8.iut.nchaieb.sae_jeux.modele.Tours.TourMusique;
-import universite_paris8.iut.nchaieb.sae_jeux.modele.Tours.TourOeil;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.Tours.*;
 
 public class Symboles {
     private ObservableList<String> combinaison;
@@ -51,7 +48,10 @@ public class Symboles {
 
         if (this.combinaison!=null ||    !this.combinaison.isEmpty()){
 
-            if (combinaison.equals(combinaisonValables.tourOeil) || combinaison.equals(combinaisonValables.tourHeal) || combinaison.equals(combinaisonValables.tourMusic)){
+            if (combinaison.equals(combinaisonValables.tourOeil)
+                    || combinaison.equals(combinaisonValables.tourHeal)
+                    || combinaison.equals(combinaisonValables.tourMusic)
+                    || combinaison.equals(combinaisonValables.tourTesla)){
               return true;
             }
         }
@@ -78,6 +78,10 @@ public class Symboles {
                 tour= new TourMusique(x,y);
 
             }
+            else if( combinaison.equals(combinaisonValables.tourTesla)){
+                tour= new TourTesla(x,y);
+
+            }
         }
 
         return tour;
@@ -102,6 +106,10 @@ public class Symboles {
             }
             else if(combinaison.equals(combinaisonValables.tourMusic)){
                 return "tourMusique";
+
+            }
+            else if(combinaison.equals(combinaisonValables.tourTesla)){
+                return "tourTesla";
 
             }
         }

@@ -153,11 +153,9 @@ public class Environnement {
 	}
 
 	public void unTour() {
-		for (int i=0; i<sortTours.size(); i++){
-			System.out.println(sortTours.get(i));
-		}
 
-		if (this.sortTours!=null || !this.sortTours.isEmpty()){
+
+		if (!this.sortTours.isEmpty()){
 			for(int i = 0; i < this.sortTours.size(); i++){
 				if(this.sortTours.get(i).isAttaqueFini()){
 					this.sortTours.remove(this.sortTours.get(i));
@@ -230,7 +228,15 @@ public class Environnement {
 		int gridX = (int) (xPixel / TAILLE_TUILE);
 		int gridY = (int) (yPixel / TAILLE_TUILE);
 		if(gridY >= 25) return false;
-		return !this.terrain.estPraticable(gridX, gridY);
+		if (this.terrain.estPraticable(gridX, gridY))
+			return false;
+
+		for(int i=0; i<2;i++){
+			if(this.terrain.estPraticable(gridX+i, gridY) || this.terrain.estPraticable(gridX-i, gridY) || this.terrain.estPraticable(gridX, gridY+i) || this.terrain.estPraticable(gridX, gridY-i) || this.terrain.estPraticable(gridX+i, gridY-i) ||this.terrain.estPraticable(gridX-i, gridY+i) || this.terrain.estPraticable(gridX+i, gridY+i)|| this.terrain.estPraticable(gridX-i, gridY-i))
+				return false;
+
+		}
+		return true ;
 	}
 
 	public void validerSymboles() {

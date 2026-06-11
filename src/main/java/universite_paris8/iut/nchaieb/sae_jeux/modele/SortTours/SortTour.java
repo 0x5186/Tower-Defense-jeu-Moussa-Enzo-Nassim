@@ -28,7 +28,7 @@ public abstract class SortTour {
     public int getDegats() {
         return degats;
     }
-    public abstract boolean verifPosition();
+
     public void sortAJour() {}
 
     public IntegerProperty xProperty() {

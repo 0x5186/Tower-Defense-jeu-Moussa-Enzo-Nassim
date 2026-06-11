@@ -69,10 +69,10 @@ public class Projectile  extends SortTour{
 ////        this.x.setValue(this.x.getValue()+((this.cible.getPosX()-this.x.getValue())/vitesseAttaque));
 ////        this.y.setValue(this.y.getValue()+((this.cible.getPosY()-this.y.getValue())/vitesseAttaque));
 //    }
-public boolean verifPosition() {
-    return Math.abs(this.getX() - cible.getPosX()) <= vitesseAttaque
+    public boolean verifPosition() {
+        return Math.abs(this.getX() - cible.getPosX()) <= vitesseAttaque
             && Math.abs(this.getY() - cible.getPosY()) <= vitesseAttaque;
-}
+    }
 
     public void deplacer() {
         if (this.getX() > cible.getPosX()) {

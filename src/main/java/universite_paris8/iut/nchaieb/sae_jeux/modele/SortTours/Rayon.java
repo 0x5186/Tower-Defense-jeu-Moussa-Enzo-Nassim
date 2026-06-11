@@ -11,7 +11,7 @@ public class Rayon extends SortTour{
 
     private Monstre cible;
     private int vitesseAttaque;
-    private DoubleProperty angle;
+
     private Boolean cibleAtteinte;
     private int temps;
 
@@ -21,20 +21,18 @@ public class Rayon extends SortTour{
         super(départX, départY, degats);
         this.cible = cible;
         this.vitesseAttaque = 2;
-
+        this.cibleAtteinte=false;
         this.temps=0;
         this.tempsAttaque=tempsAttaque;
-        this.angle= new SimpleDoubleProperty(0);
+
 
     }
 
-    public DoubleProperty getAngle() {
-        return angle;
-    }
 
 
     public void sortAJour() {
-        this.angle.set( Math.toDegrees(Math.atan2(this.getX()-this.cible.getPosX(),this.getY()-this.cible.getPosY()))) ;
+
+        System.out.println("rayon");
         if (!verifPosition()) {
             deplacer();
 

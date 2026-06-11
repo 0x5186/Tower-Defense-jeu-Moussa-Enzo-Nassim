@@ -26,7 +26,7 @@ public class TourMusique extends Tour{
                     this.setActionActuelle("fixe");
                     System.out.println("x="+this.getPosX());
                     System.out.println("y="+this.getPosY());
-                    Projectile note = new Projectile(this.getPosX(), this.getPosY(),monstrePlusProche, "tourmusique",this.getAtq(), 5);
+                    SortTour note = new Projectile(this.getPosX(), this.getPosY(),monstrePlusProche, "tourmusique",this.getAtq(), 5);
                     projectiles.add(note);
 //                    this.infligerDegat(monstrePlusProche);
                     this.setActionActuelle("attaque");

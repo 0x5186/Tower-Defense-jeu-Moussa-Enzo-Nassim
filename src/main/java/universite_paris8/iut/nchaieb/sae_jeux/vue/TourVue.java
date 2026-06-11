@@ -12,11 +12,8 @@ import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 import universite_paris8.iut.nchaieb.sae_jeux.Main;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Entite;
-import universite_paris8.iut.nchaieb.sae_jeux.modele.Tours.TourHeal;
-import universite_paris8.iut.nchaieb.sae_jeux.modele.Tours.TourMusique;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.Tours.*;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.monstres.Monstre;
-import universite_paris8.iut.nchaieb.sae_jeux.modele.Tours.Tour;
-import universite_paris8.iut.nchaieb.sae_jeux.modele.Tours.TourOeil;
 
 import java.util.HashMap;
 
@@ -27,6 +24,8 @@ public class TourVue {
     Image tourOeil = new Image(Main.class.getResourceAsStream("images/tourOeil.png"));
     Image tourHeal = new Image(Main.class.getResourceAsStream("images/tourHeal.png"));
     Image tourMusic = new Image(Main.class.getResourceAsStream("images/tourMusic.png"));
+    Image tourTesla = new Image(Main.class.getResourceAsStream("images/tourTesla.png"));
+
 
 
 
@@ -56,10 +55,17 @@ public class TourVue {
             iv.setViewport(new Rectangle2D(0,0,80,80));
         }
         if(tour instanceof TourMusique){
-            decalageX=33;
-            decalageY=67;
+            decalageX=36;
+            decalageY=90;
             iv=new ImageView(tourMusic);
             iv.setViewport(new Rectangle2D(0,0,80,100));
+
+        }
+        if(tour instanceof TourTesla){
+            decalageX=33;
+            decalageY=80;
+            iv=new ImageView(tourTesla);
+            iv.setViewport(new Rectangle2D(0,0,80,90));
 
         }
 //        iv.translateXProperty().bind(tour.posXProperty());
