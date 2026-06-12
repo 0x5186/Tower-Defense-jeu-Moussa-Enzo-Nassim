@@ -1,7 +1,9 @@
-package universite_paris8.iut.nchaieb.sae_jeux;
+package universite_paris8.iut.nchaieb.sae_jeux.modele.Controlleur;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import universite_paris8.iut.nchaieb.sae_jeux.JouerSon;
+import universite_paris8.iut.nchaieb.sae_jeux.Main;
 
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;

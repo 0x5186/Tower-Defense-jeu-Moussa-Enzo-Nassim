@@ -1,9 +1,7 @@
-package universite_paris8.iut.nchaieb.sae_jeux;
+package universite_paris8.iut.nchaieb.sae_jeux.modele.Observateur;
 
 import javafx.collections.ListChangeListener;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
-import universite_paris8.iut.nchaieb.sae_jeux.modele.Entite;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.monstres.Monstre;
 import universite_paris8.iut.nchaieb.sae_jeux.vue.BaseVue;
 import universite_paris8.iut.nchaieb.sae_jeux.vue.MonstreVue;

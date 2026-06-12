@@ -1,4 +1,4 @@
-package universite_paris8.iut.nchaieb.sae_jeux.modele;
+package universite_paris8.iut.nchaieb.sae_jeux.modele.Symbole;
 
 import java.util.ArrayList;
 import java.util.List;

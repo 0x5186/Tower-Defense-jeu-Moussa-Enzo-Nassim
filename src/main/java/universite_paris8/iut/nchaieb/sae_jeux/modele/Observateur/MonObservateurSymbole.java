@@ -1,9 +1,6 @@
-package universite_paris8.iut.nchaieb.sae_jeux;
+package universite_paris8.iut.nchaieb.sae_jeux.modele.Observateur;
 
-import javafx.beans.property.StringProperty;
 import javafx.collections.ListChangeListener;
-import universite_paris8.iut.nchaieb.sae_jeux.modele.Symboles;
-import universite_paris8.iut.nchaieb.sae_jeux.modele.Environnement;
 import universite_paris8.iut.nchaieb.sae_jeux.vue.InterfaceVue;
 
 public class MonObservateurSymbole implements ListChangeListener<String> {

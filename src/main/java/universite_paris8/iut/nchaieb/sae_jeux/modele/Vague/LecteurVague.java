@@ -1,6 +1,5 @@
-package universite_paris8.iut.nchaieb.sae_jeux.modele;
+package universite_paris8.iut.nchaieb.sae_jeux.modele.Vague;
 
-import universite_paris8.iut.nchaieb.sae_jeux.Main;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;

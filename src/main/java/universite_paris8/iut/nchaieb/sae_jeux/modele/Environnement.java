@@ -3,7 +3,12 @@ package universite_paris8.iut.nchaieb.sae_jeux.modele;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.AEtoile.AlgorithmeAEtoile;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.Entite.Entite;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.Symbole.Symboles;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Tours.*;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.Vague.LecteurVague;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.Vague.ListeApparition;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.monstres.*;
 
 public class Environnement {

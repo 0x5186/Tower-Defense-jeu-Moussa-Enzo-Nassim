@@ -1,4 +1,6 @@
-package universite_paris8.iut.nchaieb.sae_jeux.modele;
+package universite_paris8.iut.nchaieb.sae_jeux.modele.AEtoile;
+
+import universite_paris8.iut.nchaieb.sae_jeux.modele.Terrain;
 
 import java.util.ArrayList;
 

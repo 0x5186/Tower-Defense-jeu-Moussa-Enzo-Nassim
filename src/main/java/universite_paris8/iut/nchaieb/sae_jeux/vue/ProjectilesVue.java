@@ -4,9 +4,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import universite_paris8.iut.nchaieb.sae_jeux.Main;
-import universite_paris8.iut.nchaieb.sae_jeux.modele.Entite;
-import universite_paris8.iut.nchaieb.sae_jeux.modele.Projectile;
-import universite_paris8.iut.nchaieb.sae_jeux.modele.monstres.Monstre;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.Tours.Projectile;
 
 import java.util.HashMap;
 

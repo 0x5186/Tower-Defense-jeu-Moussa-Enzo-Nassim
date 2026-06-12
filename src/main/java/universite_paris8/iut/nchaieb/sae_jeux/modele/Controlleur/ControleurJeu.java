@@ -1,4 +1,4 @@
-package universite_paris8.iut.nchaieb.sae_jeux;
+package universite_paris8.iut.nchaieb.sae_jeux.modele.Controlleur;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -13,9 +13,14 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.TilePane;
 import javafx.util.Duration;
+import universite_paris8.iut.nchaieb.sae_jeux.*;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Environnement;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.Observateur.MonObservateurMonstre;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.Observateur.MonObservateurProjectiles;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.Observateur.MonObservateurSymbole;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.Observateur.MonObservateurTour;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Terrain;
-import universite_paris8.iut.nchaieb.sae_jeux.modele.CombinaisonValables;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.Symbole.CombinaisonValables;
 import universite_paris8.iut.nchaieb.sae_jeux.vue.*;
 
 import javax.sound.sampled.LineUnavailableException;

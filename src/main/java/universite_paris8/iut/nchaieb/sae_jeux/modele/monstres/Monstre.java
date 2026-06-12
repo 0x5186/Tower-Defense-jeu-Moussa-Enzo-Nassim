@@ -3,9 +3,9 @@ package universite_paris8.iut.nchaieb.sae_jeux.modele.monstres;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.ObservableList;
-import universite_paris8.iut.nchaieb.sae_jeux.modele.AlgorithmeAEtoile;
-import universite_paris8.iut.nchaieb.sae_jeux.modele.Entite;
-import universite_paris8.iut.nchaieb.sae_jeux.modele.Noeud;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.AEtoile.AlgorithmeAEtoile;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.Entite.Entite;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.AEtoile.Noeud;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Terrain;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Base;
 
@@ -31,9 +31,12 @@ public abstract class Monstre extends Entite {
     private IntegerProperty posX;
     private IntegerProperty posY;
 
+    private IntegerProperty pvProperty;
+
     public Monstre(int pvMax, int atq, int recompense, Terrain terrain) {
         this.posX = new SimpleIntegerProperty();
         this.posY = new SimpleIntegerProperty();
+        this.pvProperty = new SimpleIntegerProperty(pvMax);
         this.atq = atq;
         this.pvMax = pvMax;
         this.nombreDePV = pvMax;
@@ -167,10 +170,20 @@ public abstract class Monstre extends Entite {
         }
     }
 
+    public void ajouterPV( int soin) {
+        this.nombreDePV = Math.min(this.nombreDePV + soin, this.pvMax);
+        this.pvProperty.set(this.nombreDePV);
+    }
+
+    public void retirerPV(int degat) {
+        this.nombreDePV = Math.max(this.nombreDePV - degat, 0);
+        this.pvProperty.set(this.nombreDePV);
+    }
+
+    public int getPvMax(){return this.pvMax; }
+    public IntegerProperty pvPropertyProperty() { return pvProperty; }
     public int getAtq() { return atq; }
     public void infligerDegat(Monstre monstre) { if (monstre.nombreDePV != 0) monstre.retirerPV(this.atq); }
-    public void ajouterPV(int soin) { this.nombreDePV = Math.min(this.nombreDePV + soin, this.pvMax); }
-    public void retirerPV(int degat) { this.nombreDePV = Math.max(this.nombreDePV - degat, 0); }
     public int getPortee() { return portee; }
     public int getRecompense() { return recompense; }
     public boolean estDansLeRayon(Monstre monstre) { return (Math.abs(monstre.getPosX() - this.getPosX()) + Math.abs(monstre.getPosY() - this.getPosY())) <= this.portee; }

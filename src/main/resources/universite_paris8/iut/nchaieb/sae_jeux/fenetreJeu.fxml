@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.paint.*?>
 
-<BorderPane prefHeight="1080" prefWidth="1920" style="-fx-background-color: #1a1a1a;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="universite_paris8.iut.nchaieb.sae_jeux.ControleurJeu">
+<BorderPane prefHeight="1080" prefWidth="1920" style="-fx-background-color: #1a1a1a;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="universite_paris8.iut.nchaieb.sae_jeux.modele.Controlleur.ControleurJeu">
     <center>
         <StackPane fx:id="stackPane" alignment="TOP_LEFT">
             <TilePane fx:id="tilePane" alignment="TOP_LEFT" hgap="0" prefColumns="60" prefRows="26" prefTileHeight="32" prefTileWidth="32" vgap="0" BorderPane.alignment="TOP_LEFT" />

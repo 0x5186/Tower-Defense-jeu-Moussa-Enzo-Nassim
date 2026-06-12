@@ -5,17 +5,22 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 import universite_paris8.iut.nchaieb.sae_jeux.Main;
-import universite_paris8.iut.nchaieb.sae_jeux.modele.*;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.Entite.Entite;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.monstres.*;
 
 import java.util.HashMap;
 
 public class MonstreVue {
     private Pane pane;
-    private HashMap hashMap = new HashMap<Monstre, ImageView>();
-    private HashMap hashMapAnimation = new HashMap<Monstre, Timeline>();
+
+    private HashMap<Entite, ImageView> hashMap = new HashMap<>();
+    private HashMap<Entite, Timeline> hashMapAnimation = new HashMap<>();
+    private HashMap<Entite, Rectangle[]> hashMapBarres = new HashMap<>();
+
     Image squelette = new Image(Main.class.getResourceAsStream("images/squelette(3).png"));
     Image sorcier = new Image(Main.class.getResourceAsStream("images/sorcier.png"));
     Image nargacuga = new Image(Main.class.getResourceAsStream("images/nargacuga.png"));
@@ -28,61 +33,110 @@ public class MonstreVue {
 
     public void ajouterSprite(Monstre monstre) {
         ImageView iv = new ImageView();
+        int offsetYBarre = 0; // hauteur de la barre au dessus de la tête
 
         if (monstre instanceof Squelette) {
             iv = new ImageView(squelette);
             iv.setViewport(new Rectangle2D(0, 0, 50, 50));
             iv.translateXProperty().bind(monstre.posXProperty().subtract(17));
             iv.translateYProperty().bind(monstre.posYProperty().subtract(17));
+            offsetYBarre = 25;
         }
-        if (monstre instanceof Sorcier) {
+        else if (monstre instanceof Sorcier) {
             iv = new ImageView(sorcier);
             iv.setViewport(new Rectangle2D(0, 0, 72, 72));
             iv.translateXProperty().bind(monstre.posXProperty().subtract(32));
             iv.translateYProperty().bind(monstre.posYProperty().subtract(32));
+            offsetYBarre = 40;
         }
-        if (monstre instanceof Nargacuga) {
+        else if (monstre instanceof Nargacuga) {
             iv = new ImageView(nargacuga);
             iv.setViewport(new Rectangle2D(0, 0, 100, 100));
             iv.translateXProperty().bind(monstre.posXProperty().subtract(48));
             iv.translateYProperty().bind(monstre.posYProperty().subtract(48));
+            offsetYBarre = 55;
         }
-        if(monstre instanceof Dino) {
+        else if (monstre instanceof Dino) {
             iv = new ImageView(Dino);
             iv.setViewport(new Rectangle2D(0,0,80,80));
             iv.translateXProperty().bind(monstre.posXProperty().subtract(48));
             iv.translateYProperty().bind(monstre.posYProperty().subtract(48));
+            offsetYBarre = 55;
         }
-        if(monstre instanceof Armure) {
+        else if (monstre instanceof Armure) {
             iv = new ImageView(Armure);
             iv.setViewport(new Rectangle2D(0,0,80,80));
             iv.translateXProperty().bind(monstre.posXProperty().subtract(48));
             iv.translateYProperty().bind(monstre.posYProperty().subtract(48));
+            offsetYBarre = 55;
         }
 
         this.hashMap.put(monstre, iv);
         this.pane.getChildren().add(iv);
+
+        // création barre de vie
+        double largeurBarre = 36;
+        double hauteurBarre = 6;
+
+        Rectangle fondBarre = new Rectangle(largeurBarre, hauteurBarre);
+        fondBarre.setFill(Color.rgb(40, 40, 40));
+        fondBarre.setStroke(Color.BLACK);
+        fondBarre.setStrokeWidth(1);
+
+        Rectangle vieBarre = new Rectangle(largeurBarre, hauteurBarre);
+        vieBarre.setFill(Color.LIMEGREEN);
+
+        // positionnement dynamique de la barre de vie
+        fondBarre.translateXProperty().bind(monstre.posXProperty().subtract(largeurBarre / 2.0));
+        fondBarre.translateYProperty().bind(monstre.posYProperty().subtract(offsetYBarre));
+
+        vieBarre.translateXProperty().bind(monstre.posXProperty().subtract(largeurBarre / 2.0));
+        vieBarre.translateYProperty().bind(monstre.posYProperty().subtract(offsetYBarre));
+
+        // bind de la largeur en pvPropertyProperty()
+        vieBarre.widthProperty().bind(monstre.pvPropertyProperty().multiply(largeurBarre).divide(monstre.getPvMax()));
+
+        // changement de couleur dynamique en utilisant pvPropertyProperty()
+        monstre.pvPropertyProperty().addListener((obs, oldVal, newVal) -> {
+            double ratio = newVal.doubleValue() / monstre.getPvMax();
+            if (ratio > 0.70) {
+                vieBarre.setFill(Color.LIMEGREEN); // > 50% = Vert
+            } else if (ratio > 0.30) {
+                vieBarre.setFill(Color.YELLOW);    // > 20% = Jaune
+            } else {
+                vieBarre.setFill(Color.RED);       // <= 20% = Rouge
+            }
+        });
+
+        this.hashMapBarres.put(monstre, new Rectangle[]{fondBarre, vieBarre});
+        this.pane.getChildren().addAll(fondBarre, vieBarre);
     }
 
     public void retirer(Entite entite) {
-        ImageView iv = (ImageView) hashMap.get(entite);
+        ImageView iv = this.hashMap.get(entite);
         if (iv != null) {
             iv.setImage(null);
             this.pane.getChildren().remove(iv);
             this.hashMap.remove(entite);
         }
+
+        if (this.hashMapBarres.containsKey(entite)) {
+            Rectangle[] barres = this.hashMapBarres.get(entite);
+            this.pane.getChildren().removeAll(barres[0], barres[1]);
+            this.hashMapBarres.remove(entite);
+        }
     }
 
     public void stopAnimation(Monstre monstre) {
         if (this.hashMapAnimation.containsKey(monstre)) {
-            Timeline timeline = (Timeline) this.hashMapAnimation.get(monstre);
+            Timeline timeline = this.hashMapAnimation.get(monstre);
             timeline.stop();
             this.hashMapAnimation.remove(monstre);
         }
     }
 
     public void animationMarche(Entite monstre) {
-        ImageView iv = (ImageView) this.hashMap.get(monstre);
+        ImageView iv = this.hashMap.get(monstre);
         int largeurCase = 50;
         int hauteurCase = 50;
 
@@ -108,7 +162,7 @@ public class MonstreVue {
             squeletteMarche.play();
         }
 
-        if (monstre instanceof Nargacuga) {
+        else if (monstre instanceof Nargacuga) {
             int[] frameIndex = {0};
             int largeurCaseNargacuga = 100;
             int hauteurCaseNargacuga = 100;
@@ -131,7 +185,7 @@ public class MonstreVue {
             nargacugaMarche.play();
         }
 
-        if (monstre instanceof Dino) {
+        else if (monstre instanceof Dino) {
             int[] frameIndex = {0};
             int largeurCaseDino = (int)(Dino.getWidth() / 2);
             int hauteurCaseDino = (int)(Dino.getHeight()) / 2;
@@ -154,7 +208,7 @@ public class MonstreVue {
             DinoMarche.play();
         }
 
-        if(monstre instanceof Armure) {
+        else if (monstre instanceof Armure) {
             int[] frameIndex = {0};
             int largeurCaseArmure = (int)(Armure.getWidth() / 2);
             int hauteurCaseArmure = (int)(Armure.getHeight()) / 3;
@@ -179,7 +233,7 @@ public class MonstreVue {
     }
 
     public void animationAttaque(Entite monstre) {
-        ImageView iv = (ImageView) this.hashMap.get(monstre);
+        ImageView iv = this.hashMap.get(monstre);
         int largeurCase = 240;
         int hauteurCase = 240;
         int[] frameIndex = {13};
@@ -205,10 +259,17 @@ public class MonstreVue {
     }
 
     public void animationMort(Entite monstre) {
-        ImageView iv = (ImageView) this.hashMap.get(monstre);
+        ImageView iv = this.hashMap.get(monstre);
+
+        //cacher la barre de vie instant
+        if (this.hashMapBarres.containsKey(monstre)) {
+            Rectangle[] barres = this.hashMapBarres.get(monstre);
+            this.pane.getChildren().removeAll(barres[0], barres[1]);
+            this.hashMapBarres.remove(monstre);
+        }
 
         if (this.hashMapAnimation.containsKey(monstre)) {
-            Timeline timeline = (Timeline) this.hashMapAnimation.get(monstre);
+            Timeline timeline = this.hashMapAnimation.get(monstre);
             timeline.stop();
             this.hashMapAnimation.remove(monstre);
         }

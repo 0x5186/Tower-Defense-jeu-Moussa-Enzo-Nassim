@@ -1,6 +1,5 @@
 package universite_paris8.iut.nchaieb.sae_jeux.modele.monstres;
 
-import universite_paris8.iut.nchaieb.sae_jeux.modele.Entite;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Terrain;
 
 public class Nargacuga extends Monstre {

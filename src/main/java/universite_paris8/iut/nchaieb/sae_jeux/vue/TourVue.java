@@ -1,14 +1,11 @@
 package universite_paris8.iut.nchaieb.sae_jeux.vue;
 
-import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import javafx.util.Duration;
 import universite_paris8.iut.nchaieb.sae_jeux.Main;
-import universite_paris8.iut.nchaieb.sae_jeux.modele.Entite;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Tours.*;
 
 import java.util.HashMap;

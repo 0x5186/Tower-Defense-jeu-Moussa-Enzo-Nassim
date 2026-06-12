@@ -1,25 +1,24 @@
 20
 # Vague 1
-1 4 1.0
-1 3 1.0
+5 0 1.0
 # Vague 2
 10 0 0.8
 # Vague 3
 5 0 0.5
 2 1 1.0
 5 0 0.5
-# Vague 4 (Arrivée des Dinos !)
+# Vague 4
 3 0 0.5
 3 1 0.5
 2 3 1.5
-# Vague 5 (Boss avec escorte !)
+# Vague 5
 5 0 0.5
 2 3 1.0
 1 2 2.0
-# Vague 6 (L'assaut reptilien)
+# Vague 6
 10 0 0.4
 4 3 0.8
-# Vague 7 (Arrivée de l'Armure ! 🛡️)
+# Vague 7
 5 1 0.6
 5 0 0.4
 2 4 1.5
@@ -27,56 +26,56 @@
 # Vague 8
 10 1 0.5
 5 3 0.5
-# Vague 9 (La grande armée)
+# Vague 9
 15 0 0.3
 5 1 0.5
 5 3 0.5
-# Vague 10 (Double Boss & Gardes du corps Dinos !)
+# Vague 10
 5 0 0.2
 2 3 0.5
 1 2 1.0
 2 3 0.5
 1 2 1.0
-# Vague 11 (La horde infernale)
+# Vague 11
 20 0 0.2
 10 3 0.4
-# Vague 12 (Le siège de l'Armure)
+# Vague 12
 10 1 0.4
 5 3 0.5
 10 4 1.0
-# Vague 13 (Le rassemblement des chefs avec protection blindée)
+# Vague 13
 1 2 1.0
 3 4 0.8
 1 2 1.0
 3 4 0.8
 1 2 1.0
-# Vague 14 (Le chaos total)
+# Vague 14
 15 0 0.2
 10 1 0.3
 10 3 0.4
 10 4 0.5
-# Vague 15 (L'Apocalypse ! Blindage maximal !)
+# Vague 15
 2 2 0.5
 10 3 0.3
 2 2 0.5
 15 4 0.3
-# Vague 16 (L'Embuscade Rapide)
+# Vague 16
 15 3 0.2
 10 1 0.4
-# Vague 17 (La Marche de Fer)
+# Vague 17
 20 4 0.6
 20 0 0.2
-# Vague 18 (Le Défilé des Boss)
+# Vague 18
 1 2 1.0
 5 3 0.4
 1 2 1.0
 5 4 0.6
 1 2 1.0
-# Vague 19 (L'Essaim)
+# Vague 19
 30 0 0.1
 20 3 0.2
 15 1 0.3
-# Vague 20 (Le Jugement Dernier !)
+# Vague 20
 5 4 0.5
 2 2 0.8
 15 3 0.3
