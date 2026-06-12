@@ -6,8 +6,6 @@ import javafx.collections.ObservableList;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Tours.*;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.monstres.*;
 
-import java.util.ArrayList;
-
 public class Environnement {
 	private IntegerProperty nbTours;
 	private Base base;
@@ -211,6 +209,7 @@ public class Environnement {
 						case 0: monstre = new Squelette(this.terrain); break;
 						case 1: monstre = new Sorcier(this.terrain); break;
 						case 2: monstre = new Nargacuga(this.terrain); break;
+						case 3: monstre = new Dino(this.terrain); break;
 					}
 					if (monstre != null) this.lesMonstres.add(monstre);
 					compteurSpawn = vagueActuelle.prochainDelai();
@@ -241,7 +240,6 @@ public class Environnement {
 					if (cooldownMur == 0) System.out.println("Glace rechargée ");
 				}
 
-				// Passage à la vague suivante
 				int bonusArgent = 50 + (this.numeroVague.get() * 10);
 				this.setArgent(this.getArgent() + bonusArgent);
 				this.numeroVague.set(this.numeroVague.get() + 1);
@@ -250,7 +248,6 @@ public class Environnement {
 			}
 		}
 
-		// --- 3. GESTION DES TOURS ---
 		if (this.lesTours != null && !this.lesTours.isEmpty()) {
 			if (!murActif && cooldownMur == 0) {
 				for (Tour t : this.lesTours) {
@@ -263,7 +260,6 @@ public class Environnement {
 			for (Tour t : this.lesTours) t.agir(this.lesMonstres, this.base, this.lesProjectiles);
 		}
 
-		// --- 4. GESTION DES MONSTRES ---
 		if (this.lesMonstres != null && !this.lesMonstres.isEmpty()) {
 			for (int i = this.lesMonstres.size() - 1; i >= 0; i--) {
 				Monstre m = this.lesMonstres.get(i);

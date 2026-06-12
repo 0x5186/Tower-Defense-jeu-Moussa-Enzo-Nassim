@@ -1,29 +1,57 @@
-10
-# Vague 1
+15
+# Vague 1 (squelette)
 5 0 1.0
-# Vague 2
+# Vague 2 ( + de squelette)
 10 0 0.8
-# Vague 3
+# Vague 3 (squelette et sorcier)
 5 0 0.5
 2 1 1.0
 5 0 0.5
-# Vague 4
+# Vague 4 (rajout des dinos )
 3 0 0.5
 3 1 0.5
-# Vague 5 (Boss !)
+2 3 1.5
+# Vague 5 (Boss et squelette et dino)
 5 0 0.5
+2 3 1.0
 1 2 2.0
-# Vague 6
+# Vague 6 (L'assaut reptilien)
 10 0 0.4
-# Vague 7
+4 3 0.8
+# Vague 7 (squelette et sorcier et dino)
 5 1 0.6
 5 0 0.4
-# Vague 8
+3 3 0.6
+# Vague 8 (sorcier et dino)
 10 1 0.5
-# Vague 9
+5 3 0.5
+# Vague 9 (La grande armée de squellete)
 15 0 0.3
 5 1 0.5
-# Vague 10 (Double Boss !)
+5 3 0.5
+# Vague 10 (Double Boss et Dinos )
 5 0 0.2
+2 3 0.5
 1 2 1.0
+2 3 0.5
 1 2 1.0
+# Vague 11 (squelette et dino)
+20 0 0.2
+10 3 0.4
+# Vague 12 (sorcier et dino)
+10 1 0.4
+10 3 0.5
+# Vague 13 (boss et dino )
+1 2 1.0
+5 3 0.5
+1 2 1.0
+5 3 0.5
+1 2 1.0
+# Vague 14 (bcp squelette et sorcier et dino)
+15 0 0.2
+10 1 0.3
+15 3 0.4
+# Vague 15 ( 4 boss + bcp dino )
+2 2 0.5
+15 3 0.3
+2 2 0.5

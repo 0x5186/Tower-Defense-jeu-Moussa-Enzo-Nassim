@@ -8,10 +8,7 @@ import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 import universite_paris8.iut.nchaieb.sae_jeux.Main;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.*;
-import universite_paris8.iut.nchaieb.sae_jeux.modele.monstres.Nargacuga;
-import universite_paris8.iut.nchaieb.sae_jeux.modele.monstres.Sorcier;
-import universite_paris8.iut.nchaieb.sae_jeux.modele.monstres.Squelette;
-import universite_paris8.iut.nchaieb.sae_jeux.modele.monstres.Monstre;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.monstres.*;
 
 import java.util.HashMap;
 
@@ -22,6 +19,7 @@ public class MonstreVue {
     Image squelette = new Image(Main.class.getResourceAsStream("images/squelette(3).png"));
     Image sorcier = new Image(Main.class.getResourceAsStream("images/sorcier.png"));
     Image nargacuga = new Image(Main.class.getResourceAsStream("images/nargacuga.png"));
+    Image Dino = new Image(Main.class.getResourceAsStream("images/dino.png"));
 
     public MonstreVue(Pane pane) {
         this.pane = pane;
@@ -48,12 +46,17 @@ public class MonstreVue {
             iv.translateXProperty().bind(monstre.posXProperty().subtract(48));
             iv.translateYProperty().bind(monstre.posYProperty().subtract(48));
         }
+        if(monstre instanceof Dino) {
+            iv = new ImageView(Dino);
+            iv.setViewport(new Rectangle2D(0,0,80,80));
+            iv.translateXProperty().bind(monstre.posXProperty().subtract(48));
+            iv.translateYProperty().bind(monstre.posYProperty().subtract(48));
+        }
 
         this.hashMap.put(monstre, iv);
         this.pane.getChildren().add(iv);
     }
 
-    // CORRECTION 1 : On remet Entite ici pour correspondre aux appels des autres méthodes
     public void retirer(Entite entite) {
         ImageView iv = (ImageView) hashMap.get(entite);
         if (iv != null) {
@@ -120,6 +123,29 @@ public class MonstreVue {
             nargacugaMarche.setCycleCount(Animation.INDEFINITE);
             nargacugaMarche.play();
         }
+
+        if (monstre instanceof Dino) {
+            int[] frameIndex = {0};
+            int largeurCaseDino = (int)(Dino.getWidth() / 2);
+            int hauteurCaseDino = (int)(Dino.getHeight()) / 2;
+
+            Timeline DinoMarche = new Timeline(
+                    new KeyFrame(Duration.millis(150), event -> {
+                        int x = frameIndex[0] % 2;
+                        int y = frameIndex[0] / 2;
+
+                        iv.setViewport(new Rectangle2D(x * largeurCaseDino, y * hauteurCaseDino, largeurCaseDino, hauteurCaseDino));
+
+                        frameIndex[0]++;
+                        if (frameIndex[0] >= 3) {
+                            frameIndex[0] = 0;
+                        }
+                    })
+            );
+            this.hashMapAnimation.put(monstre, DinoMarche);
+            DinoMarche.setCycleCount(Animation.INDEFINITE);
+            DinoMarche.play();
+        }
     }
 
     public void animationAttaque(Entite monstre) {
@@ -157,7 +183,6 @@ public class MonstreVue {
             this.hashMapAnimation.remove(monstre);
         }
 
-        // CORRECTION 2 : Le Nargacuga DOIT être traité avant le squelette, avec un return à la fin !
         if (monstre instanceof Nargacuga) {
             FadeTransition fade = new FadeTransition(Duration.seconds(1), iv);
             fade.setFromValue(1.0);
@@ -167,10 +192,9 @@ public class MonstreVue {
                 this.retirer(monstre);
             });
             fade.play();
-            return; // INDISPENSABLE pour empêcher l'exécution de l'animation du Squelette juste en dessous
+            return;
         }
 
-        // Si le code arrive ici, c'est que ce n'est PAS un Nargacuga
         int largeurCase = 240;
         int hauteurCase = 240;
         int[] frameIndex = {27};
