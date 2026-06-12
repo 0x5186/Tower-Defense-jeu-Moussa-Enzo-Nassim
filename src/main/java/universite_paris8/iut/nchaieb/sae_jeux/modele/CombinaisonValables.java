@@ -9,8 +9,8 @@ public class CombinaisonValables {
 
 
     public CombinaisonValables() {
-        this.tourOeil = new ArrayList<String>(List.of("oeil", "croix", "eclipse"));
-        this.tourHeal = new ArrayList<String>(List.of("croix","goutte" ,"crystal", "spirale"));
+        this.tourOeil = new ArrayList<>(List.of("oeil", "croix", "eclipse"));
+        this.tourHeal = new ArrayList<>(List.of("croix","goutte" ,"crystal", "spirale"));
     }
 
 

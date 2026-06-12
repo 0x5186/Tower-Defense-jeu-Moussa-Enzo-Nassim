@@ -1,3 +1,16 @@
+/*@font-face {*/
+/*    src: url('police/medieval-pixel.ttf');*/
+/*}*/
+
+@font-face {
+    src: url('police/RansiteMedieval_PERSONAL_USE_ONLY.otf');
+}
+
+/*.font {*/
+/*    -fx-font-family: "Medieval Pixell";*/
+/*    -fx-font-size: 16px;*/
+/*}*/
+
 .scroll-pane {
     -fx-background-color: #94826b;
     -fx-background-insets: 1;
@@ -35,3 +48,4 @@
     -fx-background-color: #cf8d0c;
     -fx-background-radius: 5em;
 }
+

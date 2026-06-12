@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.beans.property.BooleanProperty;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Environnement;
 
@@ -24,6 +25,8 @@ public class Main extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("fenetreMenu.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1200, 900);
         scene.getStylesheets().add(Main.class.getResource("application.css").toExternalForm());
+//        Font.loadFont(Main.class.getResourceAsStream("police/medieval-pixel.ttf"), 12);
+
         stage.setTitle("witch hat atelier defense");
         stage.setScene(scene);
         stage.show();

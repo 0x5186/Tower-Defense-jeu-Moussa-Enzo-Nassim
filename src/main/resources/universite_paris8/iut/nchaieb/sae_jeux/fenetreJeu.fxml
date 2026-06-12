@@ -199,7 +199,7 @@
                        <graphic>
                            <ImageView fitHeight="64.0" fitWidth="64.0" preserveRatio="true">
                                <image>
-                                   <Image url="@images/barriere.png">
+                                   <Image url="@images/boutonContinuer.png">
                                    </Image>
                                </image>
                            </ImageView>

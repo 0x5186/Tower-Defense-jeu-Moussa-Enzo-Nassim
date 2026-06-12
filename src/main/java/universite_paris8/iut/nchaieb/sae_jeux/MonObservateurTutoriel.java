@@ -22,6 +22,7 @@ public class MonObservateurTutoriel implements ChangeListener<Boolean> {
             this.tutorielVue.getImage().setVisible(true);
         } else {
             System.out.println("tuto desactivé ");
+            this.tutorielVue.retirerImage();
             this.tutorielVue.getImage().setVisible(false);
         }
     }
