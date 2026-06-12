@@ -20,6 +20,7 @@ public class FioleVue {
     public void setFiole(ImageView fiole, int montant){
         if(fiole !=null){
             if(montant==100){
+
                 fiole.setViewport(new Rectangle2D(0, 0 , largeurCase, hauteurCase));
             }
             else if(montant<99 && montant>=90){

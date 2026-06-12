@@ -71,11 +71,15 @@ public class Environnement {
 	public int getArgent() { return this.argent.getValue(); }
 
 	public void setArgent(int montant) {
-		if(montant>100)
-			this.argent.set(100);
+		System.out.println("Argent avant = " + this.argent.get());
+		System.out.println("Nouvelle valeur = " + montant);
 
+		if(montant > 100)
+			this.argent.set(100);
 		else
 			this.argent.set(montant);
+
+		System.out.println("Argent après = " + this.argent.get());
 	}
 
 	public ObservableList<Monstre> getLesMonstres() {
@@ -215,7 +219,7 @@ public class Environnement {
 					this.setArgent(this.getArgent() + m.getRecompense());
 					this.lesMonstres.remove(i);
 				} else if (m.aAtteintSaCible()) {
-
+					System.out.println(this.argent);
 					this.lesMonstres.remove(i);
 				} else {
 					m.agir(this.lesMonstres, this.terrain, this.base);
@@ -236,7 +240,7 @@ public class Environnement {
 		if (this.terrain.estPraticable(gridX, gridY))
 			return false;
 
-		for(int i=0; i<2;i++){
+		for(int i=0; i<1;i++){
 			if(this.terrain.estPraticable(gridX+i, gridY) || this.terrain.estPraticable(gridX-i, gridY) || this.terrain.estPraticable(gridX, gridY+i) || this.terrain.estPraticable(gridX, gridY-i) || this.terrain.estPraticable(gridX+i, gridY-i) ||this.terrain.estPraticable(gridX-i, gridY+i) || this.terrain.estPraticable(gridX+i, gridY+i)|| this.terrain.estPraticable(gridX-i, gridY-i))
 				return false;
 

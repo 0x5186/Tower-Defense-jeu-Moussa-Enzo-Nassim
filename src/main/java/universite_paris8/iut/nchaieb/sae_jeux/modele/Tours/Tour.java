@@ -19,7 +19,7 @@ public class Tour extends Entite {
 
     private int atq;
 
-    private int cooldown;
+    private IntegerProperty cooldown;
     private int cooldownPourAction; //temps de chargement d'une attaque
 
 
@@ -34,7 +34,7 @@ public class Tour extends Entite {
         this.portee = portee;
 
 
-        this.cooldown=0;
+        this.cooldown= new SimpleIntegerProperty(0);
         this.cooldownPourAction=cooldownPourAction;
 
         this.cout=cout;
@@ -50,8 +50,14 @@ public class Tour extends Entite {
     }
 
     public int getCooldown() {
+        return cooldown.get();
+    }
+
+    public IntegerProperty cooldownProperty() {
         return cooldown;
     }
+
+
 
     public int getCooldownPourAction() {
         return cooldownPourAction;
@@ -59,7 +65,7 @@ public class Tour extends Entite {
 
 
     public void setCooldown(int cooldown) {
-        this.cooldown = cooldown;
+        this.cooldown.set(cooldown);
     }
 
     @Override
@@ -114,14 +120,14 @@ public class Tour extends Entite {
 //    }
 
     public void gererCooldown() {
-        if(this.cooldown<this.cooldownPourAction){
+        if(this.cooldown.get()<this.cooldownPourAction){
 
 
-            this.cooldown++;
+            this.cooldown.set(this.cooldown.get()+1);
         }
         else {
 
-            this.cooldown=this.cooldownPourAction;
+            this.cooldown.set(this.cooldownPourAction);
         }
     }
 

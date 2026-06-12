@@ -9,21 +9,28 @@ import universite_paris8.iut.nchaieb.sae_jeux.modele.monstres.Monstre;
 
 public class Rayon extends SortTour{
 
+    private int departX;
+    private int departY;
+
     private Monstre cible;
     private int vitesseAttaque;
 
     private Boolean cibleAtteinte;
     private int temps;
-
+    private DoubleProperty angleRayon;
     private int tempsAttaque;
 
     public Rayon(int départX, int départY, Monstre cible, int degats, int tempsAttaque) {
         super(départX, départY, degats);
+        this.departX=départX;
+        this.departY=départY;
         this.cible = cible;
         this.vitesseAttaque = 2;
         this.cibleAtteinte=false;
         this.temps=0;
         this.tempsAttaque=tempsAttaque;
+        this.angleRayon= new SimpleDoubleProperty();
+
 
 
     }
@@ -48,7 +55,9 @@ public class Rayon extends SortTour{
         if(temps>=tempsAttaque || !cible.estVivant()){
             this.setAttaqueFini(true);
         }
-
+        this.angleRayon.set( Math.toDegrees(Math.atan2(this.getY() - this.departY, this.getX() - this.departX)));
+//        this.angleRayon= this.getOutils().calculAngle(this.departX,this.departY,this.departX, this.getY(),this.getX(),this.getY());
+        System.out.println("angle"+this.angleRayon);
 
 
 
@@ -62,6 +71,18 @@ public class Rayon extends SortTour{
 //        return false;
 //    }
 //
+
+
+    public double getAngleRayon() {
+        System.out.println(this.angleRayon);
+        return angleRayon.get();
+    }
+
+    public DoubleProperty angleRayonProperty() {
+
+        return angleRayon;
+    }
+
     public void infligerDegat() {
 
         this.cible.retirerPV(this.getDegats());
@@ -94,7 +115,7 @@ public class Rayon extends SortTour{
 
     public void deplacer() {
         if(cibleAtteinte!= null && !cibleAtteinte){
-            if (this.getX() > cible.getPosY()) {
+            if (this.getX() > cible.getPosX()) {
                 this.setX(this.getX() - vitesseAttaque);
             } else if (this.getX() < cible.getPosX()) {
                 this.setX(this.getX() + vitesseAttaque);
@@ -115,6 +136,13 @@ public class Rayon extends SortTour{
         return cible;
     }
 
+    public int getDepartX() {
+        return departX;
+    }
+
+    public int getDepartY() {
+        return departY;
+    }
 
 
 

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class Zone  extends SortTour {
 
-    private Outils outils;
+
     private  ObservableList<Monstre> listeMonstre;
     private int portee;
 
@@ -23,7 +23,7 @@ public class Zone  extends SortTour {
         this.listeMonstre= listeMonstre;
         this.temps=0;
         this.tempsAttaque=tempsAttaque;
-        this.outils=new Outils();
+
 
     }
 
@@ -33,7 +33,7 @@ public class Zone  extends SortTour {
         System.out.println("a jour");
         for (int i = this.listeMonstre.size() - 1; i >= 0; i--) {
             System.out.println("liste monstre");
-            if (outils.estDansLeRayon(this.getX(), this.getY(), listeMonstre.get(i).getPosX(), listeMonstre.get(i).getPosY(), this.portee)) {
+            if (this.getOutils().estDansLeRayon(this.getX(), this.getY(), listeMonstre.get(i).getPosX(), listeMonstre.get(i).getPosY(), this.portee)) {
                 System.out.println("est dans le rayon");
                 infligerDegat( listeMonstre.get(i));
             }

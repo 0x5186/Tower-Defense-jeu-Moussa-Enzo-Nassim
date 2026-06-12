@@ -45,6 +45,7 @@ public class ControleurJeu implements Initializable {
 
 
 
+    private Documentation documentation;
     private Timeline gameLoop;
     protected IntegerProperty temps= new SimpleIntegerProperty(0);
     TerrainVue terrainVue;
@@ -54,6 +55,7 @@ public class ControleurJeu implements Initializable {
     TutorielVue tutorielVue;
     private BaseVue baseVue;
     private FioleVue fioleVue;
+
 
 
     private MonObservateurMonstre observateur;
@@ -89,6 +91,10 @@ public class ControleurJeu implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        this.documentation=new Documentation();
+
+
         JouerSon musiqueFond = null;
         try {
             musiqueFond = new JouerSon("src/main/resources/universite_paris8/iut/nchaieb/sae_jeux/Sons/musiqueJeu.wav",1000);
@@ -220,48 +226,6 @@ public class ControleurJeu implements Initializable {
         this.environnement.ajouterMonstre();
     }
 
-//    @FXML
-//    public void AppuyerSurSymboleCroix() {
-//        this.environnement.getSymboles().ajouterSymbole("croix");
-//    }
-//
-//    @FXML
-//    public void AppuyerSurSymboleGoutteDeau() {
-//        this.environnement.getSymboles().ajouterSymbole("goutte");
-//    }
-//
-//    @FXML
-//    public void AppuyerSurSymboleSpirale() {
-//        this.environnement.getSymboles().ajouterSymbole("spirale");
-//    }
-//
-//    @FXML
-//    public void AppuyerSurSymboleOeil(){
-//        this.environnement.getSymboles().ajouterSymbole("oeil");
-//    }
-//
-//    @FXML
-//    public void AppuyerSurSymboleEclipse() {
-//        this.environnement.getSymboles().ajouterSymbole("eclipse");
-//    }
-//
-//    @FXML
-//    public void AppuyerSurSymboleOiseau(){
-//        this.environnement.getSymboles().ajouterSymbole("oiseau");
-//    }
-//
-//    @FXML
-//    public void AppuyerSurSymboleFleche() {
-//        this.environnement.getSymboles().ajouterSymbole("fleche");
-//    }
-//
-//    @FXML
-//    public void AppuyerSurSymbolePic() { this.environnement.getSymboles().ajouterSymbole("pic");}
-//
-//    @FXML
-//    public void AppuyerSurSymboleTriangle() { this.environnement.getSymboles().ajouterSymbole("triangle");}
-
-    //élimination redondance
     @FXML
     public void actionsDesSymboles(Event event) throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         Button boutonSymbole = (Button) event.getSource();
@@ -269,117 +233,77 @@ public class ControleurJeu implements Initializable {
         double ecriture= Math.random();
         String symbole = null;
         JouerSon sonEcriture;
-        if(ecriture>=0.5){
-            sonEcriture = new JouerSon("src/main/resources/universite_paris8/iut/nchaieb/sae_jeux/Sons/stylo1.wav",0);
-        }
-        else{
-            sonEcriture = new JouerSon("src/main/resources/universite_paris8/iut/nchaieb/sae_jeux/Sons/stylo2.wav",0);
+        if(environnement.getArgent()>0){
+            if(ecriture>=0.5){
+                sonEcriture = new JouerSon("src/main/resources/universite_paris8/iut/nchaieb/sae_jeux/Sons/stylo1.wav",0);
+            }
+            else{
+                sonEcriture = new JouerSon("src/main/resources/universite_paris8/iut/nchaieb/sae_jeux/Sons/stylo2.wav",0);
+            }
+
+            sonEcriture.play();
+
+            switch (symboleTexte){
+                case "croix":
+                    symbole = "croix";
+                    break;
+                case "goutte":
+                    symbole = "goutte";
+                    break;
+                case "spirale":
+                    symbole = "spirale";
+                    break;
+                case "oeil":
+                    symbole = "oeil";
+                    break;
+                case "eclipse":
+                    symbole = "eclipse";
+                    break;
+                case "crystal":
+                    symbole = "crystal";
+                    break;
+                case "fleche":
+                    symbole = "fleche";
+                    break;
+                case "tomoe":
+                    symbole = "tomoe";
+                    break;
+                case "triangle":
+                    symbole = "triangle";
+                    break;
+                case "corne":
+                    symbole = "corne";
+                    break;
+                case "feu":
+                    symbole = "feu";
+                    break;
+                case "note":
+                    symbole = "note";
+                    break;
+                case "flocon":
+                    symbole = "flocon";
+                    break;
+            }
+
+            if (symbole != null){
+                this.environnement.getSymboles().ajouterSymbole(symbole);
+            }
         }
 
-        sonEcriture.play();
-
-        switch (symboleTexte){
-            case "croix":
-                symbole = "croix";
-                break;
-            case "goutte":
-                symbole = "goutte";
-                break;
-            case "spirale":
-                symbole = "spirale";
-                break;
-            case "oeil":
-                symbole = "oeil";
-                break;
-            case "eclipse":
-                symbole = "eclipse";
-                break;
-            case "crystal":
-                symbole = "crystal";
-                break;
-            case "fleche":
-                symbole = "fleche";
-                break;
-            case "tomoe":
-                symbole = "tomoe";
-                break;
-            case "triangle":
-                symbole = "triangle";
-                break;
-            case "corne":
-                symbole = "corne";
-                break;
-            case "feu":
-                symbole = "feu";
-                break;
-            case "note":
-                symbole = "note";
-                break;
-            case "flocon":
-                symbole = "flocon";
-                break;
-        }
-
-        if (symbole != null){
-            this.environnement.getSymboles().ajouterSymbole(symbole);
-        }
     }
 
-
-//    @FXML
-//    public void AppuyerSurOuvrirTiroir() {
-//        System.out.println("bla");
-//    }
-
-
-//    @FXML
-//    public void activerModePlacementTour() {
-//        this.environnement.setModePlacementTour(true);
-//        System.out.println("Mode placement de tour activé. Cliquez sur une case vide du terrain !");
-//    }
-//    private void placerTour(double xPixel, double yPixel) {
-//        int TAILLE_TUILE = 16;
-//        int gridX = (int) (xPixel / TAILLE_TUILE);
-//        int gridY = (int) (yPixel / TAILLE_TUILE);
-//
-//        if (!this.terrain.estPraticable(gridX, gridY)) {
-//
-//            int posXGridPixel = gridX * TAILLE_TUILE;
-//            int posYGridPixel = gridY * TAILLE_TUILE;
-//
-//            Tour nouvelleTour = new TourOeil();
-//            this.environnement.ajouterTour(nouvelleTour);
-//
-//            // Tour ramenée à 32x32 pour un terrain en 16px
-//            Rectangle rectTour = new Rectangle(32, 32, Color.DIMGRAY);
-//            rectTour.setTranslateX(posXGridPixel);
-//            rectTour.setTranslateY(posYGridPixel);
-//            stackPane.getChildren().add(rectTour);
-//
-//            this.modePlacementTour = false;
-//            System.out.println("Tour placée avec succès en X:" + gridX + " Y:" + gridY);
-//        } else {
-//            System.out.println("Impossible de placer une tour sur le chemin des monstres !");
-//        }
-//    }
 
 
 
     @FXML
     public void validerPentacle() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
-
-        if (this.environnement.getSymboles().verifierCombinaison()) {
+//
+        if (this.environnement.getSymboles().verifierCombinaison() &&  this.environnement.getArgent()>= this.documentation.prix(this.environnement.getSymboles().CombinaisonGetTourString())) {
             this.environnement.validerSymboles();
             this.sourisVue.ajouterImageSouris(this.environnement.getSymboles().CombinaisonGetTourString());
             JouerSon sonFiole = new JouerSon("src/main/resources/universite_paris8/iut/nchaieb/sae_jeux/Sons/fiole.wav",0);
             sonFiole.play();
-//            try {
-//                JouerSon sonFiole = new JouerSon("src/main/resources/universite_paris8/iut/nchaieb/sae_jeux/Sons/fiole.wav"); // Note the .wav extension!
-//                sonFiole.play();
-//            } catch (Exception e) {
-//                System.err.println("Could not play audio file: " + e.getMessage());
-//                e.printStackTrace();
-//            }
+
         }
         else { this.interfaceVue.viderSumbolesAffiches();
             JouerSon sonErreur = new JouerSon("src/main/resources/universite_paris8/iut/nchaieb/sae_jeux/Sons/erreur.wav",0);
