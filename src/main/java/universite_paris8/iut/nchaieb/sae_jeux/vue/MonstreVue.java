@@ -20,6 +20,7 @@ public class MonstreVue {
     Image sorcier = new Image(Main.class.getResourceAsStream("images/sorcier.png"));
     Image nargacuga = new Image(Main.class.getResourceAsStream("images/nargacuga.png"));
     Image Dino = new Image(Main.class.getResourceAsStream("images/dino.png"));
+    Image Armure = new Image(Main.class.getResourceAsStream("images/armure.png"));
 
     public MonstreVue(Pane pane) {
         this.pane = pane;
@@ -48,6 +49,12 @@ public class MonstreVue {
         }
         if(monstre instanceof Dino) {
             iv = new ImageView(Dino);
+            iv.setViewport(new Rectangle2D(0,0,80,80));
+            iv.translateXProperty().bind(monstre.posXProperty().subtract(48));
+            iv.translateYProperty().bind(monstre.posYProperty().subtract(48));
+        }
+        if(monstre instanceof Armure) {
+            iv = new ImageView(Armure);
             iv.setViewport(new Rectangle2D(0,0,80,80));
             iv.translateXProperty().bind(monstre.posXProperty().subtract(48));
             iv.translateYProperty().bind(monstre.posYProperty().subtract(48));
@@ -145,6 +152,29 @@ public class MonstreVue {
             this.hashMapAnimation.put(monstre, DinoMarche);
             DinoMarche.setCycleCount(Animation.INDEFINITE);
             DinoMarche.play();
+        }
+
+        if(monstre instanceof Armure) {
+            int[] frameIndex = {0};
+            int largeurCaseArmure = (int)(Armure.getWidth() / 2);
+            int hauteurCaseArmure = (int)(Armure.getHeight()) / 3;
+
+            Timeline ArmureMarche = new Timeline(
+                    new KeyFrame(Duration.millis(150), event -> {
+                        int x = frameIndex[0] % 2;
+                        int y = frameIndex[0] / 2;
+
+                        iv.setViewport(new Rectangle2D(x * largeurCaseArmure, y * hauteurCaseArmure, largeurCaseArmure, hauteurCaseArmure));
+
+                        frameIndex[0]++;
+                        if (frameIndex[0] >= 4) {
+                            frameIndex[0] = 0;
+                        }
+                    })
+            );
+            this.hashMapAnimation.put(monstre, ArmureMarche);
+            ArmureMarche.setCycleCount(Animation.INDEFINITE);
+            ArmureMarche.play();
         }
     }
 
