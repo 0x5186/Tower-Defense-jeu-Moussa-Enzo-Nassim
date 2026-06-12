@@ -15,7 +15,7 @@ public class Main extends Application {
 
     public static Stage stage;
     public static int map = 1;
-    private BooleanProperty modePlacementTour;
+
 
     @Override
     public void start(Stage premierstage) throws IOException {

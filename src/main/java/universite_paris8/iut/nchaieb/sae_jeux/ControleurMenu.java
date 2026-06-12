@@ -11,12 +11,12 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class ControleurMenu implements Initializable {
-
+    JouerSon musiqueFond = null;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
 
-        JouerSon musiqueFond = null;
+
         try {
             musiqueFond = new JouerSon("src/main/resources/universite_paris8/iut/nchaieb/sae_jeux/Sons/musiqueMenu.wav",0);
         } catch (UnsupportedAudioFileException e) {
@@ -26,18 +26,9 @@ public class ControleurMenu implements Initializable {
         } catch (LineUnavailableException e) {
             throw new RuntimeException(e);
         }
+        musiqueFond.setVolume(0.5f);
         musiqueFond.play();
-        if(musiqueFond.currentFrame!=null && musiqueFond.currentFrame==0.85){
-            try {
-                musiqueFond.restart();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            } catch (LineUnavailableException e) {
-                throw new RuntimeException(e);
-            } catch (UnsupportedAudioFileException e) {
-                throw new RuntimeException(e);
-            }
-        }
+
 
     }
 
@@ -45,6 +36,7 @@ public class ControleurMenu implements Initializable {
     @FXML
     public void onBoutonJouerClique() throws Exception {
         Main.map=2;
+        musiqueFond.stop();
         Main.changerScene("universite_paris8/iut/nchaieb/sae_jeux/fenetreJeu.fxml");
     }
 

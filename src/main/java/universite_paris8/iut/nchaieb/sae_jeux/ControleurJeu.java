@@ -8,7 +8,6 @@ import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -27,7 +26,7 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.Scanner;
 
-public class ControleurJeu implements Initializable{
+public class ControleurJeu implements Initializable {
     private Environnement environnement;
     private ArrayList<CombinaisonValables> lesSorts;
 
@@ -75,26 +74,24 @@ public class ControleurJeu implements Initializable{
                 Duration.seconds(0.01),
 
                 (ev ->{
+
                     temps.setValue(temps.getValue()+1);
                     this.environnement.unTour();
                     if (environnement.getBase().getPv()==0){
                         gameLoop.stop();
                         System.out.println("perdu");
                     }
-
                 })
-
         );
         gameLoop.setCycleCount(Timeline.INDEFINITE);
         gameLoop.getKeyFrames().add(kf);
-
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         JouerSon musiqueFond = null;
         try {
-            musiqueFond = new JouerSon("src/main/resources/universite_paris8/iut/nchaieb/sae_jeux/Sons/musiqueJeu.wav",0);
+            musiqueFond = new JouerSon("src/main/resources/universite_paris8/iut/nchaieb/sae_jeux/Sons/musiqueJeu.wav",1000);
         } catch (UnsupportedAudioFileException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
@@ -102,15 +99,15 @@ public class ControleurJeu implements Initializable{
         } catch (LineUnavailableException e) {
             throw new RuntimeException(e);
         }
+        musiqueFond.setVolume(0.85f);
         musiqueFond.play();
-        if(musiqueFond.currentFrame!=null && musiqueFond.currentFrame==8.5){
-            musiqueFond.currentFrame= Long.valueOf(5);
-        }
+
+//        if(musiqueFond.currentFrame!=null && musiqueFond.currentFrame==8.5){
+//            musiqueFond.currentFrame= Long.valueOf(5);
+//        }
 
 
 
-
-        //ajout du pane
         this.terrain = new Terrain();
 
 
@@ -119,33 +116,41 @@ public class ControleurJeu implements Initializable{
 
         this.fioleVue= new FioleVue(stackPane);
         this.sourisVue= new SourisVue(stackPane);
-        this.monstreVue= new MonstreVue(pane);
+        this.monstreVue= new MonstreVue(this.pane);
         this.interfaceVue = new InterfaceVue(stackPane);
-        this.baseVue= new BaseVue(this.pane);
+
         this.terrainVue = new TerrainVue(terrain, tilePane);
         this.tutorielVue = new TutorielVue(stackPane);
 
 
         System.out.println(Main.map);
-        terrainVue.dessine(Main.map);
-        MonObservateurMonstre observateurMonstres = new MonObservateurMonstre(pane);
-        MonObservateurTour monObservateurTour = new MonObservateurTour(pane);
-
+        terrainVue.dessine(Main.map, this.pane);
         environnement= new Environnement(this.terrain);
+        this.baseVue= new BaseVue(this.pane, this.environnement.getBase());
+        MonObservateurMonstre observateurMonstres = new MonObservateurMonstre(pane, this.baseVue);
+        MonObservateurTour monObservateurTour = new MonObservateurTour(pane);
+        MonObservateurSortsTours monObservateurSortsTours = new MonObservateurSortsTours(pane);
+
+        System.out.println(this.baseVue);
+
+
+
+
         environnement.getLesMonstres().addListener(observateurMonstres);
         environnement.getLesTours().addListener(monObservateurTour);
-        baseVue.ajouterSprite(this.environnement.getBase());
+        environnement.getLesProjectiles().addListener(monObservateurSortsTours);
+
+
+
 
         this.fioleVue.setFiole(fiole,this.environnement.getArgent());
 
+
+        baseVue.ajouterSprite(this.environnement.getBase());
         this.environnement.argentProperty().addListener((observable, oldValue, newValue) -> {
-
-
-            int ancienneValeur=(int) oldValue ;
             int nouvelleValeur=(int) newValue ;
-            if (nouvelleValeur!=ancienneValeur) {
-                this.fioleVue.setFiole(fiole,nouvelleValeur);
-            }
+            this.fioleVue.setFiole(fiole,nouvelleValeur);
+
 
         });
         initAnimation();

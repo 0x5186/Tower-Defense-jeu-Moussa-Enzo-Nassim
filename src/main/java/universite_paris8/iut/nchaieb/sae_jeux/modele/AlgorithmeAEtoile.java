@@ -31,7 +31,7 @@ public class AlgorithmeAEtoile {
                 return reconstruireChemin(noeudActuel);
             }
 
-            int[][] directions = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
+            int[][] directions = {{1, 0}, {0, 1}, {0, -1}, {-1, 0}};
 
             for (int i = 0; i < directions.length; i++) {
                 int voisinX = noeudActuel.x + directions[i][0];

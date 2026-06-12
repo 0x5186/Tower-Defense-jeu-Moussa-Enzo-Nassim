@@ -42,10 +42,14 @@ public class InterfaceVue {
 
         ImageView feuillePentacle = new ImageView(FeuilleSort);
         ImageView interfaceDuBas = new ImageView(InterfaceBas);
+
+
+
 //        ImageView  tiroir= new ImageView(tiroirDeSymboles);
 
 
         if( this.stackPane!=null){
+
 
             this.stackPane.getChildren().add(interfaceDuBas);
 

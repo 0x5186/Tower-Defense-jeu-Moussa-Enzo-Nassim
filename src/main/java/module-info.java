@@ -3,7 +3,7 @@ module universite_paris8.iut.nchaieb.sae_jeux {
     requires javafx.fxml;
     requires java.desktop;
     requires java.sql;
-
+    requires java.naming;
 
 
     opens universite_paris8.iut.nchaieb.sae_jeux to javafx.fxml;
@@ -14,5 +14,7 @@ module universite_paris8.iut.nchaieb.sae_jeux {
     opens universite_paris8.iut.nchaieb.sae_jeux.modele.monstres to javafx.fxml;
     exports universite_paris8.iut.nchaieb.sae_jeux.modele.Tours;
     opens universite_paris8.iut.nchaieb.sae_jeux.modele.Tours to javafx.fxml;
+    exports universite_paris8.iut.nchaieb.sae_jeux.modele.SortTours;
+    opens universite_paris8.iut.nchaieb.sae_jeux.modele.SortTours to javafx.fxml;
 
 }

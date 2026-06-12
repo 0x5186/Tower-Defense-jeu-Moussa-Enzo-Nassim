@@ -14,82 +14,34 @@ import java.util.ArrayList;
 public abstract class Monstre extends Entite {
 
     public static int compteurID = 0;
-
     private String id;
-
-    protected int nombreDePV;
+    protected IntegerProperty nombreDePV;
     protected int pvMax;
     private int atq;
-//    protected String biome;
-
-
-    protected int vitesse;// multiplicateur de vitesse ou pixels par sec ?
+    protected int vitesse;
     protected int portee;
-
     protected int recompense;
 
     private ArrayList<Noeud> chemin;
-    private final int TAILLE_TUILE = 16;
-
+    private boolean cheminCalcule = false;
+    private final int TAILLE_TUILE = 32; // FIXÉ À 32 !
     private int targetX;
     private int targetY;
 
     private IntegerProperty posX;
     private IntegerProperty posY;
 
-    public Monstre(int pvMax, int atq, int recompense, Terrain terrain){
-
+    public Monstre(int pvMax, int atq, int recompense, Terrain terrain) {
         this.posX = new SimpleIntegerProperty();
         this.posY = new SimpleIntegerProperty();
-
-        this.atq=atq;
+        this.atq = atq;
         this.pvMax = pvMax;
-        this.nombreDePV = pvMax;
-        this.recompense=recompense;
-//        this.biome = biome;
-        this.id ="M"+ this.compteurID;
+        this.nombreDePV= new SimpleIntegerProperty(pvMax);
+        this.recompense = recompense;
+        this.id = "M" + this.compteurID;
         this.compteurID++;
-//        this.recompenseArgent = recompenseArgent;
-        this.vitesse = vitesse;
         this.actionActuelle.set("fixe");
-        this.targetX = 200;
-        this.targetY = 26;
         setSpawnEnnemi(terrain);
-
-
-    }
-//    public void setTerrain(Terrain terrain) {
-//        this.terrain = terrain;
-//    }
-
-    public  void infligerDegat(Monstre monstre){
-
-        if (monstre.nombreDePV != 0){
-            monstre.retirerPV(this.atq);
-
-        }
-    }
-
-    public void ajouterPV(int soin){
-        this.nombreDePV += soin;
-        if (this.nombreDePV > this.pvMax){
-            this.nombreDePV = this.pvMax;
-        }
-    }
-    public void retirerPV(int degat) {
-        this.nombreDePV -= degat;
-        if (this.nombreDePV <= 0){
-            this.nombreDePV = 0;
-        }
-    }
-
-
-    public int getPortee() {
-        return portee;
-    }
-
-    public int getRecompense() {
-        return recompense;
     }
 
     public void setSpawnEnnemi(Terrain terrain) {
@@ -97,183 +49,141 @@ public abstract class Monstre extends Entite {
 
         if (portailAleatoire == 0) {
             this.setPosX(0);
-            this.setPosY(8 * TAILLE_TUILE);
+            this.setPosY(8 * TAILLE_TUILE); // Spawn 1 (Haut gauche)
+            this.targetX = 58;              // Cible : La Base
+            this.targetY = 12;
         } else if (portailAleatoire == 1) {
-            this.setPosX(10 * TAILLE_TUILE);
-            this.setPosY(51 * TAILLE_TUILE);
+            this.setPosX(24 * TAILLE_TUILE);
+            this.setPosY(0);                // Spawn 2 (Haut milieu)
+            this.targetX = 24;              // Cible temporaire pour diriger le monstre vers le bas
+            this.targetY = 14;
         } else {
-            this.setPosX(50 * TAILLE_TUILE);
-            this.setPosY(0);
+            // Le nouveau Spawn sur le trait noir en bas à gauche (Ligne 22)
+            this.setPosX(0);
+            this.setPosY(22 * TAILLE_TUILE);
+            this.targetX = 58;              // Cible : La Base
+            this.targetY = 12;
         }
 
-        this.targetX = terrain.largeur() - 1;
-        this.targetY = 26;
+        // Sécurité
+        int gx = this.getPosX() / TAILLE_TUILE;
+        int gy = this.getPosY() / TAILLE_TUILE;
+        if (!terrain.estPraticable(gx, gy)) {
+            this.setPosX(0);
+            this.setPosY(8 * TAILLE_TUILE);
+            this.targetX = 58;              // Cible de sécurité
+            this.targetY = 12;
+        }
     }
 
     public void agir(ObservableList<Monstre> collegues, Terrain terrain, Base base) {
-
-
-        if (this.getPosX() == base.getPosX()) {
-            System.out.println("jattaque la tour");
-            base.retirerPv(this.atq);
-            System.out.println(base.getPv());
-        }
-
         if (!estBloqueParAllie(collegues)) {
-
             this.setActionActuelle("marche");
             this.avancer(terrain);
         }
+        if(this.aAtteintSaCible()){
+            base.retirerPv(this.atq);
+        }
     }
-
-
 
     private boolean estBloqueParAllie(ObservableList<Monstre> collegues) {
         for (Monstre collegue : collegues) {
-            if (collegue != this && collegue.estVivant()) {
-                int distanceX = Math.abs(collegue.getPosX() - this.getPosX());
-                int distanceY = Math.abs(collegue.getPosY() - this.getPosY());
+            if (collegue == this) continue;
+            if (!collegue.estVivant()) continue;
 
-                if ((distanceX + distanceY) < 25) {
-                    if (collegue.getPosX() > this.getPosX()) return true;
+            int distanceX = Math.abs(collegue.getPosX() - this.getPosX());
+            int distanceY = Math.abs(collegue.getPosY() - this.getPosY());
+
+            if (distanceX + distanceY < TAILLE_TUILE) {
+                if (collegue.getId().compareTo(this.getId()) < 0) {
+                    return true;
                 }
             }
         }
         return false;
     }
-
-//version de agir au cas ou le joueur peut invoquer des monstres
-//    public void agir(ArrayList<Monstre> collegues) {
-//        if (!ennemis.isEmpty()) {
-//            MonstreDeBase monstrePlusProche = plusProche(ennemis);
-//            if (monstrePlusProche != null) {
-//                this.setAttaque(true);
-//                this.infligerDegat(monstrePlusProche);
-//                return;
-//            }
-//        }
-//
-//        this.setAttaque(false);
-//        if (!estBloqueParAllie(collegues)) {
-//            this.avancer();
-//        }
-//    }
-
 
     private void avancer(Terrain terrain) {
-        if (terrain != null) {
-            if (this.chemin == null || this.chemin.isEmpty()) {
-                int departGridX = this.getPosX() / TAILLE_TUILE;
-                int departGridY = this.getPosY() / TAILLE_TUILE;
+        if (terrain == null) return;
 
-                this.chemin = AlgorithmeAEtoile.trouverChemin(terrain, departGridX, departGridY, this.targetX, this.targetY);
+        // Calcul du chemin si ce n'est pas encore fait ou s'il faut le recalculer
+        if (!cheminCalcule) {
+            int gx = this.getPosX() / TAILLE_TUILE;
+            int gy = this.getPosY() / TAILLE_TUILE;
 
-                if (this.chemin == null || this.chemin.isEmpty()) return;
-            }
+            this.chemin = AlgorithmeAEtoile.trouverChemin(terrain, gx, gy, targetX, targetY);
 
-            Noeud prochaineEtape = this.chemin.get(0);
-
-            int ciblePixelX = prochaineEtape.x * TAILLE_TUILE;
-            int ciblePixelY = prochaineEtape.y * TAILLE_TUILE;
-
-            int dx = ciblePixelX - this.getPosX();
-            int dy = ciblePixelY - this.getPosY();
-
-            int deplacementX = 0;
-            int deplacementY = 0;
-
-            if (dx > 0) deplacementX = Math.min(1, dx);
-            else if (dx < 0) deplacementX = Math.max(-1, dx);
-
-            if (dy > 0) deplacementY = Math.min(1, dy);
-            else if (dy < 0) deplacementY = Math.max(-1, dy);
-
-            this.setPosX(this.getPosX() + deplacementX);
-            this.setPosY(this.getPosY() + deplacementY);
-
-            if (this.getPosX() == ciblePixelX && this.getPosY() == ciblePixelY) {
-                this.chemin.remove(0);
+            if (this.chemin != null && !this.chemin.isEmpty()) {
+                this.cheminCalcule = true;
+            } else {
+                this.chemin = null;
+                return;
             }
         }
 
+        if (this.chemin == null || this.chemin.isEmpty()) return;
 
-    }
+        // Récup du prochain nœud à atteindre
+        Noeud n = this.chemin.get(0);
+        int cibleX = n.x * TAILLE_TUILE;
+        int cibleY = n.y * TAILLE_TUILE;
+        int dx = cibleX - this.getPosX();
+        int dy = cibleY - this.getPosY();
 
+        // Déplacement du monstre
+        if (dx != 0) {
+            this.setPosX(this.getPosX() + (dx > 0 ? 1 : -1));
+        } else if (dy != 0) {
+            this.setPosY(this.getPosY() + (dy > 0 ? 1 : -1));
+        }
 
+        // vérif si le monstre a atteint la case visée
+        if (this.getPosX() == cibleX && this.getPosY() == cibleY) {
+            this.chemin.remove(0);
+            // On retire le nœud atteint
 
-    public Monstre plusProche(ArrayList<Monstre> listeMonstre) {
-        Monstre monstrePlusProche = null;
-        for (int i = 0; i < listeMonstre.size(); i++) {
-            if (this.estDansLeRayon(listeMonstre.get(i))) {
-                if (monstrePlusProche == null || calculDistance(listeMonstre.get(i)) < calculDistance(monstrePlusProche)) {
-                    monstrePlusProche = listeMonstre.get(i);
+            // Si le monstre a terminé son chemin actuel
+            if (this.chemin.isEmpty()) {
+                if (this.targetX != 58 || this.targetY != 12) {
+                    this.targetX = 58;
+                    this.targetY = 12;
+                    this.cheminCalcule = false;
                 }
             }
         }
-        return monstrePlusProche;
-
     }
 
-    private int calculDistance(Monstre monstre) {
-        int distanceX = Math.abs(monstre.getPosX() - this.getPosX());
-        int distanceY = Math.abs(monstre.getPosY() - this.getPosY());
-        return distanceX + distanceY;
+    public boolean aAtteintSaCible() {
+        return this.cheminCalcule && this.chemin != null && this.chemin.isEmpty()
+                && this.getPosX() == ((this.targetX * TAILLE_TUILE))
+                && this.getPosY() == (this.targetY * TAILLE_TUILE);
     }
 
-    public boolean estDansLeRayon(Monstre monstre) {
-        int distanceX = Math.abs(monstre.getPosX() - this.getPosX());
-        int distanceY = Math.abs(monstre.getPosY() - this.getPosY());
+    public int getAtq() { return atq; }
+    public void infligerDegat(Monstre monstre) { if (monstre.nombreDePV.get() != 0) monstre.retirerPV(this.atq); }
 
-        int distance = distanceX + distanceY;
+    public void ajouterPV(int soin) { this.nombreDePV.set(Math.min(this.nombreDePV.get() + soin, this.pvMax));}
 
-        if (distance <= this.portee) {
-            return true;
-        }
-        return false;
-    }
+    public void retirerPV(int degat) { this.nombreDePV.set( Math.max(this.nombreDePV.get() - degat, 0)); }
 
-    public boolean estVivant() {
-        return this.nombreDePV > 0;
-    }
+    public int getPortee() { return portee; }
 
-    public int getVitesse() {
-        return vitesse;
-    }
+    public int getRecompense() { return recompense; }
 
-    public int getPV() {
-        return this.nombreDePV;
-    }
+    public boolean estDansLeRayon(Monstre monstre) { return (Math.abs(monstre.getPosX() - this.getPosX()) + Math.abs(monstre.getPosY() - this.getPosY())) <= this.portee; }
 
-    public String getId(){
-        return this.id;
-    }
+    public boolean estVivant() { return this.nombreDePV.get() > 0; }
 
+    public int getVitesse() { return vitesse; }
 
-    @Override
-    public int getPosX() {
-        return posX.get();
-    }
+    public int getPV() { return this.nombreDePV.get(); }
+    public IntegerProperty pvProperty() { return this.nombreDePV; }
 
-    @Override
-    public IntegerProperty posXProperty() {
-        return posX;
-    }
-
-    @Override
-    public int getPosY() {
-        return posY.get();
-    }
-
-    @Override
-    public IntegerProperty posYProperty() {
-        return posY;
-    }
-
-    public void setPosY(int posY) {
-        this.posY.set(posY);
-    }
-
-    public void setPosX(int posX) {
-        this.posX.set(posX);
-    }
+    public String getId() { return this.id; }
+    @Override public int getPosX() { return posX.get(); }
+    @Override public IntegerProperty posXProperty() { return posX; }
+    @Override public int getPosY() { return posY.get(); }
+    @Override public IntegerProperty posYProperty() { return posY; }
+    public void setPosY(int posY) { this.posY.set(posY); }
+    public void setPosX(int posX) { this.posX.set(posX); }
 }

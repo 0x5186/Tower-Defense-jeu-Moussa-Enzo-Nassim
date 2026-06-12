@@ -2,35 +2,88 @@ package universite_paris8.iut.nchaieb.sae_jeux.modele.Tours;
 
 import javafx.collections.ObservableList;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Base;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.SortTours.Projectile;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.SortTours.Rayon;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.SortTours.SortTour;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.SortTours.Zone;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.monstres.Monstre;
 
 public class TourOeil extends Tour {
+    private   SortTour rayon ;
+    private int tempsAttaque;
+    private int dureeaAttaque;
 
     public TourOeil(int x, int y) {
-        super(100,5,x,y, 3,25);
-
+        super(150,1,x,y, 50,25);
+        this.rayon=null;
+        this.dureeaAttaque=50;
+        this.tempsAttaque=0;
     }
 
     @Override
-    public void agir(ObservableList<Monstre> listeMonstre, Base base) {
+    public void agir(ObservableList<Monstre> listeMonstre, Base base, ObservableList<SortTour> sortsTours) {
         Monstre monstrePlusProche;
         gererCooldown();
 
-        if(this.getCooldown()==this.getCooldownPourAction()){
-            if (!listeMonstre.isEmpty() ) {
+//        if(this.getCooldown()>=this.getCooldownPourAction()){
+//            if (!listeMonstre.isEmpty() ) {
+//
+//                monstrePlusProche = this.plusProche(listeMonstre);
+//                if (monstrePlusProche != null) {
+//                    this.setActionActuelle("fixe");
+//
+//
+//                    this.setActionActuelle("attaque");
+//                    if(this.getCooldown()>=100) {
+//                        this.setCooldown(0);
+//                    }
+//                    else{
+//
+//                        SortTour rayon=new Rayon(this.getPosX(),this.getPosY(),monstrePlusProche,this.getAtq(),50);
+//                        sortsTours.add(rayon);
+//                        this.infligerDegat(monstrePlusProche);
+//                    }
+//                    System.out.println("j'attaque");
+//                }
+//
+//            }
+//        }
 
-                monstrePlusProche = this.plusProche(listeMonstre);
-                if (monstrePlusProche != null) {
-                    this.setActionActuelle("fixe");
+        if(this.rayon==null) {
+            gererCooldown();
+            if ( this.getCooldown() >= this.getCooldownPourAction()) {
+                if (!listeMonstre.isEmpty()) {
 
-                    this.infligerDegat(monstrePlusProche);
-                    this.setActionActuelle("attaque");
-                    this.setCooldown(0);
-                    System.out.println("j'attaque");
+                    monstrePlusProche = this.plusProche(listeMonstre);
+                    if (monstrePlusProche != null) {
+                        this.setActionActuelle("fixe");
+
+
+                        this.setActionActuelle("attaque");
+
+                        System.out.println("zone");
+                        this.rayon = new Rayon(this.getPosX(),this.getPosY(),monstrePlusProche,this.getAtq(), this.dureeaAttaque);
+                        sortsTours.add(rayon);
+
+
+
+                    }
+
                 }
 
             }
         }
+        else{
+            this.tempsAttaque++;
+        }
+
+        if (this.getCooldown() + this.tempsAttaque >= this.getCooldownPourAction() + this.dureeaAttaque) {
+            this.setCooldown(0);
+            this.tempsAttaque = 0;
+            this.rayon = null;
+
+        }
+
 
     }
 

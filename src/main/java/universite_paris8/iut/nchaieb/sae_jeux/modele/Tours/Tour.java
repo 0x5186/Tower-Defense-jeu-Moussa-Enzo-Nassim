@@ -1,16 +1,18 @@
 package universite_paris8.iut.nchaieb.sae_jeux.modele.Tours;
 
-import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.ObservableList;
+import universite_paris8.iut.nchaieb.sae_jeux.Outils;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Base;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Entite;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.SortTours.Projectile;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.SortTours.SortTour;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.monstres.Monstre;
 
 public class Tour extends Entite {
 
+    private Outils outils;
     private IntegerProperty posX;
     private IntegerProperty posY;
     protected int portee;
@@ -36,11 +38,15 @@ public class Tour extends Entite {
         this.cooldownPourAction=cooldownPourAction;
 
         this.cout=cout;
-
+        this.outils=new Outils();
     }
 
     public int getCout() {
         return cout;
+    }
+
+    public int getAtq() {
+        return atq;
     }
 
     public int getCooldown() {
@@ -109,8 +115,8 @@ public class Tour extends Entite {
 
     public void gererCooldown() {
         if(this.cooldown<this.cooldownPourAction){
-            System.out.println("+1");
-            System.out.println("cooldown action: "+ this.cooldownPourAction);
+
+
             this.cooldown++;
         }
         else {
@@ -121,23 +127,22 @@ public class Tour extends Entite {
 
 
 
-    public void agir(ObservableList<Monstre> listeMonstre, Base base){}
+    public void agir(ObservableList<Monstre> listeMonstre, Base base, ObservableList<SortTour> projectiles){}
+
+
 
     public boolean estDansLeRayon (Monstre monstre){
-        //on va calculer la distance entre la tour et le mosntre
         int distanceX = Math.abs(monstre.getPosX() - this.getPosX());
         int distanceY = Math.abs(monstre.getPosY() - this.getPosY());
-
-        //on va multiplier la distance de monstre*tour(x) et monstre*tour(y)
         int distance = distanceX+distanceY;
-
-        //on compare la distance a la porte mais on doit les mettre à unité égale
         if (distance <= this.portee) {
             return true;
         }
 
         return false;
     }
+
+
 
     public int getPortee() {
         return portee;
@@ -149,7 +154,7 @@ public class Tour extends Entite {
 
         Monstre monstrePlusProche= null;
         for(int i=0; i <listeMonstre.size(); i++){
-            if(estDansLeRayon(listeMonstre.get(i))){
+            if(outils.estDansLeRayon(this.getPosX(),this.getPosY(),listeMonstre.get(i).getPosX(),listeMonstre.get(i).getPosY(),this.portee)){
                 if( monstrePlusProche==null || calculDistance(listeMonstre.get(i))<calculDistance(monstrePlusProche)){
                     monstrePlusProche=listeMonstre.get(i);
 
@@ -162,13 +167,10 @@ public class Tour extends Entite {
     }
 
     private int calculDistance(Monstre monstre) {
-        int distance = (monstre.getPosX()+ monstre.getPosY())-(getPosY()+getPosX());
-        if (distance<0)
-            distance=distance*-1;
-        return distance;
+        int distanceX = Math.abs(monstre.getPosX() - this.getPosX());
+        int distanceY = Math.abs(monstre.getPosY() - this.getPosY());
+        return distanceX + distanceY;
     }
-
-
 
     public  void infligerDegat(Monstre monstre){
         System.out.println("tour attaque");
