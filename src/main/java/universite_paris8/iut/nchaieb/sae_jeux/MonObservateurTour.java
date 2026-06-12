@@ -66,6 +66,22 @@ public class MonObservateurTour implements ListChangeListener<Tour>{
 //
 
 
+                    nouveau.getActionActuelle().addListener((observable, oldValue, newValue) -> {
+
+                        if (newValue.equals("charge")){
+                            this.tourVue.animationChargeAttaque(nouveau);
+                        }
+                        else if (newValue.equals("attaque")){
+                            this.tourVue.animationAttaque(nouveau);
+                        }
+                        else if (newValue.equals("fixe")){
+                            this.tourVue.stopAnimation(nouveau);
+                        }
+
+
+                    });
+
+
 
                 }
             }

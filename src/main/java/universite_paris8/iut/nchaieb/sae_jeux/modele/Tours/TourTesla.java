@@ -15,9 +15,9 @@ public class TourTesla extends Tour {
 
 
     public TourTesla(int x, int y) {
-        super(100, 2, x, y, 100, 10);
+        super(100, 1, x, y, 200, 15);
         this.zone=null;
-        this.dureeaAttaque=60;
+        this.dureeaAttaque=120;
         this.tempsAttaque=0;
     }
 
@@ -27,18 +27,18 @@ public class TourTesla extends Tour {
         Monstre monstrePlusProche;
         if(this.zone==null) {
             gererCooldown();
+            this.setActionActuelle("charge");
             if ( this.getCooldown() >= this.getCooldownPourAction()) {
                 if (!listeMonstre.isEmpty()) {
 
                     monstrePlusProche = this.plusProche(listeMonstre);
                     if (monstrePlusProche != null) {
-                        this.setActionActuelle("fixe");
+
 
 
                         this.setActionActuelle("attaque");
 
-                        System.out.println("zone");
-                        this.zone = new Zone(this.getPosX(), this.getPosY(), this.getAtq(), this.portee, listeMonstre, 60);
+                        this.zone = new Zone(this.getPosX(), this.getPosY(), this.getAtq(), this.portee, listeMonstre, this.dureeaAttaque);
                         sortsTours.add(zone);
 
 
@@ -57,6 +57,7 @@ public class TourTesla extends Tour {
             this.setCooldown(0);
             this.tempsAttaque = 0;
             this.zone = null;
+            this.setActionActuelle("fixe");
 
         }
 

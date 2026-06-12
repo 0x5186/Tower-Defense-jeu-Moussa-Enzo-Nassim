@@ -14,9 +14,9 @@ public class TourOeil extends Tour {
     private int dureeaAttaque;
 
     public TourOeil(int x, int y) {
-        super(150,1,x,y, 50,25);
+        super(150,1,x,y, 300,40);
         this.rayon=null;
-        this.dureeaAttaque=50;
+        this.dureeaAttaque=100;
         this.tempsAttaque=0;
     }
 
@@ -51,6 +51,7 @@ public class TourOeil extends Tour {
 
         if(this.rayon==null) {
             gererCooldown();
+            this.setActionActuelle("charge");
             if ( this.getCooldown() >= this.getCooldownPourAction()) {
                 if (!listeMonstre.isEmpty()) {
 
@@ -62,7 +63,7 @@ public class TourOeil extends Tour {
                         this.setActionActuelle("attaque");
 
                         System.out.println("zone");
-                        this.rayon = new Rayon(this.getPosX(),this.getPosY(),monstrePlusProche,this.getAtq(), this.dureeaAttaque);
+                        this.rayon = new Rayon(this.getPosX(),this.getPosY()-55,monstrePlusProche,this.getAtq(), this.dureeaAttaque);
                         sortsTours.add(rayon);
 
 

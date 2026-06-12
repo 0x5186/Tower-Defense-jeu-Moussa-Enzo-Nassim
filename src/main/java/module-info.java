@@ -4,6 +4,7 @@ module universite_paris8.iut.nchaieb.sae_jeux {
     requires java.desktop;
     requires java.sql;
     requires java.naming;
+    requires jdk.xml.dom;
 
 
     opens universite_paris8.iut.nchaieb.sae_jeux to javafx.fxml;
