@@ -24,8 +24,8 @@ public class Environnement {
 	private Terrain terrain;
 	private IntegerProperty argent;
 
-
 	private Symboles symboles; //liste des symboles
+	private ObservableList<Decor> lesDecors;
 	 //pour savoir si on est entrain de placer une tour ou pas
 	private final BooleanProperty modePlacementTour;
 
@@ -62,6 +62,16 @@ public class Environnement {
 		this.pauseEntreVagues = true;
 		this.compteurPause = 300;
 		this.compteurSpawn = 0;
+
+		//partie decor
+		this.lesDecors = FXCollections.observableArrayList();
+		Fleur fleur1 = new Fleur(300, 200);
+		Fleur fleur2 = new Fleur(600, 400);
+		Fleur fleur3 = new Fleur(150, 500);
+		this.lesDecors = FXCollections.observableArrayList();
+		this.lesDecors.add(fleur1);
+		this.lesDecors.add(fleur2);
+		this.lesDecors.add(fleur3);
 	}
 
 // 	les Get / set:
@@ -170,7 +180,13 @@ public class Environnement {
 				else{
 					this.sortTours.get(i).sortAJour();
 				}
+			}
+		}
 
+		for(int i = 0; i < this.lesDecors.size(); i++){
+			Decor decor = this.lesDecors.get(i);
+			if (decor instanceof Fleur){
+				((Fleur) decor).mettreAjour(this.lesMonstres);
 			}
 		}
 
@@ -258,4 +274,9 @@ public class Environnement {
 
 		}
 	}
+
+	public ObservableList<Decor> getLesDecors(){
+		return this.lesDecors;
+	}
+
 }

@@ -30,6 +30,7 @@ public class TutorielVue {
     private VBox vbox;
     private VBox vBoxTitre;
     private int page;
+    private int pageMax;
     private Label titre;
     private Label paragraphe;
     private Label pageDefilee;
@@ -41,6 +42,7 @@ public class TutorielVue {
 
     public TutorielVue(StackPane stackPane){
         this.page= 0;
+        this.pageMax = 3;
         this.image = new ImageView(this.parcheminTuto);
         this.imageCombi1 = new ImageView(this.imageCombinaison1);
         this.imageCombi2 = new ImageView(this.imageCombinaison2);
@@ -218,6 +220,14 @@ public class TutorielVue {
                     "\n                 quel sort.\n\n      En revanche, si ce dernier est vide, il faudra attendre qu'il se \n      remplisse lorsque des monstres sont tués.");
             afficherImage();
         }
+    }
+
+    public int getPage() {
+        return page;
+    }
+
+    public int getPageMax(){
+        return this.pageMax;
     }
 
 }
