@@ -17,16 +17,19 @@ public class Symboles {
         return combinaison;
     }
 
-    public void ajouterSymbole(String symbole) {
-        if (this.combinaison.size() < 6) {
+    public void ajouterSymbole(String symbole){
+        boolean afficherAvertissement = false;
+
+        if (this.combinaison.size() < 6){
             this.combinaison.add(symbole);
         } else {
             System.out.println("Ce symbole ne sera pas comptabilisé");
+            afficherAvertissement = true;
         }
     }
 
     public void retirerSymbole() {
-        // Sécurité conservée de la V1 pour éviter un crash si la liste est vide
+        // Sécurité : on vérifie que la liste n'est pas vide avant de retirer !
         if (!this.combinaison.isEmpty()) {
             this.combinaison.remove(combinaison.size() - 1);
         }
@@ -37,16 +40,13 @@ public class Symboles {
     }
 
     public boolean verifierCombinaison() {
-        // Utilisation de && (V1) au lieu de || (V2) pour éviter un NullPointerException
-        if (this.combinaison != null && !this.combinaison.isEmpty()) {
-            if (combinaison.equals(combinaisonValables.tourOeil)) {
-                System.out.println("Combinaison validée : Tour Oeil");
-                return true;
-            } else if (combinaison.equals(combinaisonValables.tourHeal)) {
-                System.out.println("Combinaison validée : Tour Heal");
-                return true;
-            } else if (combinaison.equals(combinaisonValables.tourMusic)) { // Intégration V2
-                System.out.println("Combinaison validée : Tour Musique");
+        // CORRECTION : && (ET) au lieu de || (OU)
+        if (this.combinaison != null && !this.combinaison.isEmpty()){
+
+            if (combinaison.equals(combinaisonValables.tourOeil)
+                    || combinaison.equals(combinaisonValables.tourHeal)
+                    || combinaison.equals(combinaisonValables.tourMusic)
+                    || combinaison.equals(combinaisonValables.tourTesla)){
                 return true;
             }
             else if (combinaison.equals(combinaisonValables.tourGlace)){
@@ -57,33 +57,49 @@ public class Symboles {
         return false;
     }
 
+    // CORRECTION : Les deux méthodes fusionnées proprement
     public Tour CombinaisonGetTour(int x, int y) {
         if (this.combinaison != null && !this.combinaison.isEmpty()) {
+
             if (combinaison.equals(combinaisonValables.tourOeil)) {
                 return new TourOeil(x, y);
-            } else if (combinaison.equals(combinaisonValables.tourHeal)) {
+            }
+            else if (combinaison.equals(combinaisonValables.tourHeal)) {
                 return new TourHeal(x, y);
-            } else if (combinaison.equals(combinaisonValables.tourMusic)) { // Intégration V2
+            }
+            else if (combinaison.equals(combinaisonValables.tourMusic)) {
                 return new TourMusique(x, y);
-            } else if (combinaison.equals(combinaisonValables.tourGlace)) {
+            }
+            else if (combinaison.equals(combinaisonValables.tourGlace)) {
                 return new TourGlace(x, y);
+            }
+            else if (combinaison.equals(combinaisonValables.tourTesla)) {
+                return new TourTesla(x, y);
             }
         }
         return null;
     }
 
     public String CombinaisonGetTourString() {
-        if (this.combinaison != null && !this.combinaison.isEmpty()) {
+        // CORRECTION : && (ET) au lieu de || (OU)
+        if (this.combinaison != null && !this.combinaison.isEmpty()){
+
             if (combinaison.equals(combinaisonValables.tourOeil)) {
                 return "tourOeil";
-            } else if (combinaison.equals(combinaisonValables.tourHeal)) {
+            }
+            else if (combinaison.equals(combinaisonValables.tourHeal)) {
                 return "tourHeal";
-            } else if (combinaison.equals(combinaisonValables.tourMusic)) { // Intégration V2
+            }
+            else if (combinaison.equals(combinaisonValables.tourMusic)) {
                 return "tourMusique";
-            } else if (combinaison.equals(combinaisonValables.tourGlace)) {
+            }
+            else if (combinaison.equals(combinaisonValables.tourGlace)) {
                 return "tourGlace";
             }
+            else if (combinaison.equals(combinaisonValables.tourTesla)) {
+                return "tourTesla";
+            }
         }
-        return ""; // Retourne une chaîne vide propre si aucune correspondance
+        return "rien";
     }
 }

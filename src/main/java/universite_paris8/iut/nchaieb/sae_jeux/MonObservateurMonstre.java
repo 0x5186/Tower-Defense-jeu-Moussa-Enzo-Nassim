@@ -28,11 +28,16 @@ public class MonObservateurMonstre implements ListChangeListener<Monstre> {
         this.monstreVue.ajouterSprite(monstreDeBase);
     }
 
+    private void mort(Monstre monstre) {
+
+        this.monstreVue.animationMort(monstre);
+
+    }
 
 
     private void enleverSprite(Monstre monstre) {
 
-        this.monstreVue.animationMort(monstre);
+        this.monstreVue.retirer(monstre);
 
     }
 
@@ -54,9 +59,20 @@ public class MonObservateurMonstre implements ListChangeListener<Monstre> {
                         }
 
                     });
+                    nouveau.pvProperty().addListener((observable, oldValue, newValue) -> {
+
+//
+                        if (newValue.equals(0)) {
+                            this.monstreVue.animationMarche(nouveau);
+                        }
+
+                    });
 
                 }System.out.println(baseVue);
+
                 if(this.baseVue!=null) {
+
+                    this.baseVue.rechargerpart2();
                 }
 
             }

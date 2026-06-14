@@ -3,17 +3,24 @@ package universite_paris8.iut.nchaieb.sae_jeux.modele;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.AlgorithmeAEtoile;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.Entite;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.Symboles;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Tours.*;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.LecteurVague;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.ListeApparition;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.monstres.*;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.SortTours.SortTour;
 
 public class Environnement {
 	private IntegerProperty nbTours;
 	private Base base;
 	private ObservableList<Tour> lesTours;
 	private ObservableList<Monstre> lesMonstres;
-	protected ObservableList<Projectile> lesProjectiles;
+	protected ObservableList<SortTour> sortTours;
 	private Terrain terrain;
 	private IntegerProperty argent;
+
 	private Symboles symboles;
 	private final BooleanProperty modePlacementTour;
 
@@ -36,10 +43,10 @@ public class Environnement {
 	public Environnement(Terrain terrain) {
 		this.terrain = terrain;
 		this.nbTours = new SimpleIntegerProperty();
-		this.lesTours = FXCollections.observableArrayList();
+		this.lesTours =FXCollections.observableArrayList();
 		this.lesMonstres = FXCollections.observableArrayList();
 		this.symboles = new Symboles();
-		this.lesProjectiles = FXCollections.observableArrayList();
+		this.sortTours= FXCollections.observableArrayList();
 
 		this.argent = new SimpleIntegerProperty(100);
 		this.base = new Base();
@@ -60,8 +67,8 @@ public class Environnement {
 	public IntegerProperty argentProperty() { return this.argent; }
 	public int getArgent() { return this.argent.getValue(); }
 	public void setArgent(int montant) {
-		if (montant > 100) this.argent.set(100);
-		else this.argent.set(Math.max(montant, 0));
+		if(montant > 100) this.argent.set(100);
+		else this.argent.set(montant);
 	}
 
 	public ObservableList<Monstre> getLesMonstres() { return lesMonstres; }
@@ -72,32 +79,26 @@ public class Environnement {
 	public boolean isModePlacementTour() { return modePlacementTour.get(); }
 	public BooleanProperty modePlacementTourProperty() { return modePlacementTour; }
 	public void setModePlacementTour(boolean modePlacementTour) { this.modePlacementTour.set(modePlacementTour); }
-	public final IntegerProperty nbToursProperty() { return this.nbTours; }
-	public void setTourAPlacer(Tour tour) { this.tourAPlacer = tour; }
-	public Tour getTourAPlacer() { return this.tourAPlacer; }
-	public void ajouterProjectiles(Projectile projectile) { this.lesProjectiles.add(projectile); }
-	public void setLesProjectiles(ObservableList<Projectile> lesProjectiles) { this.lesProjectiles = lesProjectiles; }
-	public ObservableList<Projectile> getLesProjectiles() { return lesProjectiles; }
 
-	public void ajouterTour(Tour tour) {
+	public void ajouterProjectiles(SortTour sortTour){
+		this.sortTours.add(sortTour);
+	}
+
+	public ObservableList<SortTour> getLesProjectiles() {
+		return sortTours;
+	}
+
+	public void ajouterTour(Tour tour){
+		System.out.println("tour prete");
 		if (tour != null) {
 			this.lesTours.add(tour);
 			this.setArgent(this.getArgent() - tour.getCout());
 		}
 	}
 
-	public void placerLaTourAttente(double xPixel, double yPixel) {
-		int TAILLE_TUILE = 32;
-		int gridX = (int) (xPixel / TAILLE_TUILE);
-		int gridY = (int) (yPixel / TAILLE_TUILE);
-
-		if (this.tourAPlacer != null) {
-			this.tourAPlacer.setPosX(gridX * TAILLE_TUILE);
-			this.tourAPlacer.setPosY(gridY * TAILLE_TUILE);
-			this.lesTours.add(this.tourAPlacer);
-			this.setArgent(this.getArgent() - this.tourAPlacer.getCout());
-			this.tourAPlacer = null;
-		}
+	public void ajouterMonstre() {
+		Monstre monstre = new Nargacuga(this.terrain);
+		lesMonstres.add(monstre);
 	}
 
 	private void preparerVague(int numero) {
@@ -123,9 +124,7 @@ public class Environnement {
 				int caseCibleY = tourY + dy;
 
 				if (terrain.estCheminNaturel(caseCibleX, caseCibleY)) {
-
 					double dist = Math.sqrt(dx * dx + (dy + 2) * (dy + 2));
-
 					if (dist < minDist) {
 						int jumeauX = caseCibleX;
 						int jumeauY = caseCibleY;
@@ -180,18 +179,38 @@ public class Environnement {
 				m.recalculerItineraire(this.terrain, this.base);
 			}
 			System.out.println("DEUX murs posés côte à côte ");
-		} else {
-			System.out.println("Mur annulé : Risque de blocage total ");
 		}
 	}
 
 	public void unTour() {
-		if (this.lesProjectiles != null && !this.lesProjectiles.isEmpty()) {
-			for (int i = this.lesProjectiles.size() - 1; i >= 0; i--) {
-				if (this.lesProjectiles.get(i).verifPosition()) this.lesProjectiles.remove(i);
-				else this.lesProjectiles.get(i).projectilesAJour();
+
+		if (!this.sortTours.isEmpty()){
+			for(int i = this.sortTours.size() - 1; i >= 0; i--){
+
+				this.sortTours.get(i).sortAJour(); // Fait avancer et infliger les dégâts
+
+				if(this.sortTours.get(i).isAttaqueFini()){
+					this.sortTours.remove(i);
+					System.out.println("retirer");
+				}
 			}
 		}
+
+		// 🟢 GESTION DES TOURS (incluant la tentative de Mur de Glace)
+		if (this.lesTours != null && !this.lesTours.isEmpty()) {
+			if (!murActif && cooldownMur == 0) {
+				for (Tour t : this.lesTours) {
+					if (t instanceof TourGlace) {
+						tenterInvoquerMur((TourGlace) t);
+						if (murActif) break;
+					}
+				}
+			}
+			for (Tour t : this.lesTours) {
+				t.agir(this.lesMonstres, this.base, this.sortTours);
+			}
+		}
+
 
 		if (pauseEntreVagues) {
 			compteurPause--;
@@ -211,6 +230,7 @@ public class Environnement {
 						case 2: monstre = new Nargacuga(this.terrain); break;
 						case 3: monstre = new Dino(this.terrain); break;
 						case 4: monstre = new Armure(this.terrain); break;
+						case 5: monstre = new Kyryn(this.terrain); break; // 🟢 Le Kyryn est de retour !
 					}
 					if (monstre != null) this.lesMonstres.add(monstre);
 					compteurSpawn = vagueActuelle.prochainDelai();
@@ -240,7 +260,6 @@ public class Environnement {
 					cooldownMur--;
 					if (cooldownMur == 0) System.out.println("Glace rechargée ");
 				}
-
 				int bonusArgent = 50 + (this.numeroVague.get() * 10);
 				this.setArgent(this.getArgent() + bonusArgent);
 				this.numeroVague.set(this.numeroVague.get() + 1);
@@ -249,40 +268,42 @@ public class Environnement {
 			}
 		}
 
-		if (this.lesTours != null && !this.lesTours.isEmpty()) {
-			if (!murActif && cooldownMur == 0) {
-				for (Tour t : this.lesTours) {
-					if (t instanceof TourGlace) {
-						tenterInvoquerMur((TourGlace) t);
-						if (murActif) break;
-					}
-				}
-			}
-			for (Tour t : this.lesTours) t.agir(this.lesMonstres, this.base, this.lesProjectiles);
-		}
 
 		if (this.lesMonstres != null && !this.lesMonstres.isEmpty()) {
 			for (int i = this.lesMonstres.size() - 1; i >= 0; i--) {
 				Monstre m = this.lesMonstres.get(i);
 				if (!m.estVivant()) {
+					System.out.println("Monstre tué");
 					this.setArgent(this.getArgent() + m.getRecompense());
 					this.lesMonstres.remove(i);
 				} else if (m.aAtteintSaCible()) {
 					this.base.retirerPv(m.getAtq());
 					this.lesMonstres.remove(i);
-				} else m.agir(this.lesMonstres, this.terrain, this.getBase());
+				} else {
+					m.agir(this.lesMonstres, this.terrain, this.base);
+				}
 			}
 		}
 	}
 
 	public boolean tourPosable(double xPixel, double yPixel) {
-		int gridX = (int) (xPixel / 32);
-		int gridY = (int) (yPixel / 32);
-		if(gridY >= 25 || gridY < 0 || gridX >= 60 || gridX < 0) return false;
-		return !this.terrain.estCheminNaturel(gridX, gridY);
+		int TAILLE_TUILE = 32;
+		int gridX = (int) (xPixel / TAILLE_TUILE);
+		int gridY = (int) (yPixel / TAILLE_TUILE);
+		if(gridY >= 25 || gridX >= 60 || gridX < 0 || gridY < 0) return false;
+		if (this.terrain.estPraticable(gridX, gridY))
+			return false;
+
+		for(int i=0; i<2;i++){
+			if(this.terrain.estPraticable(gridX+i, gridY) || this.terrain.estPraticable(gridX-i, gridY) || this.terrain.estPraticable(gridX, gridY+i) || this.terrain.estPraticable(gridX, gridY-i) || this.terrain.estPraticable(gridX+i, gridY-i) ||this.terrain.estPraticable(gridX-i, gridY+i) || this.terrain.estPraticable(gridX+i, gridY+i)|| this.terrain.estPraticable(gridX-i, gridY-i))
+				return false;
+		}
+		return true ;
 	}
 
 	public void validerSymboles() {
-		if (this.getSymboles().verifierCombinaison()) this.setModePlacementTour(true);
+		if(this.getSymboles().verifierCombinaison()){
+			this.setModePlacementTour(true);
+		}
 	}
 }

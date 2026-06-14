@@ -16,11 +16,14 @@ import universite_paris8.iut.nchaieb.sae_jeux.modele.Base;
 
 public class BaseVue {
     private Pane pane;
-
+    private Base base;
     Image tour_magicien = new Image(Main.class.getResourceAsStream("images/tour_magicien.png"));
+    Image tour_magicien_part2 = new Image(Main.class.getResourceAsStream("images/tour_magicien_part2.png"));
+    ImageView part2 =new ImageView(tour_magicien_part2);
 
-    public BaseVue(Pane pane) {
+    public BaseVue(Pane pane,Base base) {
         this.pane = pane;
+        this.base=base;
     }
 
     public void ajouterSprite(Base base) {
@@ -95,5 +98,10 @@ public class BaseVue {
 
         baseAnim.setCycleCount(Animation.INDEFINITE);
         baseAnim.play();
+    }
+    public void rechargerpart2(){
+        part2.toFront();
+
+
     }
 }

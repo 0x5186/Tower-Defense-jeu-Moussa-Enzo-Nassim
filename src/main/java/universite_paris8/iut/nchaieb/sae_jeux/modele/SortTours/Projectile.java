@@ -1,35 +1,27 @@
-package universite_paris8.iut.nchaieb.sae_jeux.modele;
+package universite_paris8.iut.nchaieb.sae_jeux.modele.SortTours;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.monstres.Monstre;
 
-public class Projectile {
-    private IntegerProperty x;
-    private IntegerProperty y;
+public class Projectile  extends SortTour{
     private Monstre cible;
     private String lanceur;
-    private int degats;
+
 
     private  int vitesseAttaque;
     public Projectile(int départX, int départY, Monstre cible, String lanceur, int degats, int vitesseAttaque) {
-        this.x = new SimpleIntegerProperty(départX);
-        this.y =  new SimpleIntegerProperty(départY);
+        super(départX, départY, degats);
+
         this.cible=cible;
         this.lanceur = lanceur;
-        this.degats = degats;
+
         this.vitesseAttaque=2;
+
     }
 
-    public IntegerProperty xProperty() {
-        return x;
-    }
 
-    public IntegerProperty yProperty() {
-        return y;
-    }
-
-    public void projectilesAJour(){
+    public void sortAJour(){
 
         if (!verifPosition()){
            deplacer();
@@ -39,6 +31,7 @@ public class Projectile {
         }
         if(verifPosition()){
             infligerDegat();
+            this.setAttaqueFini(true);
         }
 
 
@@ -54,7 +47,7 @@ public class Projectile {
 //
     public void infligerDegat(){
 
-        this.cible.retirerPV(degats);
+        this.cible.retirerPV(this.getDegats());
         System.out.println("pv monstre" +this.cible.getPV());
     }
 //
@@ -77,21 +70,21 @@ public class Projectile {
 ////        this.y.setValue(this.y.getValue()+((this.cible.getPosY()-this.y.getValue())/vitesseAttaque));
 //    }
     public boolean verifPosition() {
-        return Math.abs(x.get() - cible.getPosX()) <= vitesseAttaque
-                && Math.abs(y.get() - cible.getPosY()) <= vitesseAttaque;
+        return Math.abs(this.getX() - cible.getPosX()) <= vitesseAttaque
+            && Math.abs(this.getY() - cible.getPosY()) <= vitesseAttaque;
     }
 
     public void deplacer() {
-        if (x.get() > cible.getPosX()) {
-            x.set(x.get() - vitesseAttaque);
-        } else if (x.get() < cible.getPosX()) {
-            x.set(x.get() + vitesseAttaque);
+        if (this.getX() > cible.getPosX()) {
+            this.setX(this.getX() - vitesseAttaque);
+        } else if (this.getX() < cible.getPosX()) {
+            this.setX(this.getX() + vitesseAttaque);
         }
 
-        if (y.get() > cible.getPosY()) {
-            y.set(y.get() - vitesseAttaque);
-        } else if (y.get() < cible.getPosY()) {
-            y.set(y.get() + vitesseAttaque);
+        if (this.getY() > cible.getPosY()) {
+            this.setY(this.getY() - vitesseAttaque);
+        } else if (this.getY() < cible.getPosY()) {
+            this.setY(this.getY() + vitesseAttaque);
         }
     }
 

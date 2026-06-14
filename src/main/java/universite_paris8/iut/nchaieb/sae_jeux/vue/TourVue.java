@@ -10,6 +10,8 @@ import javafx.util.Duration;
 import universite_paris8.iut.nchaieb.sae_jeux.Main;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Entite;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Tours.*;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.monstres.Monstre;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.Tours.*;
 
 import java.util.HashMap;
 
@@ -23,9 +25,14 @@ public class TourVue {
     Image tourMusic = new Image(Main.class.getResourceAsStream("images/tourMusic.png"));
     Image tourGlace = new Image(Main.class.getResourceAsStream("images/tour-de-glace.png"));
     Image murGlace = new Image(Main.class.getResourceAsStream("images/mur-de-glace.png"));
+    Image tourTesla = new Image(Main.class.getResourceAsStream("images/tourTesla.png"));
+
+
+
+
 
     public TourVue(Pane pane) {
-        this.pane = pane;
+        this.pane= pane;
     }
 
     public void ajouterSprite(Tour tour) {
@@ -61,6 +68,13 @@ public class TourVue {
             iv = new ImageView(tourGlace);
             iv.setViewport(new Rectangle2D(0, 0, 80, 80));
         }
+        if(tour instanceof TourTesla){
+            decalageX=33;
+            decalageY=80;
+            iv=new ImageView(tourTesla);
+            iv.setViewport(new Rectangle2D(0,0,80,90));
+
+        }
         else if (tour instanceof MurGlace) {
             decalageX = (int) (murGlace.getWidth() / 2);
             decalageY = (int) (murGlace.getHeight() / 2);
@@ -74,15 +88,11 @@ public class TourVue {
         this.pane.getChildren().add(iv);
     }
 
-    public void retirer(Tour tour) {
-        stopAnimation(tour);
-
-        ImageView iv = hashMap.get(tour);
-        if (iv != null) {
-            iv.setImage(null);
-            this.pane.getChildren().remove(iv);
-            this.hashMap.remove(tour);
-        }
+    public void retirer(Tour tour){
+        ImageView  iv= (ImageView) hashMap.get(tour);
+        iv.setImage(null);
+        this.pane.getChildren().remove(iv);
+        this.hashMap.remove(tour, iv);
     }
 
     public void stopAnimation(Tour tour) {
