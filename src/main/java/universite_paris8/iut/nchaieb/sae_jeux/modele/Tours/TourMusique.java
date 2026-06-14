@@ -9,7 +9,7 @@ import universite_paris8.iut.nchaieb.sae_jeux.modele.monstres.Monstre;
 public class TourMusique extends Tour{
 
     public TourMusique(int x, int y) {
-        super(300,3,x,y, 150,15);
+        super(300,3,x,y, 100,10);
 
     }
 

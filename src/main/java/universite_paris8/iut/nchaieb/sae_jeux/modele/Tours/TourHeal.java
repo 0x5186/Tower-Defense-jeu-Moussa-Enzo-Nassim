@@ -10,7 +10,7 @@ public class TourHeal extends Tour {
     private int heal;
 
     public TourHeal(int x, int y) {
-        super(0,0,x,y, 6000, 50);
+        super(0,0,x,y, 1000, 70);
         this.heal=15;
 
     }
@@ -19,13 +19,18 @@ public class TourHeal extends Tour {
     public void agir(ObservableList<Monstre> listeMonstre, Base base, ObservableList<SortTour> projectiles) {
 
         gererCooldown();
-
-        if(this.getCooldown()==this.getCooldownPourAction() && base.getPv()!=base.getPvMax()){
+        this.setActionActuelle("charge");
+        if(this.getCooldown()>=this.getCooldownPourAction()-90){
+            this.setActionActuelle("attaque");
+        }
+        if(this.getCooldown()>=this.getCooldownPourAction() && base.getPv()!=base.getPvMax()){
 
             base.ajouterPv(this.heal);
             this.setCooldown(0);
 
         }
+
+
 
     }
 

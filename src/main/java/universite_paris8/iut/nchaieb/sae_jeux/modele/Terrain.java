@@ -39,8 +39,12 @@ public class Terrain {
         for (int ligne = 8; ligne <= 14; ligne++) codeTuiles[ligne][44] = 1;
         for (int ligne = 8; ligne <= 14; ligne++) codeTuiles[ligne][45] = 1;
 
-        for (int ligne = 11; ligne <= 22; ligne++) codeTuiles[ligne][50] = 1;
-        for (int ligne = 11; ligne <= 22; ligne++) codeTuiles[ligne][51] = 1;
+        for (int ligne = 11; ligne <= 22; ligne++) codeTuiles[ligne][50] = 8;
+        for (int ligne = 11; ligne <= 22; ligne++) codeTuiles[ligne][51] = 7;
+        codeTuiles[7][24] = 9;
+        codeTuiles[7][25] = 9;
+        codeTuiles[8][24] = 9;
+        codeTuiles[8][25] = 9;
 
 
     }
@@ -51,8 +55,12 @@ public class Terrain {
 
     public boolean estPraticable(int colonne, int ligne) {
         if (colonne < 0 || colonne >= largeur() || ligne < 0 || ligne >= hauteur()) return false;
-        return codeTuiles[ligne][colonne] == 1 && !casesBloquees[ligne][colonne];
-    }
+        return codeTuiles[ligne][colonne] == 1||codeTuiles[ligne][colonne] ==2
+                ||codeTuiles[ligne][colonne] ==4
+                ||codeTuiles[ligne][colonne] ==5
+                ||codeTuiles[ligne][colonne] ==6
+                ||codeTuiles[ligne][colonne] ==7
+                ||codeTuiles[ligne][colonne] ==8;    }
 
     public boolean estCheminNaturel(int colonne, int ligne){
         if(colonne < 0 || colonne >= largeur() || ligne < 0 || ligne >= hauteur()) {

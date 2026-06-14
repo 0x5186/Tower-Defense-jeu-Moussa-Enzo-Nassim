@@ -2,20 +2,26 @@ package universite_paris8.iut.nchaieb.sae_jeux.modele.SortTours;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import universite_paris8.iut.nchaieb.sae_jeux.Outils;
 
 public abstract class SortTour {
     private IntegerProperty x;
     private IntegerProperty y;
     private int degats;
     private boolean attaqueFini;
+    private Outils outils;
 
     public SortTour(int départX, int départY, int degats) {
         this.x = new SimpleIntegerProperty(départX);
         this.y = new SimpleIntegerProperty(départY);
         this.degats = degats;
         this.attaqueFini=false;
+        this.outils=new Outils();
     }
 
+    public Outils getOutils() {
+        return outils;
+    }
 
     public boolean isAttaqueFini() {
         return attaqueFini;

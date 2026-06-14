@@ -1,18 +1,26 @@
 package universite_paris8.iut.nchaieb.sae_jeux.vue;
 
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.beans.property.StringProperty;
+import javafx.geometry.Rectangle2D;
+import javafx.scene.control.Button;
 import javafx.scene.effect.Bloom;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
+import javafx.util.Duration;
 import universite_paris8.iut.nchaieb.sae_jeux.Main;
 
 import java.awt.*;
 
 public class InterfaceVue {
     Image FeuilleSort = new Image(Main.class.getResourceAsStream("images/FeuillePourLesSorts.png"));
-    Image InterfaceBas = new Image(Main.class.getResourceAsStream("images/interfaceBas.png"));
+    Image InterfaceBas = new Image(Main.class.getResourceAsStream("images/interfacebas.png"));
     Image symboleGoutte = new Image(Main.class.getResourceAsStream("images/symboleGoutteDeau.png"));
     Image symboleCroix = new Image(Main.class.getResourceAsStream("images/symboleCroix.png"));
     Image symboleSpirale = new Image(Main.class.getResourceAsStream("images/symboleSpirale.png"));
@@ -28,14 +36,16 @@ public class InterfaceVue {
     Image symboleFlocon = new Image(Main.class.getResourceAsStream("images/symboleFlocon.png"));
 
 
+    ImageView livre;
     private StackPane stackPane;
 
     private StackPane contientSymbole;
 
 
-    public InterfaceVue(StackPane stackPane) {
+    public InterfaceVue(StackPane stackPane, ImageView livre) {
         this.stackPane = stackPane;
         this.contientSymbole = new StackPane();
+        this.livre=livre;
     }
 
     public void dessinMenu () {
@@ -45,7 +55,6 @@ public class InterfaceVue {
 
 
 
-//        ImageView  tiroir= new ImageView(tiroirDeSymboles);
 
 
         if( this.stackPane!=null){
@@ -55,18 +64,21 @@ public class InterfaceVue {
 
             //Interface du bas
             interfaceDuBas.setTranslateY(750);
-            interfaceDuBas.setTranslateX(500);
-            interfaceDuBas.setScaleX(1.25);
-            interfaceDuBas.setScaleX(2.5);
+            interfaceDuBas.setTranslateX(0);
+//            interfaceDuBas.setScaleX(1.25);
+//            interfaceDuBas.setScaleX(2.5);
+            interfaceDuBas.setFitWidth(1900);
 
             //Feuille pentacle
-            feuillePentacle.setTranslateX(1400); // position X en pixels
+            feuillePentacle.setTranslateX(700); // position X en pixels
             feuillePentacle.setTranslateY(650);
             feuillePentacle.setScaleX(0.65);
             feuillePentacle.setScaleY(0.65);
             this.stackPane.getChildren().add(feuillePentacle);
             this.stackPane.getChildren().add(this.contientSymbole);
         }
+
+
     }
 
     public void afficherUnSeulSymbole(String typeSymbole, int emplacement){
@@ -115,8 +127,8 @@ public class InterfaceVue {
         }
 
         if (image != null){
-            int positionDeBaseX = 600;
-            int positionDeBaseY = 450;
+            int positionDeBaseX = -90;
+            int positionDeBaseY = 430;
             int positionSuivante =0;
 
             if(emplacement==0 || emplacement==3){
@@ -128,7 +140,7 @@ public class InterfaceVue {
             }
 
             if (emplacement>=3){
-                positionDeBaseY=520;
+                positionDeBaseY=500;
             }
 
             image.setTranslateX(positionDeBaseX + positionSuivante);
@@ -146,6 +158,95 @@ public class InterfaceVue {
         if (this.contientSymbole != null){
             this.contientSymbole.getChildren().clear();
         }
+    }
+    public void animationLivrepage(Button bouton,Button boutonCouverture, Button boutonChangerPage){
+
+
+        boutonChangerPage.setDisable(true);
+        int[] frameIndex = {3};
+        Timeline ouvrirLivre = new Timeline(
+
+                new KeyFrame(Duration.millis(100), e -> {
+
+
+
+                    this.livre.setViewport(new Rectangle2D(frameIndex[0] * 190, 0, 190, 160));
+                    frameIndex[0]++;
+
+                })
+        );
+
+        ouvrirLivre.setCycleCount(3);
+        ouvrirLivre.play();
+        ouvrirLivre.setOnFinished(event -> {
+            this.livre.setViewport(new Rectangle2D(3 * 190, 0, 190, 160));
+
+            boutonChangerPage.setDisable(false);
+            ;
+            bouton.setVisible(true);
+            bouton.toFront();
+        });
+    }
+    public void animationLivrecouverture(Button bouton,Button boutonCouverture, Button boutonPageSuivante){
+        int[] frameIndex = {0};
+        boutonCouverture.setDisable(true);
+        boutonPageSuivante.setVisible(false);
+        if(bouton!=null){
+            System.out.println("pasnull");
+            Timeline ouvrirLivre = new Timeline(
+
+                    new KeyFrame(Duration.millis(100), e -> {
+
+
+
+                        this.livre.setViewport(new Rectangle2D(frameIndex[0] * 190, 0, 190, 160));
+                        frameIndex[0]++;
+
+                    })
+            );
+
+            ouvrirLivre.setCycleCount(4);
+            ouvrirLivre.play();
+            ouvrirLivre.setOnFinished(event -> {
+                boutonCouverture.setDisable(false);
+                bouton.setVisible(true);
+                bouton.toFront();
+                boutonPageSuivante.setVisible(true);
+                boutonCouverture.setLayoutX(boutonCouverture.getLayoutX()-150);
+            });
+        }
+        else{
+            System.out.println("null");
+            frameIndex[0]=3;
+            Timeline ouvrirLivre = new Timeline(
+
+
+                    new KeyFrame(Duration.millis(100), e -> {
+
+
+
+                        this.livre.setViewport(new Rectangle2D(frameIndex[0] * 190, 0, 190, 160));
+                        frameIndex[0]--;
+
+                    })
+            );
+
+            ouvrirLivre.setCycleCount(4);
+            ouvrirLivre.play();
+            ouvrirLivre.setOnFinished(event -> {
+
+                boutonCouverture.setLayoutX(boutonCouverture.getLayoutX()+150);
+                boutonCouverture.setDisable(false);
+            });
+
+        }
+
+
+
+    }
+    public void setLivre(ImageView livre){
+
+        livre.setViewport(new Rectangle2D(0,0,190,160));
     }
 
 

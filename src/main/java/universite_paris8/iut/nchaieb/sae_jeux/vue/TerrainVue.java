@@ -13,7 +13,8 @@ public class TerrainVue {
     Image herbeHaute = new Image(Main.class.getResourceAsStream("images/herbe-haute.png"));
     Image herbeDefaut = new Image(Main.class.getResourceAsStream("images/herbe.png"));
     Image terrainChemin = new Image(Main.class.getResourceAsStream("images/terrain.png"));
-    Image portail = new Image(Main.class.getResourceAsStream("images/portail.png"));
+
+    Image herbes = new Image(Main.class.getResourceAsStream("images/herbes.png"));
 
     private TilePane tilePane;
     private Terrain terrain;
@@ -24,11 +25,7 @@ public class TerrainVue {
     }
 
     public void dessine(int map, Pane pane) {
-        ImageView portailSpawn1 = new ImageView(portail);
-        portailSpawn1.setLayoutX(0);
-        portailSpawn1.setTranslateY(256);
-        portailSpawn1.setViewport(new Rectangle2D(125, 0, 125, 80));
-        pane.getChildren().add(portailSpawn1);
+
 
         if (map == 1) { return; }
         this.tilePane.getChildren().clear();
@@ -37,13 +34,39 @@ public class TerrainVue {
             for (int col = 0; col < this.terrain.largeur(); col++) {
                 ImageView imageView = new ImageView();
 
-                imageView.setFitWidth(32);
-                imageView.setFitHeight(32);
 
                 switch (this.terrain.codeTuile(l, col)) {
-                    case 0: imageView.setImage(herbeDefaut);    break;
-                    case 1: imageView.setImage(terrainChemin); break;
-                    case 2: imageView.setImage(herbeDefaut);    break;
+                    case 0:
+                        imageView.setImage(herbes);
+                        imageView.setViewport(new Rectangle2D(32*2,32*2,32,32));
+                        break;
+                    case 1: imageView.setImage(herbes);
+                        imageView.setViewport(new Rectangle2D(32,0,32,32));
+                        break;
+                    case 2: imageView.setImage(herbes);
+                        imageView.setViewport(new Rectangle2D(32,32,32,32));
+                        break;
+                    case 3: imageView.setImage(herbes);//haut gauche
+                        imageView.setViewport(new Rectangle2D(0,0,32,32));
+                        break;
+                    case 4: imageView.setImage(herbes);//haut droite
+                        imageView.setViewport(new Rectangle2D(32*2,0,32,32));
+                        break;
+                    case 5: imageView.setImage(herbes);//bas gauche
+                        imageView.setViewport(new Rectangle2D(32*2,32,32,32));
+                        break;
+                    case 6: imageView.setImage(herbes);//bas droite
+                        imageView.setViewport(new Rectangle2D(0,32,32,32));
+                        break;
+                    case 7: imageView.setImage(herbes);// droite
+                        imageView.setViewport(new Rectangle2D(32,32*2,32,32));
+                        break;
+                    case 8: imageView.setImage(herbes);//gauche
+                        imageView.setViewport(new Rectangle2D(0,32*2,32,32));
+                        break;
+                    case 9: imageView.setImage(herbes);//pleinTerre
+                        imageView.setViewport(new Rectangle2D(0,32*3,32,32));
+                        break;
                 }
 
                 if (imageView.getImage() != null) {
