@@ -216,6 +216,7 @@ public class Environnement {
 						case 2: monstre = new Nargacuga(this.terrain); break;
 						case 3: monstre = new Dino(this.terrain); break;
 						case 4: monstre = new Armure(this.terrain); break;
+						case 5: monstre = new Kyryn(this.terrain); break;
 					}
 					if (monstre != null) this.lesMonstres.add(monstre);
 					compteurSpawn = vagueActuelle.prochainDelai();

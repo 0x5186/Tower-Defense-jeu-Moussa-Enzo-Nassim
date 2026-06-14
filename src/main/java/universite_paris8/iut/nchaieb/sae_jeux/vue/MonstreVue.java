@@ -26,6 +26,7 @@ public class MonstreVue {
     Image nargacuga = new Image(Main.class.getResourceAsStream("images/nargacuga.png"));
     Image Dino = new Image(Main.class.getResourceAsStream("images/dino.png"));
     Image Armure = new Image(Main.class.getResourceAsStream("images/armure.png"));
+    Image kyrynImg = new Image(Main.class.getResourceAsStream("images/kyrin.png"));
 
     public MonstreVue(Pane pane) {
         this.pane = pane;
@@ -33,7 +34,7 @@ public class MonstreVue {
 
     public void ajouterSprite(Monstre monstre) {
         ImageView iv = new ImageView();
-        int offsetYBarre = 0; // hauteur de la barre au dessus de la tête
+        int offsetYBarre = 0;
 
         if (monstre instanceof Squelette) {
             iv = new ImageView(squelette);
@@ -70,14 +71,21 @@ public class MonstreVue {
             iv.translateYProperty().bind(monstre.posYProperty().subtract(48));
             offsetYBarre = 55;
         }
+        else if (monstre instanceof Kyryn) {
+            iv = new ImageView(kyrynImg);
+            int largeurCaseK = (int) (kyrynImg.getWidth() / 2);
+            int hauteurCaseK = (int) (kyrynImg.getHeight() / 3);
+            iv.setViewport(new Rectangle2D(0, 0, largeurCaseK, hauteurCaseK));
+            iv.translateXProperty().bind(monstre.posXProperty().subtract((largeurCaseK - 32) / 2.0));
+            iv.translateYProperty().bind(monstre.posYProperty().subtract(hauteurCaseK - 32));
+            offsetYBarre = 55;
+        }
 
         this.hashMap.put(monstre, iv);
         this.pane.getChildren().add(iv);
 
-        // création barre de vie
         double largeurBarre = 36;
         double hauteurBarre = 6;
-
         Rectangle fondBarre = new Rectangle(largeurBarre, hauteurBarre);
         fondBarre.setFill(Color.rgb(40, 40, 40));
         fondBarre.setStroke(Color.BLACK);
@@ -86,26 +94,18 @@ public class MonstreVue {
         Rectangle vieBarre = new Rectangle(largeurBarre, hauteurBarre);
         vieBarre.setFill(Color.LIMEGREEN);
 
-        // positionnement dynamique de la barre de vie
         fondBarre.translateXProperty().bind(monstre.posXProperty().subtract(largeurBarre / 2.0));
         fondBarre.translateYProperty().bind(monstre.posYProperty().subtract(offsetYBarre));
-
         vieBarre.translateXProperty().bind(monstre.posXProperty().subtract(largeurBarre / 2.0));
         vieBarre.translateYProperty().bind(monstre.posYProperty().subtract(offsetYBarre));
 
-        // bind de la largeur en pvPropertyProperty()
         vieBarre.widthProperty().bind(monstre.pvPropertyProperty().multiply(largeurBarre).divide(monstre.getPvMax()));
 
-        // changement de couleur dynamique en utilisant pvPropertyProperty()
         monstre.pvPropertyProperty().addListener((obs, oldVal, newVal) -> {
             double ratio = newVal.doubleValue() / monstre.getPvMax();
-            if (ratio > 0.70) {
-                vieBarre.setFill(Color.LIMEGREEN); // > 50% = Vert
-            } else if (ratio > 0.30) {
-                vieBarre.setFill(Color.YELLOW);    // > 20% = Jaune
-            } else {
-                vieBarre.setFill(Color.RED);       // <= 20% = Rouge
-            }
+            if (ratio > 0.50) vieBarre.setFill(Color.LIMEGREEN);
+            else if (ratio > 0.20) vieBarre.setFill(Color.YELLOW);
+            else vieBarre.setFill(Color.RED);
         });
 
         this.hashMapBarres.put(monstre, new Rectangle[]{fondBarre, vieBarre});
@@ -136,6 +136,8 @@ public class MonstreVue {
     }
 
     public void animationMarche(Entite monstre) {
+        stopAnimation((Monstre) monstre);
+
         ImageView iv = this.hashMap.get(monstre);
         int largeurCase = 50;
         int hauteurCase = 50;
@@ -161,81 +163,78 @@ public class MonstreVue {
             squeletteMarche.setCycleCount(Animation.INDEFINITE);
             squeletteMarche.play();
         }
-
         else if (monstre instanceof Nargacuga) {
             int[] frameIndex = {0};
-            int largeurCaseNargacuga = 100;
-            int hauteurCaseNargacuga = 100;
-
             Timeline nargacugaMarche = new Timeline(
                     new KeyFrame(Duration.millis(150), event -> {
                         int x = frameIndex[0] % 2;
                         int y = frameIndex[0] / 2;
-
-                        iv.setViewport(new Rectangle2D(x * largeurCaseNargacuga, y * hauteurCaseNargacuga, largeurCaseNargacuga, hauteurCaseNargacuga));
-
+                        iv.setViewport(new Rectangle2D(x * 100, y * 100, 100, 100));
                         frameIndex[0]++;
-                        if (frameIndex[0] >= 3) {
-                            frameIndex[0] = 0;
-                        }
+                        if (frameIndex[0] >= 3) frameIndex[0] = 0;
                     })
             );
             this.hashMapAnimation.put(monstre, nargacugaMarche);
             nargacugaMarche.setCycleCount(Animation.INDEFINITE);
             nargacugaMarche.play();
         }
-
         else if (monstre instanceof Dino) {
             int[] frameIndex = {0};
-            int largeurCaseDino = (int)(Dino.getWidth() / 2);
-            int hauteurCaseDino = (int)(Dino.getHeight()) / 2;
-
+            int largD = (int)(Dino.getWidth() / 2);
+            int hautD = (int)(Dino.getHeight() / 2);
             Timeline DinoMarche = new Timeline(
                     new KeyFrame(Duration.millis(150), event -> {
                         int x = frameIndex[0] % 2;
                         int y = frameIndex[0] / 2;
-
-                        iv.setViewport(new Rectangle2D(x * largeurCaseDino, y * hauteurCaseDino, largeurCaseDino, hauteurCaseDino));
-
+                        iv.setViewport(new Rectangle2D(x * largD, y * hautD, largD, hautD));
                         frameIndex[0]++;
-                        if (frameIndex[0] >= 3) {
-                            frameIndex[0] = 0;
-                        }
+                        if (frameIndex[0] >= 3) frameIndex[0] = 0;
                     })
             );
             this.hashMapAnimation.put(monstre, DinoMarche);
             DinoMarche.setCycleCount(Animation.INDEFINITE);
             DinoMarche.play();
         }
-
         else if (monstre instanceof Armure) {
             int[] frameIndex = {0};
-            int largeurCaseArmure = (int)(Armure.getWidth() / 2);
-            int hauteurCaseArmure = (int)(Armure.getHeight()) / 3;
-
+            int largA = (int)(Armure.getWidth() / 2);
+            int hautA = (int)(Armure.getHeight() / 3);
             Timeline ArmureMarche = new Timeline(
                     new KeyFrame(Duration.millis(150), event -> {
                         int x = frameIndex[0] % 2;
                         int y = frameIndex[0] / 2;
-
-                        iv.setViewport(new Rectangle2D(x * largeurCaseArmure, y * hauteurCaseArmure, largeurCaseArmure, hauteurCaseArmure));
-
+                        iv.setViewport(new Rectangle2D(x * largA, y * hautA, largA, hautA));
                         frameIndex[0]++;
-                        if (frameIndex[0] >= 4) {
-                            frameIndex[0] = 0;
-                        }
+                        if (frameIndex[0] >= 4) frameIndex[0] = 0;
                     })
             );
             this.hashMapAnimation.put(monstre, ArmureMarche);
             ArmureMarche.setCycleCount(Animation.INDEFINITE);
             ArmureMarche.play();
         }
+        else if (monstre instanceof Kyryn) {
+            int[] frameIndex = {0};
+            int largK = (int)(kyrynImg.getWidth() / 2);
+            int hautK = (int)(kyrynImg.getHeight() / 3);
+
+            Timeline kyrynMarche = new Timeline(
+                    new KeyFrame(Duration.millis(150), event -> {
+                        int x = frameIndex[0] % 2;
+                        int y = frameIndex[0] / 2;
+                        iv.setViewport(new Rectangle2D(x * largK, y * hautK, largK, hautK));
+                        frameIndex[0]++;
+                        if (frameIndex[0] >= 6) frameIndex[0] = 0;
+                    })
+            );
+            this.hashMapAnimation.put(monstre, kyrynMarche);
+            kyrynMarche.setCycleCount(Animation.INDEFINITE);
+            kyrynMarche.play();
+        }
     }
 
     public void animationAttaque(Entite monstre) {
+        stopAnimation((Monstre) monstre);
         ImageView iv = this.hashMap.get(monstre);
-        int largeurCase = 240;
-        int hauteurCase = 240;
         int[] frameIndex = {13};
 
         Timeline squeletteMarche = new Timeline(
@@ -250,7 +249,7 @@ public class MonstreVue {
                     }
                     frameIndex[0]++;
                     if (frameIndex[0] == 27) frameIndex[0] = 12;
-                    iv.setViewport(new Rectangle2D(x * largeurCase, y * hauteurCase, largeurCase, hauteurCase));
+                    iv.setViewport(new Rectangle2D(x * 240, y * 240, 240, 240));
                 })
         );
         this.hashMapAnimation.put(monstre, squeletteMarche);
@@ -261,7 +260,6 @@ public class MonstreVue {
     public void animationMort(Entite monstre) {
         ImageView iv = this.hashMap.get(monstre);
 
-        //cacher la barre de vie instant
         if (this.hashMapBarres.containsKey(monstre)) {
             Rectangle[] barres = this.hashMapBarres.get(monstre);
             this.pane.getChildren().removeAll(barres[0], barres[1]);
@@ -286,15 +284,13 @@ public class MonstreVue {
             return;
         }
 
-        int largeurCase = 240;
-        int hauteurCase = 240;
         int[] frameIndex = {27};
 
         Timeline squeletteMort = new Timeline(
                 new KeyFrame(Duration.millis(120), e -> {
                     int x = frameIndex[0] % 6;
                     int y = frameIndex[0] / 6;
-                    iv.setViewport(new Rectangle2D(x * largeurCase, y * hauteurCase, largeurCase, hauteurCase));
+                    iv.setViewport(new Rectangle2D(x * 240, y * 240, 240, 240));
                     frameIndex[0]++;
                 })
         );

@@ -30,8 +30,9 @@ public abstract class Monstre extends Entite {
 
     private IntegerProperty posX;
     private IntegerProperty posY;
-
     private IntegerProperty pvProperty;
+
+    private int spawnIndex;
 
     public Monstre(int pvMax, int atq, int recompense, Terrain terrain) {
         this.posX = new SimpleIntegerProperty();
@@ -49,6 +50,7 @@ public abstract class Monstre extends Entite {
 
     public void setSpawnEnnemi(Terrain terrain) {
         int portailAleatoire = (int) (Math.random() * 3);
+        this.spawnIndex = portailAleatoire;
 
         if (portailAleatoire == 0) {
             this.setPosX(0);
@@ -179,6 +181,8 @@ public abstract class Monstre extends Entite {
         this.nombreDePV = Math.max(this.nombreDePV - degat, 0);
         this.pvProperty.set(this.nombreDePV);
     }
+
+    public int getSpawnIndex(){ return this.spawnIndex;}
 
     public int getPvMax(){return this.pvMax; }
     public IntegerProperty pvPropertyProperty() { return pvProperty; }
