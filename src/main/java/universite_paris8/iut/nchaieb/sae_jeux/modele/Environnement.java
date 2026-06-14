@@ -181,7 +181,7 @@ public class Environnement {
 					this.sortTours.get(i).sortAJour();
 				}
 			}
-		}
+		}//
 
 		for(int i = 0; i < this.lesDecors.size(); i++){
 			Decor decor = this.lesDecors.get(i);
