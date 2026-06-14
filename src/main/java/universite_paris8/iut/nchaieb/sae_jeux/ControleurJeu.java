@@ -2,17 +2,23 @@ package universite_paris8.iut.nchaieb.sae_jeux;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.TilePane;
+import javafx.scene.text.Text;
 import javafx.util.Duration;
+import javafx.util.converter.NumberStringConverter;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Environnement;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Terrain;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.CombinaisonValables;
@@ -24,7 +30,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-import java.util.Scanner;
 
 public class ControleurJeu implements Initializable {
     private Environnement environnement;
@@ -42,12 +47,59 @@ public class ControleurJeu implements Initializable {
     private ImageView fiole;
     @FXML
     private Button boutonPageSuivante;
+    @FXML
+    private ImageView livre;
+    @FXML
+    private Pane  paneSymboles;
+    @FXML
+    private Button boutonOuvrirLivre;
+    @FXML
+    private Button symbolesPageSuivante;
+    @FXML
+    private Button symbolesPagePrecedente;
+    @FXML
+    private Button tomoe;
 
+    @FXML
+    private Button triangle;
+    @FXML
+    private Button spirale;
 
+    @FXML
+    private Button note;
+
+    @FXML
+    private Button oeil;
+    @FXML
+    private Button corne;
+
+    @FXML
+    private Button croix;
+
+    @FXML
+    private Button crystal;
+
+    @FXML
+    private Button eclipse;
+
+    @FXML
+    private Button feu;
+
+    @FXML
+    private Button fleche;
+
+    @FXML
+    private Button flocon;
+
+    @FXML
+    private Button gouttedeau;
+
+    @FXML
+    private Text nombreEncre;
 
     private Documentation documentation;
     private Timeline gameLoop;
-    protected IntegerProperty temps= new SimpleIntegerProperty(0);
+    protected IntegerProperty temps;
     TerrainVue terrainVue;
     Terrain terrain;
     MonstreVue monstreVue;
@@ -57,6 +109,7 @@ public class ControleurJeu implements Initializable {
     private FioleVue fioleVue;
 
 
+    private  int page;
 
     private MonObservateurMonstre observateur;
 
@@ -92,6 +145,8 @@ public class ControleurJeu implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        temps= new SimpleIntegerProperty(0);
+
         this.documentation=new Documentation();
 
 
@@ -117,13 +172,15 @@ public class ControleurJeu implements Initializable {
         this.terrain = new Terrain();
 
 
-
+        this.page=0;
+        symbolesPagePrecedente.setVisible(false);
+        symbolesPageSuivante.setVisible(false);
 
 
         this.fioleVue= new FioleVue(stackPane);
         this.sourisVue= new SourisVue(stackPane);
         this.monstreVue= new MonstreVue(this.pane);
-        this.interfaceVue = new InterfaceVue(stackPane);
+        this.interfaceVue = new InterfaceVue(stackPane, livre);
 
         this.terrainVue = new TerrainVue(terrain, tilePane);
         this.tutorielVue = new TutorielVue(stackPane);
@@ -137,8 +194,9 @@ public class ControleurJeu implements Initializable {
         MonObservateurTour monObservateurTour = new MonObservateurTour(pane);
         MonObservateurSortsTours monObservateurSortsTours = new MonObservateurSortsTours(pane);
 
+        this.interfaceVue.setLivre(this.livre);
         System.out.println(this.baseVue);
-
+        this.symbolesPageSuivante.setVisible(false);
 
 
 
@@ -150,8 +208,12 @@ public class ControleurJeu implements Initializable {
 
 
         this.fioleVue.setFiole(fiole,this.environnement.getArgent());
-
-
+//        this.nombreEncre.textProperty().bindBidirectional(this.environnement.argentProperty().asObject(), new NumberStringConverter());
+        Bindings.bindBidirectional(
+                this.nombreEncre.textProperty(),
+                this.environnement.argentProperty(),
+                new NumberStringConverter()
+        );
         baseVue.ajouterSprite(this.environnement.getBase());
         this.environnement.argentProperty().addListener((observable, oldValue, newValue) -> {
             int nouvelleValeur=(int) newValue ;
@@ -228,6 +290,7 @@ public class ControleurJeu implements Initializable {
 
     @FXML
     public void actionsDesSymboles(Event event) throws UnsupportedAudioFileException, LineUnavailableException, IOException {
+        System.out.println("croix");
         Button boutonSymbole = (Button) event.getSource();
         String symboleTexte = boutonSymbole.getText();
         double ecriture= Math.random();
@@ -245,7 +308,9 @@ public class ControleurJeu implements Initializable {
 
             switch (symboleTexte){
                 case "croix":
+                    System.out.println("croix ajouté");
                     symbole = "croix";
+
                     break;
                 case "goutte":
                     symbole = "goutte";
@@ -324,6 +389,131 @@ public class ControleurJeu implements Initializable {
     public void tournerDePage(){
         this.tutorielVue.changerPage();
     }
+
+
+    @FXML
+    public void couvertureLivre(){
+        for (Node p : paneSymboles.getChildren()) {
+            p.setVisible(false);
+        }
+
+        if(page!=0) {
+            System.out.println(2);
+            this.fleche.setVisible(false);
+            this.interfaceVue.animationLivrecouverture(null, this.boutonOuvrirLivre, this.symbolesPageSuivante);
+            page=0;
+            this.symbolesPagePrecedente.setVisible(false);
+            this.symbolesPageSuivante.setVisible(false);
+        }
+        else {
+            System.out.println(1);
+
+            this.interfaceVue.animationLivrecouverture(this.fleche,this.boutonOuvrirLivre, this.symbolesPageSuivante);
+            page=1;
+            symbolesPagePrecedente.setVisible(false);
+
+        }
+
+
+    }
+    @FXML
+    public void boutonGererPages(ActionEvent event){
+        for (Node p : paneSymboles.getChildren()) {
+            p.setVisible(false);
+        }
+
+        if(event.getSource()==this.symbolesPageSuivante)
+            this.page++;
+
+        else if (event.getSource()==this.symbolesPagePrecedente) {
+            page--;
+        }
+
+        switch (this.page) {
+            case 1:
+
+
+                this.interfaceVue.animationLivrepage(fleche, this.boutonOuvrirLivre, this.symbolesPageSuivante);
+                break;
+            case 2:
+
+                this.interfaceVue.animationLivrepage(oeil, this.boutonOuvrirLivre, this.symbolesPageSuivante);
+                break;
+            case 3:
+
+                this.interfaceVue.animationLivrepage(this.crystal, this.boutonOuvrirLivre, this.symbolesPageSuivante);
+                break;
+            case 4:
+
+                this.interfaceVue.animationLivrepage(this.note, this.boutonOuvrirLivre, this.symbolesPageSuivante);
+                break;
+
+            case 5:
+
+                this.interfaceVue.animationLivrepage(this.croix, this.boutonOuvrirLivre, this.symbolesPageSuivante);
+                break;
+
+            case 6:
+
+                this.interfaceVue.animationLivrepage(this.eclipse, this.boutonOuvrirLivre, this.symbolesPageSuivante);
+                break;
+            case 7:
+
+                this.interfaceVue.animationLivrepage(this.triangle, this.boutonOuvrirLivre, this.symbolesPageSuivante);
+                break;
+            case 8:
+
+                this.interfaceVue.animationLivrepage(this.tomoe, this.boutonOuvrirLivre, this.symbolesPageSuivante);
+                break;
+
+            case 9:
+
+                this.interfaceVue.animationLivrepage(this.corne, this.boutonOuvrirLivre, this.symbolesPageSuivante);
+                break;
+            case 10:
+
+                this.interfaceVue.animationLivrepage(this.feu, this.boutonOuvrirLivre, this.symbolesPageSuivante);
+                break;
+
+            case 11:
+
+                this.interfaceVue.animationLivrepage(this.gouttedeau, this.boutonOuvrirLivre, this.symbolesPageSuivante);
+                break;
+            case 12:
+
+                this.interfaceVue.animationLivrepage(this.flocon, this.boutonOuvrirLivre, this.symbolesPageSuivante);
+                break;
+            case 13:
+
+                this.interfaceVue.animationLivrepage(this.spirale, this.boutonOuvrirLivre, this.symbolesPageSuivante);
+                break;
+
+
+
+
+
+
+        }
+        if(page==1){
+            symbolesPagePrecedente.setVisible(false);
+        }
+        else{
+            symbolesPagePrecedente.setVisible(true);
+        }
+        if(page>=13){
+            symbolesPageSuivante.setVisible(false);
+        }
+        else{
+            symbolesPageSuivante.setVisible(true);
+        }
+//        if(this.page.get()>0){
+//            this.symbolesPageSuivante.setVisible(true);
+//        }
+//        else{
+//            this.symbolesPageSuivante.setVisible(false);
+//        }
+    }
+
 
 
 

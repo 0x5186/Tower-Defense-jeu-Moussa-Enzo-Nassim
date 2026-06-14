@@ -36,6 +36,10 @@ public class Terrain {
 
         for (int ligne = 11; ligne <= 22; ligne++) codeTuiles[ligne][50] = 8;
         for (int ligne = 11; ligne <= 22; ligne++) codeTuiles[ligne][51] = 7;
+        codeTuiles[7][24] = 9;
+        codeTuiles[7][25] = 9;
+        codeTuiles[8][24] = 9;
+        codeTuiles[8][25] = 9;
 
 
     }
