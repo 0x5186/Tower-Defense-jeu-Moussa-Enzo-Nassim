@@ -27,7 +27,6 @@ public class TourVue {
     Image tourMusic = new Image(Main.class.getResourceAsStream("images/tourMusic.png"));
     Image tourTesla = new Image(Main.class.getResourceAsStream("images/tourTesla.png"));
     Image tourGlace = new Image(Main.class.getResourceAsStream("images/tour-de-glace.png"));
-    Image murGlace = new Image(Main.class.getResourceAsStream("images/mur-de-glace.png"));
 
     public TourVue(Pane pane) {
         this.pane= pane;
@@ -69,15 +68,10 @@ public class TourVue {
             iv.setViewport(new Rectangle2D(0,0,80,90));
         }
         if (tour instanceof TourGlace) {
-            decalageX = 31;
-            decalageY = 70;
+            decalageX = 35;
+            decalageY = 75;
             iv = new ImageView(tourGlace);
             iv.setViewport(new Rectangle2D(0, 0, 80, 80));
-        }
-        if (tour instanceof MurGlace) {
-            decalageX = (int) (murGlace.getWidth() / 2);
-            decalageY = (int) (murGlace.getHeight() / 2);
-            iv = new ImageView(murGlace);
         }
 
         iv.translateXProperty().bind(
@@ -169,6 +163,24 @@ public class TourVue {
             tourTeslaAttaque.setCycleCount(Animation.INDEFINITE);
             tourTeslaAttaque.play();
 
+        }
+
+        else if (tour instanceof TourGlace) {
+            hauteurCase = 80;
+            Timeline tourGlaceAnim = new Timeline(
+                    new KeyFrame(Duration.millis(100), e -> {
+                        int x = (frameIndex[0] % 3) * largeurCase;
+                        int y = (frameIndex[0] / 3) * hauteurCase;
+
+                        iv.setViewport(new Rectangle2D(x, y, largeurCase, hauteurCase));
+
+                        frameIndex[0]++;
+                        if (frameIndex[0] >= 6) frameIndex[0] = 0;
+                    })
+            );
+            this.hashMapAnimation.put(tour, tourGlaceAnim);
+            tourGlaceAnim.setCycleCount(6);
+            tourGlaceAnim.play();
         }
 
     }

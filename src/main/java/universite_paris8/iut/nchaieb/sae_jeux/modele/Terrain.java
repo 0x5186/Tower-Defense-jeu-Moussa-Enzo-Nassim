@@ -51,7 +51,7 @@ public class Terrain {
 
     public boolean estCheminNaturel(int colonne, int ligne) {
         if (colonne < 0 || colonne >= largeur() || ligne < 0 || ligne >= hauteur()) return false;
-
+        if (this.casesBloquees[ligne][colonne]) return false;
         int tuile = codeTuiles[ligne][colonne];
         return tuile == 1 || tuile == 2 || tuile == 4 || tuile == 5 || tuile == 6 || tuile == 7 || tuile == 8;
     }
