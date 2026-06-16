@@ -23,11 +23,11 @@ public class Decor {
         this.rayonPlacable = rayonPlacable;
     }
 
-    public Decor(double x, double y, double rayonDetection, double taille){
+    public Decor(double x, double y, double taille, String type){
         this.x = x;
         this.y = y;
-        this.rayonDetection = rayonDetection;
         this.taille = taille;
+        this.etat = type;
     }
 
     public double getX() {

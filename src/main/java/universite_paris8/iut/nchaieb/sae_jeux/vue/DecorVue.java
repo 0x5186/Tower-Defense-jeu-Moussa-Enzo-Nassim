@@ -23,6 +23,8 @@ public class DecorVue {
     private Image imageFleurPerir = new Image(Main.class.getResourceAsStream("images/fleurPerie.png"));
     private Image imageFleurEnPhase= new Image(Main.class.getResourceAsStream("images/fleurEnPhase.png"));
     private Image imagePillier = new Image(Main.class.getResourceAsStream("images/decorPillier.png"));
+    private Image imageRocher = new Image(Main.class.getResourceAsStream("images/decorRocher.png"));
+    private Image imageArbre = new Image(Main.class.getResourceAsStream("images/decorArbre.png"));
     // pour la marre
 //    private Image imageMarreNormale = new Image(Main.class.getResourceAsStream("images/MarreNormale.png"));
 //    private Image imageMarreRefletDebut = new Image(Main.class.getResourceAsStream("images/MarreRefletDebut.png"));
@@ -53,7 +55,7 @@ public class DecorVue {
                 imageView.setScaleY(decor.getTaille());
                 this.hashMap.put(decor, imageView);
                 this.pane.getChildren().add(imageView);
-            } else {
+            } else  if (decor.getEtat().equals("pillier")){
                 ImageView pillier = new ImageView(this.imagePillier);
                 pillier.setLayoutX(decor.getX());
                 pillier.setLayoutY(decor.getY());
@@ -61,7 +63,45 @@ public class DecorVue {
                 pillier.setScaleY(decor.getTaille());
                 this.hashMap.put(decor, pillier);
                 this.pane.getChildren().add(pillier);
+            } else if (decor.getEtat().equals("rocher")){
+                ImageView rocher = new ImageView(this.imageRocher);
+                rocher.setLayoutX(decor.getX());
+                rocher.setLayoutY(decor.getY());
+                rocher.setScaleX(decor.getTaille());
+                rocher.setScaleY(decor.getTaille());
+                this.hashMap.put(decor, rocher);
+                this.pane.getChildren().add(rocher);
+            } else if (decor.getEtat().equals("arbre")){
+                ImageView arbre = new ImageView(this.imageArbre);
+                arbre.setLayoutX(decor.getX());
+                arbre.setLayoutY(decor.getY());
+                arbre.setScaleX(decor.getTaille());
+                arbre.setScaleY(decor.getTaille());
+                this.hashMap.put(decor, arbre);
+                this.pane.getChildren().add(arbre);
             }
+
+
+
+//                switch(decor.getEtat()){
+//                    case "pillier":
+//                        ImageView pillier = new ImageView(this.imagePillier);
+//                        pillier.setLayoutX(decor.getX());
+//                        pillier.setLayoutY(decor.getY());
+//                        pillier.setScaleX(decor.getTaille());
+//                        pillier.setScaleY(decor.getTaille());
+//                        this.hashMap.put(decor, pillier);
+//                        this.pane.getChildren().add(pillier);
+//                        break;
+//                    case "rocher":
+//                        ImageView rocher = new ImageView(this.imageRocher);
+//                        rocher.setLayoutX(decor.getX());
+//                        rocher.setLayoutY(decor.getY());
+//                        rocher.setScaleX(decor.getTaille());
+//                        rocher.setScaleY(decor.getTaille());
+//                        this.hashMap.put(decor, rocher);
+//                        this.pane.getChildren().add(rocher);
+//                }
 
 
 
@@ -86,7 +126,7 @@ public class DecorVue {
             Decor decor = listeDecors.get(i);
             ImageView imageView = this.hashMap.get(decor);
 
-            if (imageView != null && decor.getEtat() != null){
+            if (imageView != null && decor.getEtat() != null && decor instanceof Fleur){
                 if (decor.getEtat().equals("phasePerir")){
                     imageView.setImage(this.imageFleurEnPhase);
                 } else if (decor.getEtat().equals("perir")){

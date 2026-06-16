@@ -70,10 +70,14 @@ public class Environnement {
 		Fleur fleur3 = new Fleur(800, 100);
 		Fleur fleur4 = new Fleur(900, 600);
 		Fleur fleur5 = new Fleur(1500, 350);
-		Decor pillier = new Decor(990, 5, 110, 0.3);
+		Decor pillier = new Decor(990, 5, 0.3, "pillier");
+		Decor rocher1 = new Decor(1470, 40, 0.15, "rocher");
+		Decor rocher2 = new Decor(200, -80, 0.15, "rocher");
+		Decor rocher3 = new Decor(-30, 180, 0.15, "rocher");
+		Decor arbre1 = new Decor(0, 270, 0.7, "arbre");
 //		Marre marre = new Marre(800, 250);
 		this.lesDecors = FXCollections.observableArrayList();
-		this.lesDecors.addAll(fleur1, fleur2, fleur3, fleur4, fleur5, pillier);
+		this.lesDecors.addAll(fleur1, fleur2, fleur3, fleur4, fleur5, pillier, rocher1, rocher2, arbre1, rocher3);
 	}
 
 // 	les Get / set:
