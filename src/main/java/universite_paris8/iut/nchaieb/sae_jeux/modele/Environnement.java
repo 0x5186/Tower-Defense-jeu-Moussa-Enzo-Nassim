@@ -3,6 +3,7 @@ package universite_paris8.iut.nchaieb.sae_jeux.modele;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Button;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.SortTours.Projectile;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.SortTours.SortTour;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Tours.Tour;
@@ -10,6 +11,8 @@ import universite_paris8.iut.nchaieb.sae_jeux.modele.monstres.Monstre;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.monstres.Nargacuga;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.monstres.Sorcier;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.monstres.Squelette;
+
+import java.io.BufferedOutputStream;
 
 public class Environnement {
 	private IntegerProperty nbTours;
@@ -38,9 +41,10 @@ public class Environnement {
 	private int compteurSpawn;
 	private boolean pauseEntreVagues;
 	private int compteurPause;
+	private Button boutonCorneDeBrume;
 
 
-	public Environnement(Terrain terrain) {
+	public Environnement(Terrain terrain, Button boutonCorneDeBrume) {
 		this.terrain = terrain;
 		this.nbTours = new SimpleIntegerProperty();
 		this.lesTours =FXCollections.observableArrayList();
@@ -62,6 +66,7 @@ public class Environnement {
 		this.pauseEntreVagues = true;
 		this.compteurPause = 300;
 		this.compteurSpawn = 0;
+		this.boutonCorneDeBrume= boutonCorneDeBrume;
 	}
 
 // 	les Get / set:
@@ -81,6 +86,8 @@ public class Environnement {
 
 		System.out.println("Argent après = " + this.argent.get());
 	}
+
+
 
 	public ObservableList<Monstre> getLesMonstres() {
 		return lesMonstres;
@@ -123,6 +130,25 @@ public class Environnement {
 		return sortTours;
 	}
 
+	public void setPauseEntreVagues(boolean pauseEntreVagues) {
+		this.pauseEntreVagues = pauseEntreVagues;
+	}
+
+	public int getNumeroVague() {
+		return numeroVague.get();
+	}
+
+	public IntegerProperty numeroVagueProperty() {
+		return numeroVague;
+	}
+
+	public int getCompteurSpawn() {
+		return compteurSpawn;
+	}
+
+	public void setCompteurSpawn(int compteurSpawn) {
+		this.compteurSpawn = compteurSpawn;
+	}
 	// autres Méthodes:
 
 	public void ajouterTour(Tour tour){
@@ -138,7 +164,7 @@ public class Environnement {
 	}
 
 	// Version 1 : système de vagues
-	private void preparerVague(int numero) {
+    public void preparerVague(int numero) {
 		if (this.lecteurVague.getVagues() != null && numero > 0 && numero <= this.lecteurVague.getNbVague()) {
 			this.vagueActuelle = this.lecteurVague.getVagues()[numero - 1].getListeApparition();
 		} else {
@@ -180,15 +206,18 @@ public class Environnement {
 			}
 		}
 
+//
 
-		if (pauseEntreVagues) {
-			compteurPause--;
-			if (compteurPause <= 0) {
-				pauseEntreVagues = false;
-				preparerVague(this.numeroVague.get());
-				compteurSpawn = 0;
-			}
-		} else {
+//
+//		preparerVague(this.numeroVague.get());
+//		compteurSpawn = 0;
+
+
+		if(!pauseEntreVagues) {
+			if (this.boutonCorneDeBrume!=null)
+				this.boutonCorneDeBrume.setDisable(true);
+//			preparerVague(this.numeroVague.get());
+//			compteurSpawn = 0;
 			if (vagueActuelle != null && vagueActuelle.resteProchain()) {
 				compteurSpawn--;
 				if (compteurSpawn <= 0) {
@@ -196,7 +225,8 @@ public class Environnement {
 					compteurSpawn = vagueActuelle.prochainDelai();
 					vagueActuelle.avancer();
 				}
-			} else if (this.lesMonstres.isEmpty()) {
+			}
+			else if (this.lesMonstres.isEmpty()) {
 				if (this.numeroVague.get() >= this.lecteurVague.getNbVague()) {
 					return;
 				}
@@ -204,8 +234,13 @@ public class Environnement {
 				this.setArgent(this.getArgent() + bonusArgent);
 				this.numeroVague.set(this.numeroVague.get() + 1);
 				this.pauseEntreVagues = true;
-				this.compteurPause = 900;
+
+
 			}
+
+		}
+		else {
+			if (this.boutonCorneDeBrume!=null) this.boutonCorneDeBrume.setDisable(false);
 		}
 
 

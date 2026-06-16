@@ -97,6 +97,14 @@ public class ControleurJeu implements Initializable {
     @FXML
     private Text nombreEncre;
 
+
+
+    @FXML
+    private Button boutonCorneDeBrume;
+
+    @FXML
+    private Pane feuilleSymbole;
+
     private Documentation documentation;
     private Timeline gameLoop;
     protected IntegerProperty temps;
@@ -188,7 +196,7 @@ public class ControleurJeu implements Initializable {
 
         System.out.println(Main.map);
         terrainVue.dessine(Main.map, this.pane);
-        environnement= new Environnement(this.terrain);
+        environnement= new Environnement(this.terrain,this.boutonCorneDeBrume);
         this.baseVue= new BaseVue(this.pane, this.environnement.getBase());
         MonObservateurMonstre observateurMonstres = new MonObservateurMonstre(pane, this.baseVue);
         MonObservateurTour monObservateurTour = new MonObservateurTour(pane);
@@ -223,9 +231,15 @@ public class ControleurJeu implements Initializable {
         });
         initAnimation();
 
-
-
+//        if (this.environnement.getSymboles().verifierCombinaison()){
+//            for(int i=0; i<stackPane.getChildren().size();i++){
+//                if (stackPane.getChildren().get(i).equals("f")){
+//                    stackPane.getChildren().get(i).
+//                }
+//            }
+//        }
         if(stackPane!=null){
+
             stackPane.setOnMouseClicked(event -> {
 
                 if (environnement.isModePlacementTour()) {
@@ -282,11 +296,6 @@ public class ControleurJeu implements Initializable {
 
 
 
-
-    @FXML
-    public void AjouterMonstreEnnemi() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
-        this.environnement.ajouterMonstre();
-    }
 
     @FXML
     public void actionsDesSymboles(Event event) throws UnsupportedAudioFileException, LineUnavailableException, IOException {
@@ -514,6 +523,18 @@ public class ControleurJeu implements Initializable {
 //        }
     }
 
+    @FXML
+    public void lancerVague () throws UnsupportedAudioFileException, LineUnavailableException, IOException {
+        JouerSon sonCorne;
+        sonCorne = new JouerSon("src/main/resources/universite_paris8/iut/nchaieb/sae_jeux/Sons/corneDeBrumeSon.wav",0);
+        sonCorne.play();
+
+
+        this.environnement.setCompteurSpawn(0);
+        this.environnement.preparerVague(this.environnement.getNumeroVague());
+        this.environnement.setPauseEntreVagues(false);
+
+    }
 
 
 

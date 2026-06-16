@@ -14,7 +14,7 @@ public class CombinaisonValables {
     public CombinaisonValables() {
         this.tourOeil = new ArrayList<String>(List.of("oeil", "croix", "eclipse"));
         this.tourHeal = new ArrayList<String>(List.of("croix","goutte" ,"crystal", "spirale"));
-        this.tourMusic = new ArrayList<String>(List.of("note","corne","triangle","crystal"));
+        this.tourMusic = new ArrayList<String>(List.of("note"));
         this.tourTesla = new ArrayList<String>(List.of("tomoe"));
 
     }

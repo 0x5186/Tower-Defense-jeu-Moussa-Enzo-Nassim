@@ -36,11 +36,51 @@ public class Terrain {
 
         for (int ligne = 11; ligne <= 22; ligne++) codeTuiles[ligne][50] = 8;
         for (int ligne = 11; ligne <= 22; ligne++) codeTuiles[ligne][51] = 7;
+
+        for (int ligne = 16; ligne <= 20; ligne++) codeTuiles[ligne][34] = 8;
+        for (int ligne = 16; ligne <= 20; ligne++) codeTuiles[ligne][35] = 7;
+
+        codeTuiles[15][34] = 5;
+        codeTuiles[15][35] = 6;
+        codeTuiles[21][34] = 3;
+        codeTuiles[21][35] = 4;
+
         codeTuiles[7][24] = 3;
         codeTuiles[7][25] = 4;
         codeTuiles[8][24] = 5;
         codeTuiles[8][25] = 6;
 
+        codeTuiles[11][50] = 1;
+        codeTuiles[11][51] = 1;
+        codeTuiles[12][50] = 5;
+        codeTuiles[12][51] = 6;
+
+        codeTuiles[22][50] = 2;
+        codeTuiles[22][51] = 10;
+
+        codeTuiles[21][50] = 3;
+
+        codeTuiles[14][24] = 3;
+        codeTuiles[14][25] = 4;
+        codeTuiles[15][24] = 2;
+        codeTuiles[15][25] = 2;
+
+        codeTuiles[8][10] = 5;
+        codeTuiles[8][11] = 6;
+
+        codeTuiles[15][10] = 11;
+        codeTuiles[15][11] = 2;
+        codeTuiles[14][11] = 4;
+
+
+        codeTuiles[7][45] = 12;
+        codeTuiles[8][44] = 5;
+
+        codeTuiles[11][45] = 4;
+        codeTuiles[12][45] = 6;
+
+        codeTuiles[14][44] = 3;
+        codeTuiles[15][45] = 10;
 
     }
 
@@ -50,11 +90,6 @@ public class Terrain {
 
     public boolean estPraticable(int colonne, int ligne) {
         if (colonne < 0 || colonne >= largeur() || ligne < 0 || ligne >= hauteur()) return false;
-        return codeTuiles[ligne][colonne] == 1||codeTuiles[ligne][colonne] ==2
-                ||codeTuiles[ligne][colonne] ==4
-                ||codeTuiles[ligne][colonne] ==5
-                ||codeTuiles[ligne][colonne] ==6
-                ||codeTuiles[ligne][colonne] ==7
-                ||codeTuiles[ligne][colonne] ==8;
+        return !(codeTuiles[ligne][colonne] == 0);
     }
 }
