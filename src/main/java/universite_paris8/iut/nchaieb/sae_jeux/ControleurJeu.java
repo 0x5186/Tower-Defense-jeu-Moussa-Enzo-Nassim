@@ -115,6 +115,7 @@ public class ControleurJeu implements Initializable {
     TutorielVue tutorielVue;
     private BaseVue baseVue;
     private FioleVue fioleVue;
+    private DecorVue decorVue;
 
 
     private  int page;
@@ -140,6 +141,9 @@ public class ControleurJeu implements Initializable {
 
                     temps.setValue(temps.getValue()+1);
                     this.environnement.unTour();
+                    if (this.decorVue != null){
+                        this.decorVue.mettreAJourAffichage();
+                    }
                     if (environnement.getBase().getPv()==0){
                         gameLoop.stop();
                         System.out.println("perdu");
@@ -197,6 +201,7 @@ public class ControleurJeu implements Initializable {
         System.out.println(Main.map);
         terrainVue.dessine(Main.map, this.pane);
         environnement= new Environnement(this.terrain,this.boutonCorneDeBrume);
+        this.decorVue = new DecorVue(this.pane, this.environnement);
         this.baseVue= new BaseVue(this.pane, this.environnement.getBase());
         MonObservateurMonstre observateurMonstres = new MonObservateurMonstre(pane, this.baseVue);
         MonObservateurTour monObservateurTour = new MonObservateurTour(pane);
@@ -359,10 +364,20 @@ public class ControleurJeu implements Initializable {
                     break;
             }
 
-            if (symbole != null){
-                this.environnement.getSymboles().ajouterSymbole(symbole);
+            boolean ajoutReussi = this.environnement.getSymboles().ajouterSymbole(symbole);
+
+//            if (symbole != null){
+//                this.environnement.getSymboles().ajouterSymbole(symbole);
+//            } else {
+//                this.interfaceVue.afficherLimiteAtteinte();
+//            }
+
+            if (!ajoutReussi){
+                this.interfaceVue.afficherLimiteAtteinte();
             }
         }
+
+
 
     }
 
@@ -380,6 +395,11 @@ public class ControleurJeu implements Initializable {
 
         }
         else { this.interfaceVue.viderSumbolesAffiches();
+
+            if (this.interfaceVue.getHbox() != null){
+                this.interfaceVue.getHbox().setVisible(false);
+            }
+
             JouerSon sonErreur = new JouerSon("src/main/resources/universite_paris8/iut/nchaieb/sae_jeux/Sons/erreur.wav",0);
             sonErreur.play();
             this.monObservateurSymbole.setCompteur(0);
@@ -388,15 +408,22 @@ public class ControleurJeu implements Initializable {
     }
 
     @FXML
-    public void deroulerParcheminTutoriel() {
-        System.out.println("je suis ici");
+    public void deroulerParcheminTutoriel() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
+        JouerSon sonOuvrirParchemin = new JouerSon("src/main/resources/universite_paris8/iut/nchaieb/sae_jeux/Sons/OuvrirParcheminTuto.wav", 0);
         this.tutorielVue.afficherTutot();
         this.boutonPageSuivante.setVisible(!this.boutonPageSuivante.isVisible());
+        sonOuvrirParchemin.setVolume(0.85f);
+        sonOuvrirParchemin.play();
     }
 
     @FXML
-    public void tournerDePage(){
+    public void tournerDePage() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         this.tutorielVue.changerPage();
+        if (this.tutorielVue.getPage() >= 1 && this.tutorielVue.getPage() <= this.tutorielVue.getPageMax()){
+            JouerSon sonTournerPage = new JouerSon("src/main/resources/universite_paris8/iut/nchaieb/sae_jeux/Sons/tournerPage.wav", 0);
+            sonTournerPage.setVolume(0.70f);
+            sonTournerPage.play();
+        }
     }
 
 

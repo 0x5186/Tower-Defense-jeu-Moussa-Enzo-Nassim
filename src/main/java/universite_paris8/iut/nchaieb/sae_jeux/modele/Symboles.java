@@ -17,23 +17,22 @@ public class Symboles {
         return combinaison;
     }
 
-    public void ajouterSymbole(String symbole){
-        boolean afficherAvertissement = false;
+    public boolean ajouterSymbole(String symbole){
 
         if (this.combinaison.size() <6 ){
             this.combinaison.add(symbole);
+            return true;
         } else {
-            System.out.println("ce symbole ne sera pas comptabilisé");
-            afficherAvertissement = true;
+            return false;
         }
     }
 
-//    public boolean avertissement(){
-//
-//        if (this.symboles)
-//
-//        return false;
-//    }
+    public boolean listeEstComplet(){
+        if (this.combinaison.size() == 6){
+            return true;
+        }
+        return false;
+    }
 
 
     public void retirerSymbole (){

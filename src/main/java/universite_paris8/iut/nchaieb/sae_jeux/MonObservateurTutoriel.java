@@ -26,4 +26,11 @@ public class MonObservateurTutoriel implements ChangeListener<Boolean> {
             this.tutorielVue.getImage().setVisible(false);
         }
     }
+
+    public boolean estVisible(){
+        if (this.tutorielVue.getImage().isVisible() == true){
+            return true;
+        }
+        return false;
+    }
 }
