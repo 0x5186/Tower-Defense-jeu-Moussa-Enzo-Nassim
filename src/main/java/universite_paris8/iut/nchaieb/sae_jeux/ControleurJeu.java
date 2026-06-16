@@ -29,6 +29,8 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class ControleurJeu implements Initializable {
@@ -148,10 +150,46 @@ public class ControleurJeu implements Initializable {
                         gameLoop.stop();
                         System.out.println("perdu");
                     }
+                    positionAJour();
+
                 })
         );
         gameLoop.setCycleCount(Timeline.INDEFINITE);
         gameLoop.getKeyFrames().add(kf);
+    }
+
+    private void positionAJour() {
+
+//        enfants.sort(Comparator.comparingDouble(Node::getLayoutY));
+
+
+        List<Node> nodes = new ArrayList<>(pane.getChildren());
+
+        nodes.sort(Comparator.comparingDouble(Node::getLayoutY));
+
+        pane.getChildren().setAll(nodes);
+
+//        int index=0;
+//        Node yMin = null;
+//        for (int i=0;i < pane.getChildren().size();i++){
+//
+//        }
+//        for (int j=0;j < pane.getChildren().size();j++) {
+//            for (int i=0;i < pane.getChildren().size();i++) {
+//                if(pane.getChildren().get(j).getLayoutY()>pane.getChildren().get(i).getLayoutY()){
+//                    yMin=pane.getChildren().get(i);
+//                    index=i;
+//
+//                }
+//
+//            }
+//            if (yMin!= null && yMin!=pane.getChildren().get(j)){
+//                Node temp = pane.getChildren().get(j);
+//                pane.getChildren().set(j, pane.getChildren().get(index));
+//                pane.getChildren().set(index, temp);
+//            }
+//
+//        }
     }
 
     @Override
