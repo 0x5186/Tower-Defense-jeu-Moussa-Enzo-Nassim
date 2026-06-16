@@ -65,13 +65,15 @@ public class Environnement {
 
 		//partie decor
 		this.lesDecors = FXCollections.observableArrayList();
-		Fleur fleur1 = new Fleur(300, 200);
-		Fleur fleur2 = new Fleur(600, 400);
-		Fleur fleur3 = new Fleur(150, 500);
+		Fleur fleur1 = new Fleur(300, 150);
+		Fleur fleur2 = new Fleur(600, 370);
+		Fleur fleur3 = new Fleur(800, 100);
+		Fleur fleur4 = new Fleur(900, 600);
+		Fleur fleur5 = new Fleur(1500, 350);
+		Decor pillier = new Decor(990, 5, 110, 0.3);
+//		Marre marre = new Marre(800, 250);
 		this.lesDecors = FXCollections.observableArrayList();
-		this.lesDecors.add(fleur1);
-		this.lesDecors.add(fleur2);
-		this.lesDecors.add(fleur3);
+		this.lesDecors.addAll(fleur1, fleur2, fleur3, fleur4, fleur5, pillier);
 	}
 
 // 	les Get / set:
@@ -143,7 +145,8 @@ public class Environnement {
 	}
 
 	public void ajouterMonstre() {
-		Monstre monstre = new Nargacuga(this.terrain);
+//		Monstre monstre = new Nargacuga(this.terrain);
+		Monstre monstre = new Sorcier(this.terrain);
 		lesMonstres.add(monstre);
 	}
 
@@ -188,6 +191,10 @@ public class Environnement {
 			if (decor instanceof Fleur){
 				((Fleur) decor).mettreAjour(this.lesMonstres);
 			}
+
+//			if (decor instanceof  Marre){
+//				((Marre) decor).mettreAjour(this.lesMonstres);
+//			}
 		}
 
 		if (!(this.lesTours == null) && !this.lesTours.isEmpty()) {
@@ -255,6 +262,12 @@ public class Environnement {
 		if(gridY >= 25) return false;
 		if (this.terrain.estPraticable(gridX, gridY))
 			return false;
+
+		for (int i = 0; i < this.lesDecors.size(); i++){
+			if (this.lesDecors.get(i).estDansLeRayonDecor(gridX, gridY)) {
+				return false;
+			}
+		}
 
 		for(int i=0; i<1;i++){
 			if(this.terrain.estPraticable(gridX+i, gridY) || this.terrain.estPraticable(gridX-i, gridY) || this.terrain.estPraticable(gridX, gridY+i) || this.terrain.estPraticable(gridX, gridY-i) || this.terrain.estPraticable(gridX+i, gridY-i) ||this.terrain.estPraticable(gridX-i, gridY+i) || this.terrain.estPraticable(gridX+i, gridY+i)|| this.terrain.estPraticable(gridX-i, gridY-i))

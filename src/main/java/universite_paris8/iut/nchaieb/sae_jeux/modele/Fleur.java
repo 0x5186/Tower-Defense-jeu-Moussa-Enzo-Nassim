@@ -7,11 +7,11 @@ import universite_paris8.iut.nchaieb.sae_jeux.modele.monstres.Nargacuga;
 
 public class Fleur extends Decor {
 
-    private double tempsRestant;
+    private double tempsRestantAvantPerir;
 
     public Fleur(double x, double y) {
-        super(x, y, 60.0, "normale");
-        this.tempsRestant = 0;
+        super(x, y, 110, "normale", 0.5, 2);
+        this.tempsRestantAvantPerir = 0;
     }
 
     public void mettreAjour(ObservableList<Monstre> lesMonstres){
@@ -20,7 +20,7 @@ public class Fleur extends Decor {
         for (int i = 0; i < lesMonstres.size(); i++){
             Monstre monstre = lesMonstres.get(i);
 
-            if (monstre instanceof Nargacuga) {
+            if (monstre instanceof Nargacuga || monstre instanceof Sorcier) {
                 double distanceX = Math.abs(monstre.getPosX() - this.getX());
                 double distanceY = Math.abs(monstre.getPosY() - this.getY());
                 double distanceTotale = distanceX + distanceY;
@@ -31,12 +31,31 @@ public class Fleur extends Decor {
             }
         }
 
-        if (sorcierEstProche){
-            this.setEtat("perir");
-            this.tempsRestant = 15.0;
+//        if (sorcierEstProche) {
+//            this.setEtat("phasePerir");
+//            this.tempsRestantAvantPerir = 15;
+//
+//        } else if (this.tempsRestantAvantPerir >13.5) {
+//            this.tempsRestantAvantPerir -= 0.01;
+//            this.setEtat("phasePerir");
+//        } else if (this.tempsRestantAvantPerir > 0) {
+//            this.tempsRestantAvantPerir-= 0.01;
+//            this.setEtat("perir");
+//        } else {
+//            this.setEtat("normale");
+//        }
+
+        if(sorcierEstProche && this.tempsRestantAvantPerir == 0) {
+            this.setEtat("phasePerir");
+            this.tempsRestantAvantPerir =15;
+
         } else {
-            if (this.tempsRestant > 0){
-                this.tempsRestant -= 0.01;
+            if (this.tempsRestantAvantPerir > 14){
+                this.tempsRestantAvantPerir -= 0.01;
+                this.setEtat("phasePerir");
+            } else if (this.tempsRestantAvantPerir >0) {
+                this.tempsRestantAvantPerir-= 0.01;
+                this.setEtat("perir");
             } else {
                 this.setEtat("normale");
             }
