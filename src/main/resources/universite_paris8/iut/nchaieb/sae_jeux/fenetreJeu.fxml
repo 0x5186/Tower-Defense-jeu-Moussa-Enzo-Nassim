@@ -4,8 +4,8 @@
 <?import javafx.scene.effect.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<?import javafx.scene.text.Text?>
 <BorderPane prefHeight="1080" prefWidth="1920" style="-fx-background-color: #1a1a1a;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="universite_paris8.iut.nchaieb.sae_jeux.ControleurJeu">
 
     <center>
@@ -13,7 +13,7 @@
         <StackPane fx:id="stackPane" alignment="TOP_LEFT">
 
             <TilePane fx:id="tilePane" alignment="TOP_LEFT" hgap="0" prefColumns="60" prefRows="26" prefTileHeight="32" prefTileWidth="32" vgap="0" BorderPane.alignment="TOP_LEFT" />
-            <Pane fx:id="pane" >
+            <Pane fx:id="pane">
 
             </Pane>
 
@@ -263,9 +263,9 @@
                         <Button fx:id="boutonOuvrirLivre" layoutX="675.0" layoutY="-65.0" mnemonicParsing="false" onAction="#couvertureLivre" prefHeight="180" prefWidth="112" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-padding: 10;">
 
                         </Button>
-                        <Button fx:id="boutonCorneDeBrume" layoutX="1200" layoutY="-100" onAction="#lancerVague"  style="-fx-background-color: transparent; -fx-border-color: transparent;">
+                        <Button fx:id="boutonCorneDeBrume" layoutX="1200" layoutY="-100" onAction="#lancerVague" style="-fx-background-color: transparent; -fx-border-color: transparent;">
                             <graphic>
-                                <ImageView  preserveRatio="true" >
+                                <ImageView preserveRatio="true">
                                     <image>
                                         <Image url="@images/corneDeBrume.png">
                                         </Image>
@@ -274,8 +274,16 @@
                             </graphic>
 
                         </Button>
-                  <Text fx:id="nombreEncre" layoutX="240.0" layoutY="00.0" pickOnBounds="false" focusTraversable="false" style=" -fx-font-size: 40px;  -fx-background-color: transparent; -fx-focus-color: transparent; -fx-faint-focus-color: transparent; -fx-fill: #FFFFFF;" />
-               </children>
+
+
+
+
+
+                        <Text fx:id="nombreEncre" focusTraversable="false" layoutX="240.0" layoutY="00.0" pickOnBounds="false" style=" -fx-font-size: 40px;  -fx-background-color: transparent; -fx-focus-color: transparent; -fx-faint-focus-color: transparent; -fx-fill: #FFFFFF;" />
+
+
+                        <Pane layoutX="775.0" layoutY="-34.0" prefHeight="173.0" prefWidth="314.0" />
+                    </children>
             </Pane>
          </children>
       </StackPane>

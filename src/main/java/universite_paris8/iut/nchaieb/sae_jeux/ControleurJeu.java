@@ -230,7 +230,7 @@ public class ControleurJeu implements Initializable {
         this.fioleVue= new FioleVue(stackPane);
         this.sourisVue= new SourisVue(stackPane);
         this.monstreVue= new MonstreVue(this.pane);
-        this.interfaceVue = new InterfaceVue(stackPane, livre);
+        this.interfaceVue = new InterfaceVue(stackPane, livre, paneSymboles);
 
         this.terrainVue = new TerrainVue(terrain, tilePane);
         this.tutorielVue = new TutorielVue(stackPane);
@@ -312,6 +312,8 @@ public class ControleurJeu implements Initializable {
                 }
             });
         }
+
+
 
 
 
@@ -414,6 +416,16 @@ public class ControleurJeu implements Initializable {
                 this.interfaceVue.afficherLimiteAtteinte();
             }
         }
+        if (this.environnement.getSymboles().verifierCombinaison()){
+            this.interfaceVue.brillerSymboles();
+        }
+        else {
+            this.interfaceVue.assombrirSymboles();
+        }
+
+
+
+
 
 
 
@@ -467,6 +479,16 @@ public class ControleurJeu implements Initializable {
 
     @FXML
     public void couvertureLivre(){
+
+        try {
+            sonLivre();
+        } catch (UnsupportedAudioFileException e) {
+            throw new RuntimeException(e);
+        } catch (LineUnavailableException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         for (Node p : paneSymboles.getChildren()) {
             p.setVisible(false);
         }
@@ -490,8 +512,26 @@ public class ControleurJeu implements Initializable {
 
 
     }
+
+    public void sonLivre() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
+        JouerSon sonPage;
+        sonPage = new JouerSon("src/main/resources/universite_paris8/iut/nchaieb/sae_jeux/Sons/page.wav",0);
+        sonPage.setVolume(0.8f);
+        sonPage.play();
+    }
+
+
     @FXML
     public void boutonGererPages(ActionEvent event){
+        try {
+            sonLivre();
+        } catch (UnsupportedAudioFileException e) {
+            throw new RuntimeException(e);
+        } catch (LineUnavailableException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         for (Node p : paneSymboles.getChildren()) {
             p.setVisible(false);
         }

@@ -12,6 +12,7 @@ import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import org.w3c.dom.html.HTMLBaseElement;
@@ -56,7 +57,7 @@ public class InterfaceVue {
     private StackPane contientSymbole;
 
 
-    public InterfaceVue(StackPane stackPane, ImageView livre) {
+    public InterfaceVue(StackPane stackPane, ImageView livre, Pane paneSymboles) {
         this.stackPane = stackPane;
         this.contientSymbole = new StackPane();
         this.livre=livre;
@@ -90,7 +91,7 @@ public class InterfaceVue {
             interfaceDuBas.setTranslateX(0);
 //            interfaceDuBas.setScaleX(1.25);
 //            interfaceDuBas.setScaleX(2.5);
-            interfaceDuBas.setFitWidth(1900);
+            interfaceDuBas.setFitWidth(1950);
 
             //Feuille pentacle
             feuillePentacle.setTranslateX(700); // position X en pixels
@@ -182,6 +183,17 @@ public class InterfaceVue {
             this.contientSymbole.getChildren().clear();
         }
     }
+
+    public void brillerSymboles() {
+        this.contientSymbole.setEffect(new Glow(9));
+
+    }
+    public void  assombrirSymboles() {
+        this.contientSymbole.setEffect(new Glow(0));
+    }
+
+
+
     public void animationLivrepage(Button bouton,Button boutonCouverture, Button boutonChangerPage){
 
 
