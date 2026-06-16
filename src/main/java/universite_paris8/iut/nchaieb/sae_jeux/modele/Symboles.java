@@ -112,6 +112,9 @@ public class Symboles {
                 return "tourTesla";
 
             }
+            else if(combinaison.equals(combinaisonValables.tourGlace)){
+                return "tourGlace";
+            }
         }
 
         return "rien";
