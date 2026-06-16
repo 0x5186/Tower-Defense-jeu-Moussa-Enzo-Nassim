@@ -57,6 +57,7 @@ public class Fleur extends Decor {
                 this.tempsRestantAvantPerir-= 0.01;
                 this.setEtat("perir");
             } else {
+                this.tempsRestantAvantPerir = 0; 
                 this.setEtat("normale");
             }
         }
