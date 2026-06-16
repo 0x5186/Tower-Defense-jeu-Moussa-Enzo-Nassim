@@ -50,18 +50,18 @@ public abstract class Monstre extends Entite {
         if (portailAleatoire == 0) {
             this.setPosX(0);
             this.setPosY(8 * TAILLE_TUILE); // Spawn 1 (Haut gauche)
-            this.targetX = 58;              // Cible : La Base
+            this.targetX = 58;
             this.targetY = 12;
         } else if (portailAleatoire == 1) {
             this.setPosX(24 * TAILLE_TUILE);
             this.setPosY(0);                // Spawn 2 (Haut milieu)
-            this.targetX = 24;              // Cible temporaire pour diriger le monstre vers le bas
+            this.targetX = 24;
             this.targetY = 14;
         } else {
             // Le nouveau Spawn sur le trait noir en bas à gauche (Ligne 22)
             this.setPosX(0);
             this.setPosY(22 * TAILLE_TUILE);
-            this.targetX = 58;              // Cible : La Base
+            this.targetX = 58;
             this.targetY = 12;
         }
 
@@ -71,7 +71,7 @@ public abstract class Monstre extends Entite {
         if (!terrain.estPraticable(gx, gy)) {
             this.setPosX(0);
             this.setPosY(8 * TAILLE_TUILE);
-            this.targetX = 58;              // Cible de sécurité
+            this.targetX = 58;
             this.targetY = 12;
         }
     }
@@ -159,14 +159,18 @@ public abstract class Monstre extends Entite {
                 && this.getPosY() == (this.targetY * TAILLE_TUILE);
     }
 
-    public void recalculerItineraire(Terrain terrain, Base base){
-        int rx = this.getPosX() / TAILLE_TUILE;
-        int ry = this.getPosY() / TAILLE_TUILE;
-        ArrayList<Noeud> nouveuChemin = AlgorithmeAEtoile.trouverChemin(terrain, rx, ry, this.targetX, this.targetY );
-        if(nouveuChemin != null && !nouveuChemin.isEmpty()){
-            if (nouveuChemin.size() > 1) {
-                nouveuChemin.remove(0);
-            }
+    public void recalculerItineraire(Terrain terrain, Base base) {
+        int startX;
+        int startY;
+        if (this.chemin != null && !this.chemin.isEmpty()) {
+            startX = this.chemin.get(0).x;
+            startY = this.chemin.get(0).y;
+        } else {
+            startX = this.getPosX() / TAILLE_TUILE;
+            startY = this.getPosY() / TAILLE_TUILE;
+        }
+        ArrayList<Noeud> nouveuChemin = AlgorithmeAEtoile.trouverChemin(terrain, startX, startY, this.targetX, this.targetY);
+        if (nouveuChemin != null && !nouveuChemin.isEmpty()) {
             this.chemin = nouveuChemin;
             this.cheminCalcule = true;
         }
