@@ -6,10 +6,7 @@ import javafx.collections.ObservableList;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.SortTours.SortTour;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Tours.Tour;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Tours.TourGlace;
-import universite_paris8.iut.nchaieb.sae_jeux.modele.monstres.Monstre;
-import universite_paris8.iut.nchaieb.sae_jeux.modele.monstres.Nargacuga;
-import universite_paris8.iut.nchaieb.sae_jeux.modele.monstres.Sorcier;
-import universite_paris8.iut.nchaieb.sae_jeux.modele.monstres.Squelette;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.monstres.*;
 
 public class Environnement {
 	private IntegerProperty nbTours;
@@ -95,6 +92,9 @@ public class Environnement {
 			case 0: monstre = new Squelette(this.terrain); break;
 			case 1: monstre = new Sorcier(this.terrain); break;
 			case 2: monstre = new Nargacuga(this.terrain); break;
+			case 3: monstre = new Dino(this.terrain); break;
+			case 4: monstre = new Armure(this.terrain); break;
+			case 5: monstre = new Kyryn(this.terrain); break;
 		}
 		if (monstre != null) {
 			this.lesMonstres.add(monstre);
