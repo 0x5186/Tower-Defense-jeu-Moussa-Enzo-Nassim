@@ -51,7 +51,8 @@ public class Symboles {
             if (combinaison.equals(combinaisonValables.tourOeil)
                     || combinaison.equals(combinaisonValables.tourHeal)
                     || combinaison.equals(combinaisonValables.tourMusic)
-                    || combinaison.equals(combinaisonValables.tourTesla)){
+                    || combinaison.equals(combinaisonValables.tourTesla)
+                    || combinaison.equals(combinaisonValables.tourGlace)){
               return true;
             }
         }
@@ -80,6 +81,10 @@ public class Symboles {
             }
             else if( combinaison.equals(combinaisonValables.tourTesla)){
                 tour= new TourTesla(x,y);
+
+            }
+            else if( combinaison.equals(combinaisonValables.tourGlace)){
+                tour= new TourGlace(x,y);
 
             }
         }
