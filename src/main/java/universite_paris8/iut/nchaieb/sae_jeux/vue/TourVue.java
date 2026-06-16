@@ -26,6 +26,10 @@ public class TourVue {
     Image tourHeal = new Image(Main.class.getResourceAsStream("images/tourHeal.png"));
     Image tourMusic = new Image(Main.class.getResourceAsStream("images/tourMusic.png"));
     Image tourTesla = new Image(Main.class.getResourceAsStream("images/tourTesla.png"));
+    Image tourGlace = new Image(Main.class.getResourceAsStream("images/tour-de-glace.png"));
+    Image murGlace = new Image(Main.class.getResourceAsStream("images/mur-de-glace.png"));
+
+
 
 
 
@@ -71,6 +75,9 @@ public class TourVue {
             iv.setViewport(new Rectangle2D(0,0,80,90));
 
         }
+
+
+
 //        iv.translateXProperty().bind(tour.posXProperty());
 //        iv.translateYProperty().bind(
 //                tour.posYProperty()
