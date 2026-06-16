@@ -179,6 +179,7 @@ public abstract class Monstre extends Entite {
     public int getPV() { return this.nombreDePV.get(); }
     public IntegerProperty pvProperty() { return this.nombreDePV; }
 
+    public int getPvMax() {return pvMax;}
     public String getId() { return this.id; }
     @Override public int getPosX() { return posX.get(); }
     @Override public IntegerProperty posXProperty() { return posX; }

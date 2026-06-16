@@ -8,11 +8,7 @@ import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 import universite_paris8.iut.nchaieb.sae_jeux.Main;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.*;
-import universite_paris8.iut.nchaieb.sae_jeux.modele.monstres.Nargacuga;
-import universite_paris8.iut.nchaieb.sae_jeux.modele.monstres.Nargacuga;
-import universite_paris8.iut.nchaieb.sae_jeux.modele.monstres.Sorcier;
-import universite_paris8.iut.nchaieb.sae_jeux.modele.monstres.Squelette;
-import universite_paris8.iut.nchaieb.sae_jeux.modele.monstres.Monstre;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.monstres.*;
 
 import java.util.HashMap;
 
@@ -23,6 +19,9 @@ public class MonstreVue {
     Image squelette = new Image(Main.class.getResourceAsStream("images/squelette(3).png"));
     Image sorcier = new Image(Main.class.getResourceAsStream("images/sorcier.png"));
     Image nargacuga = new Image(Main.class.getResourceAsStream("images/nargacuga.png"));
+    Image Dino = new Image(Main.class.getResourceAsStream("images/dino.png"));
+    Image Armure = new Image(Main.class.getResourceAsStream("images/armure.png"));
+    Image Kyryn = new Image(Main.class.getResourceAsStream("images/kyryn.png"));
 
     public MonstreVue(Pane pane) {
         this.pane = pane;
@@ -51,6 +50,25 @@ public class MonstreVue {
             iv.translateXProperty().bind(monstre.posXProperty().subtract(48));
             iv.translateYProperty().bind(monstre.posYProperty().subtract(48));
         }
+        if (monstre instanceof Dino) {
+            iv = new ImageView(Dino);
+            iv.setViewport(new Rectangle2D(0, 0, 80, 80));
+            iv.translateXProperty().bind(monstre.posXProperty().subtract(48));
+            iv.translateYProperty().bind(monstre.posYProperty().subtract(48));
+        }
+        if (monstre instanceof Armure) {
+            iv = new ImageView(Armure);
+            iv.setViewport(new Rectangle2D(0, 0, 80, 80));
+            iv.translateXProperty().bind(monstre.posXProperty().subtract(48));
+            iv.translateYProperty().bind(monstre.posYProperty().subtract(48));
+        }
+        if (monstre instanceof Kyryn) {
+            iv = new ImageView(Kyryn);
+            iv.setViewport(new Rectangle2D(0, 0, 80, 80));
+            iv.translateXProperty().bind(monstre.posXProperty().subtract(48));
+            iv.translateYProperty().bind(monstre.posYProperty().subtract(48));
+        }
+
         this.hashMap.put(monstre, iv);
         this.pane.getChildren().add(iv);
     }
@@ -150,7 +168,7 @@ public class MonstreVue {
             int hauteurCaseNargacuga = 100;
 
             Timeline nargacugaMarche = new Timeline(
-                    new KeyFrame(Duration.millis(150), event -> {
+                    new KeyFrame(Duration.millis(100), event -> {
                         int x = frameIndex[0] % 2;
                         int y = frameIndex[0] / 2;
 
@@ -165,6 +183,64 @@ public class MonstreVue {
             this.hashMapAnimation.put(monstre, nargacugaMarche);
             nargacugaMarche.setCycleCount(Animation.INDEFINITE);
             nargacugaMarche.play();
+        }
+
+        else if (monstre instanceof Dino) {
+            int[] frameIndex = {0};
+            int largeurCaseDino = 80;
+            int hauteurCaseDino = 80;
+
+            Timeline dinoMarche = new Timeline(
+                    new KeyFrame(Duration.millis(100), event -> {
+                        int x = frameIndex[0] % 2;
+                        int y = frameIndex[0] / 2;
+
+                        iv.setViewport(new Rectangle2D(x * largeurCaseDino, y * hauteurCaseDino, largeurCaseDino, hauteurCaseDino));
+
+                        frameIndex[0]++;
+                        if (frameIndex[0] >= 3) {
+                            frameIndex[0] = 0;
+                        }
+                    })
+            );
+            this.hashMapAnimation.put(monstre, dinoMarche);
+            dinoMarche.setCycleCount(Animation.INDEFINITE);
+            dinoMarche.play();
+        }
+        else if (monstre instanceof Armure) {
+            int largeurCaseArmure = 80;
+            int hauteurCaseArmure = 80;
+            int[] frameIndex = {0};
+
+            Timeline armureMarche = new Timeline(
+                    new KeyFrame(Duration.millis(150), e -> {
+                        int x = frameIndex[0] % 2;
+                        int y = frameIndex[0] / 2;
+                        iv.setViewport(new Rectangle2D(x * largeurCaseArmure, y * hauteurCaseArmure, largeurCaseArmure, hauteurCaseArmure));
+                        frameIndex[0] = (frameIndex[0] + 1) % 4;
+                    })
+            );
+            this.hashMapAnimation.put(monstre, armureMarche);
+            armureMarche.setCycleCount(Animation.INDEFINITE);
+            armureMarche.play();
+        }
+
+        else if (monstre instanceof Kyryn) {
+            int largeurCaseKyryn = 80;
+            int hauteurCaseKyryn = 80;
+            int[] frameIndex = {0};
+
+            Timeline kyrynMarche = new Timeline(
+                    new KeyFrame(Duration.millis(150), e -> {
+                        int x = frameIndex[0] % 3;
+                        int y = frameIndex[0] / 3;
+                        iv.setViewport(new Rectangle2D(x * largeurCaseKyryn, y * hauteurCaseKyryn, largeurCaseKyryn, hauteurCaseKyryn));
+                        frameIndex[0] = (frameIndex[0] + 1) % 6;
+                    })
+            );
+            this.hashMapAnimation.put(monstre, kyrynMarche);
+            kyrynMarche.setCycleCount(Animation.INDEFINITE);
+            kyrynMarche.play();
         }
 
 
