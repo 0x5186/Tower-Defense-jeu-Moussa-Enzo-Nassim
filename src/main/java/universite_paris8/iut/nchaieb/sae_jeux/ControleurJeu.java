@@ -5,6 +5,7 @@ import javafx.animation.Timeline;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -23,6 +24,11 @@ import universite_paris8.iut.nchaieb.sae_jeux.modele.Environnement;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Terrain;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.CombinaisonValables;
 import universite_paris8.iut.nchaieb.sae_jeux.vue.*;
+import javafx.collections.ListChangeListener;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.Artefacts.Artefact;
 
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
@@ -37,6 +43,10 @@ public class ControleurJeu implements Initializable {
 
 
 
+    @FXML
+    private javafx.scene.layout.HBox panneauInventaire;
+    @FXML
+    private javafx.scene.control.Button boutonOuvrirInventaire;
     @FXML
     private TilePane tilePane;
     @FXML
@@ -145,10 +155,9 @@ public class ControleurJeu implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        temps= new SimpleIntegerProperty(0);
+        temps = new SimpleIntegerProperty(0);
 
-        this.documentation=new Documentation();
-
+        this.documentation = new Documentation();
 
         JouerSon musiqueFond = null;
         try {
@@ -167,29 +176,24 @@ public class ControleurJeu implements Initializable {
 //            musiqueFond.currentFrame= Long.valueOf(5);
 //        }
 
-
-
         this.terrain = new Terrain();
 
-
-        this.page=0;
+        this.page = 0;
         symbolesPagePrecedente.setVisible(false);
         symbolesPageSuivante.setVisible(false);
 
-
-        this.fioleVue= new FioleVue(stackPane);
-        this.sourisVue= new SourisVue(stackPane);
-        this.monstreVue= new MonstreVue(this.pane);
+        this.fioleVue = new FioleVue(stackPane);
+        this.sourisVue = new SourisVue(stackPane);
+        this.monstreVue = new MonstreVue(this.pane);
         this.interfaceVue = new InterfaceVue(stackPane, livre);
 
         this.terrainVue = new TerrainVue(terrain, tilePane);
         this.tutorielVue = new TutorielVue(stackPane);
 
-
         System.out.println(Main.map);
         terrainVue.dessine(Main.map, this.pane);
-        environnement= new Environnement(this.terrain);
-        this.baseVue= new BaseVue(this.pane, this.environnement.getBase());
+        environnement = new Environnement(this.terrain);
+        this.baseVue = new BaseVue(this.pane, this.environnement.getBase());
         MonObservateurMonstre observateurMonstres = new MonObservateurMonstre(pane, this.baseVue);
         MonObservateurTour monObservateurTour = new MonObservateurTour(pane);
         MonObservateurSortsTours monObservateurSortsTours = new MonObservateurSortsTours(pane);
@@ -198,14 +202,9 @@ public class ControleurJeu implements Initializable {
         System.out.println(this.baseVue);
         this.symbolesPageSuivante.setVisible(false);
 
-
-
         environnement.getLesMonstres().addListener(observateurMonstres);
         environnement.getLesTours().addListener(monObservateurTour);
         environnement.getLesProjectiles().addListener(monObservateurSortsTours);
-
-
-
 
         this.fioleVue.setFiole(fiole,this.environnement.getArgent());
 //        this.nombreEncre.textProperty().bindBidirectional(this.environnement.argentProperty().asObject(), new NumberStringConverter());
@@ -216,16 +215,13 @@ public class ControleurJeu implements Initializable {
         );
         baseVue.ajouterSprite(this.environnement.getBase());
         this.environnement.argentProperty().addListener((observable, oldValue, newValue) -> {
-            int nouvelleValeur=(int) newValue ;
+            int nouvelleValeur = (int) newValue ;
             this.fioleVue.setFiole(fiole,nouvelleValeur);
-
-
         });
+
         initAnimation();
 
-
-
-        if(stackPane!=null){
+        if(stackPane != null){
             stackPane.setOnMouseClicked(event -> {
 
                 if (environnement.isModePlacementTour()) {
@@ -248,17 +244,10 @@ public class ControleurJeu implements Initializable {
                         this.interfaceVue.viderSumbolesAffiches();
                         this.monObservateurSymbole.setCompteur(0);
                         this.sourisVue.retirerImageSouris();
-
-
-
                     }
                 }
             });
         }
-
-
-
-
 
         try {
             gameLoop.play();
@@ -266,17 +255,14 @@ public class ControleurJeu implements Initializable {
             initAnimation();
         }
 
-        //Partie symbole
         this.monObservateurSymbole = new MonObservateurSymbole(this.interfaceVue);
         this.environnement.getSymbolesProperty().addListener(monObservateurSymbole);
         this.interfaceVue.dessinMenu();
 
-
-        //partie tuto
         MonObservateurTutoriel monObservateurTutoriel = new MonObservateurTutoriel(this.tutorielVue);
         this.tutorielVue.tutoProperty().addListener(monObservateurTutoriel);
         this.boutonPageSuivante.setVisible(false);
-
+        initialiserInventaireVue();
     }
 
 
@@ -286,6 +272,35 @@ public class ControleurJeu implements Initializable {
     @FXML
     public void AjouterMonstreEnnemi() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         this.environnement.ajouterMonstre();
+    }
+
+    public void initialiserInventaireVue(){
+        ObservableList<Artefact> listeArtefacts = environnement.getInventaire().getLesArtefacts();
+        listeArtefacts.addListener((ListChangeListener<Artefact>) change -> {
+            boutonOuvrirInventaire.setText("Sac (" + listeArtefacts.size() + ")");
+            panneauInventaire.getChildren().clear();
+            for (Artefact artefact : listeArtefacts) {
+                ImageView imageObjet = new ImageView();
+                try {
+                    imageObjet.setImage(new Image(Main.class.getResourceAsStream(artefact.getCheminImage())));
+                } catch (Exception e) {
+                    System.out.println("Erreur de chargement de l'image : " + artefact.getCheminImage());
+                }
+                imageObjet.setFitWidth(40);
+                imageObjet.setFitHeight(40);
+                StackPane caseInventaire = new StackPane(imageObjet);
+                caseInventaire.setStyle("-fx-background-color: #8b8b8b; -fx-border-color: #373737; -fx-border-width: 2px; -fx-padding: 4px;");
+                panneauInventaire.getChildren().add(caseInventaire);
+            }
+        });
+    }
+
+
+    @FXML
+    public void ouvrirFermerInventaire() {
+        if (panneauInventaire != null) {
+            panneauInventaire.setVisible(!panneauInventaire.isVisible());
+        }
     }
 
     @FXML
@@ -416,6 +431,12 @@ public class ControleurJeu implements Initializable {
 
 
     }
+
+
+
+
+
+
     @FXML
     public void boutonGererPages(ActionEvent event){
         for (Node p : paneSymboles.getChildren()) {

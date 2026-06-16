@@ -3,10 +3,13 @@ package universite_paris8.iut.nchaieb.sae_jeux.modele;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.Artefacts.Inventaire;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.SortTours.SortTour;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Tours.Tour;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Tours.TourGlace;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.monstres.*;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.Artefacts.*;
+
 
 public class Environnement {
 	private IntegerProperty nbTours;
@@ -16,6 +19,7 @@ public class Environnement {
 	protected ObservableList<SortTour> sortTours;
 	private Terrain terrain;
 	private IntegerProperty argent;
+	private Inventaire inventaire = new Inventaire();
 
 	private Symboles symboles;
 	private final BooleanProperty modePlacementTour;
@@ -72,6 +76,7 @@ public class Environnement {
 	public void setModePlacementTour(boolean modePlacementTour) { this.modePlacementTour.set(modePlacementTour); }
 	public void ajouterProjectiles(SortTour sortTour) { this.sortTours.add(sortTour); }
 	public ObservableList<SortTour> getLesProjectiles() { return sortTours; }
+	public Inventaire getInventaire(){return this.inventaire;}
 
 	public void ajouterMonstre() {
 		Monstre monstre = new Nargacuga(this.terrain);
@@ -149,9 +154,19 @@ public class Environnement {
 		if (this.lesMonstres != null && !this.lesMonstres.isEmpty()) {
 			for (int i = this.lesMonstres.size() - 1; i >= 0; i--) {
 				Monstre m = this.lesMonstres.get(i);
+
 				if (!m.estVivant()) {
 					this.setArgent(this.getArgent() + m.getRecompense());
+
+					if(Math.random() < 0.15){
+						if (Math.random() < 0.5) {
+							this.inventaire.ajouterArtefact(new Epee());
+						} else {
+							this.inventaire.ajouterArtefact(new Baguette());
+						}
+					}
 					this.lesMonstres.remove(i);
+
 				} else if (m.aAtteintSaCible()) {
 					this.lesMonstres.remove(i);
 				} else {

@@ -4,11 +4,15 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.ObservableList;
 import universite_paris8.iut.nchaieb.sae_jeux.Outils;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.Artefacts.Artefact;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Base;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Entite;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.SortTours.Projectile;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.SortTours.SortTour;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.monstres.Monstre;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.Artefacts.Baguette;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.Artefacts.Epee;
+
 
 public class Tour extends Entite {
 
@@ -16,8 +20,9 @@ public class Tour extends Entite {
     private IntegerProperty posX;
     private IntegerProperty posY;
     protected int portee;
-
     private int atq;
+    private Epee epeeEquipee = null;
+    private Baguette baguetteEquipee = null;
 
     private IntegerProperty cooldown;
     private int cooldownPourAction; //temps de chargement d'une attaque
@@ -184,6 +189,21 @@ public class Tour extends Entite {
             monstre.retirerPV(this.atq);
 
         }
+    }
+
+    public boolean equiperArtefact(Artefact artefact){
+        if(artefact instanceof Epee && this.epeeEquipee == null){
+            this.epeeEquipee = (Epee) artefact;
+            this.atq += this.epeeEquipee.getBonusAtq();
+            return true;
+        }
+        else if (artefact instanceof Baguette && this.baguetteEquipee == null){
+            this.baguetteEquipee = (Baguette) artefact;
+            this.cooldownPourAction -= this.baguetteEquipee.getReductionCooldown();
+            return true;
+        }
+        System.out.println("Impossible d'équiper cet artéfact sur cette tour");
+        return false;
     }
 }
 
