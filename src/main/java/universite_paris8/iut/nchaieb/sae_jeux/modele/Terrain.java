@@ -2,9 +2,11 @@ package universite_paris8.iut.nchaieb.sae_jeux.modele;
 
 public class Terrain {
     private int[][] codeTuiles;
+    private boolean[][] casesBloquees;
 
     public Terrain() {
         codeTuiles = new int[25][60];
+        casesBloquees = new boolean[25][60];
 
         // Ligne du haut (Spawn 1)
         for (int colonne = 0; colonne <= 45; colonne++) codeTuiles[8][colonne] = 2;
@@ -36,25 +38,33 @@ public class Terrain {
 
         for (int ligne = 11; ligne <= 22; ligne++) codeTuiles[ligne][50] = 8;
         for (int ligne = 11; ligne <= 22; ligne++) codeTuiles[ligne][51] = 7;
+
         codeTuiles[7][24] = 3;
         codeTuiles[7][25] = 4;
         codeTuiles[8][24] = 5;
         codeTuiles[8][25] = 6;
-
-
     }
 
     public int hauteur() { return codeTuiles.length; }
     public int largeur() { return codeTuiles[0].length; }
     public int codeTuile(int ligne, int col) { return codeTuiles[ligne][col]; }
 
+    public boolean estCheminNaturel(int colonne, int ligne) {
+        if (colonne < 0 || colonne >= largeur() || ligne < 0 || ligne >= hauteur()) return false;
+
+        int tuile = codeTuiles[ligne][colonne];
+        return tuile == 1 || tuile == 2 || tuile == 4 || tuile == 5 || tuile == 6 || tuile == 7 || tuile == 8;
+    }
+
     public boolean estPraticable(int colonne, int ligne) {
         if (colonne < 0 || colonne >= largeur() || ligne < 0 || ligne >= hauteur()) return false;
-        return codeTuiles[ligne][colonne] == 1||codeTuiles[ligne][colonne] ==2
-                ||codeTuiles[ligne][colonne] ==4
-                ||codeTuiles[ligne][colonne] ==5
-                ||codeTuiles[ligne][colonne] ==6
-                ||codeTuiles[ligne][colonne] ==7
-                ||codeTuiles[ligne][colonne] ==8;
+        if (casesBloquees[ligne][colonne]) return false;
+        return estCheminNaturel(colonne, ligne);
+    }
+
+    public void setCaseBloquee(int colonne, int ligne, boolean bloquee) {
+        if (colonne >= 0 && colonne < largeur() && ligne >= 0 && ligne < hauteur()) {
+            casesBloquees[ligne][colonne] = bloquee;
+        }
     }
 }
