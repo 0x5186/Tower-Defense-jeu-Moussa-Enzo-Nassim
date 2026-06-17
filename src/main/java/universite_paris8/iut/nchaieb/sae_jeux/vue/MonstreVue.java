@@ -27,6 +27,8 @@ public class MonstreVue {
     Image Dino = new Image(Main.class.getResourceAsStream("images/dino.png"));
     Image Armure = new Image(Main.class.getResourceAsStream("images/armure.png"));
     Image Kyryn = new Image(Main.class.getResourceAsStream("images/kyryn.png"));
+    Image imageBossMarche = new Image(Main.class.getResourceAsStream("images/bossmarche.png"));
+    Image imageBossAttaque = new Image(Main.class.getResourceAsStream("images/bossattaque.png"));
 
     public MonstreVue(Pane pane) {
         this.pane = pane;
@@ -71,9 +73,34 @@ public class MonstreVue {
             iv.translateXProperty().bind(monstre.posXProperty().subtract(48));
             iv.translateYProperty().bind(monstre.posYProperty().subtract(48));
         }
+        else if (monstre instanceof Boss) {
+            iv = new ImageView(imageBossMarche);
+
+            int tailleVisuelle = 120;
+            iv.setFitWidth(tailleVisuelle);
+            iv.setFitHeight(tailleVisuelle);
+
+
+            int largeurCaseBoss = (int) (imageBossMarche.getWidth() / 2);
+            int hauteurCaseBoss = (int) (imageBossMarche.getHeight() / 3);
+            iv.setViewport(new Rectangle2D(0, 0, largeurCaseBoss, hauteurCaseBoss));
+
+            int offset = (tailleVisuelle - 32) / 2;
+
+            iv.translateXProperty().bind(monstre.posXProperty().subtract(tailleVisuelle/2.0));
+            iv.translateYProperty().bind(monstre.posYProperty().subtract(tailleVisuelle - 20));
+
+            monstre.actionActuelleProperty().addListener((obs, oldAction, newAction) -> {
+                animationMarche(monstre);
+            });
+        }
 
         this.hashMap.put(monstre, iv);
         this.pane.getChildren().add(iv);
+
+        if (monstre instanceof Boss) {
+            animationMarche(monstre);
+        }
 
         double largeurBarre = 36;
         double hauteurBarre = 6;
@@ -135,8 +162,10 @@ public class MonstreVue {
     }
 
     public void animationMarche(Entite monstre) {
-        ImageView iv = this.hashMap.get(monstre);
+        ImageView iv = this.hashMap.get((Monstre)monstre);
         if (iv == null) return;
+
+        stopAnimation((Monstre)monstre);
 
         int largeurCase;
         int hauteurCase;
@@ -260,6 +289,49 @@ public class MonstreVue {
             kyrynMarche.setCycleCount(Animation.INDEFINITE);
             kyrynMarche.play();
         }
+        else if (monstre instanceof Boss) {
+            String action = monstre.getActionActuelle();
+
+            if (action == null || action.equals("marche") || action.equals("fixe")) {
+                iv.setImage(imageBossMarche);
+
+                int largeurCaseBoss = (int) (imageBossMarche.getWidth() / 2);
+                int hauteurCaseBoss = (int) (imageBossMarche.getHeight() / 3);
+                int[] frameIndex = {0};
+
+                Timeline bossMarche = new Timeline(
+                        new KeyFrame(Duration.millis(150), e -> {
+                            int x = frameIndex[0] % 2; // 2 colonnes
+                            int y = frameIndex[0] / 2; // 3 lignes
+                            iv.setViewport(new Rectangle2D(x * largeurCaseBoss, y * hauteurCaseBoss, largeurCaseBoss, hauteurCaseBoss));
+                            frameIndex[0] = (frameIndex[0] + 1) % 6;
+                        })
+                );
+                this.hashMapAnimation.put((Monstre)monstre, bossMarche);
+                bossMarche.setCycleCount(Animation.INDEFINITE);
+                bossMarche.play();
+            }
+
+            else if (action.equals("attaque")) {
+                iv.setImage(imageBossAttaque);
+
+                int largeurCaseBoss = (int) (imageBossAttaque.getWidth() / 2);
+                int hauteurCaseBoss = (int) (imageBossAttaque.getHeight() / 3);
+                int[] frameIndex = {0};
+
+                Timeline bossAttaque = new Timeline(
+                        new KeyFrame(Duration.millis(120), e -> {
+                            int x = frameIndex[0] % 2;
+                            int y = frameIndex[0] / 2;
+                            iv.setViewport(new Rectangle2D(x * largeurCaseBoss, y * hauteurCaseBoss, largeurCaseBoss, hauteurCaseBoss));
+                            frameIndex[0] = (frameIndex[0] + 1) % 6;
+                        })
+                );
+                this.hashMapAnimation.put((Monstre)monstre, bossAttaque);
+                bossAttaque.setCycleCount(Animation.INDEFINITE);
+                bossAttaque.play();
+            }
+        }
     }
 
     public void animationMort(Monstre monstre) {
@@ -307,6 +379,15 @@ public class MonstreVue {
                 fade.play();
             });
             squeletteMort.play();
+        }
+        else if (monstre instanceof Boss) {
+            FadeTransition fade = new FadeTransition(Duration.seconds(3), iv);
+            fade.setFromValue(1.0);
+            fade.setToValue(0.0);
+            fade.setOnFinished(fadeEvent -> {
+                this.retirer(monstre);
+            });
+            fade.play();
         }
         else {
             this.retirer(monstre);

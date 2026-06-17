@@ -22,23 +22,16 @@ public class MonObservateurMonstre implements ListChangeListener<Monstre> {
         System.out.println(baseVue);
     }
 
-
-
     private void creerSprite(Monstre monstreDeBase) {
         this.monstreVue.ajouterSprite(monstreDeBase);
     }
 
     private void mort(Monstre monstre) {
-
         this.monstreVue.animationMort(monstre);
-
     }
 
-
     private void enleverSprite(Monstre monstre) {
-
         this.monstreVue.retirer(monstre);
-
     }
 
     @Override
@@ -50,31 +43,24 @@ public class MonObservateurMonstre implements ListChangeListener<Monstre> {
                 for (Monstre nouveau : change.getAddedSubList()) {
 
                     creerSprite(nouveau);
-                    nouveau.getActionActuelle().addListener((observable, oldValue, newValue) -> {
 
+                    nouveau.actionActuelleProperty().addListener((observable, oldValue, newValue) -> {
 //                        if (newValue.equals("fixe")) {
 //                        }
                         if (newValue.equals("marche")) {
                             this.monstreVue.animationMarche(nouveau);
                         }
-
                     });
+
                     nouveau.pvProperty().addListener((observable, oldValue, newValue) -> {
-
-//
-                        if (newValue.equals(0)) {
-                            this.monstreVue.animationMarche(nouveau);
-                        }
-
+//                         if (newValue.equals(0)) {
+                        this.monstreVue.animationMarche(nouveau);
                     });
-
-                }System.out.println(baseVue);
-
+                }
+                System.out.println(baseVue);
                 if(this.baseVue!=null) {
-
                     this.baseVue.rechargerpart2();
                 }
-
             }
             if(change.wasRemoved()) {
                 System.out.println("je suis morttttttttttttt");
@@ -82,7 +68,6 @@ public class MonObservateurMonstre implements ListChangeListener<Monstre> {
                     enleverSprite(mort);
                 }
             }
-
         }
     }
 }

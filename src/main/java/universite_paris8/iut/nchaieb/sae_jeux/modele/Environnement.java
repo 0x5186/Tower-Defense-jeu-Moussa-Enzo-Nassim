@@ -12,7 +12,6 @@ import universite_paris8.iut.nchaieb.sae_jeux.modele.monstres.*;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Artefacts.*;
 
 public class Environnement {
-	private IntegerProperty nbTours;
 
 	private Base base;
 	private ObservableList<Tour> lesTours;
@@ -26,7 +25,6 @@ public class Environnement {
 
 	private Symboles symboles; // Liste des symboles
 	private ObservableList<Decor> lesDecors;
-	// Pour savoir si on est en train de placer une tour ou pas
 	private final BooleanProperty modePlacementTour;
 
 	// Système de vagues
@@ -43,7 +41,6 @@ public class Environnement {
 
 	public Environnement(Terrain terrain, Button boutonCorneDeBrume) {
 		this.terrain = terrain;
-		this.nbTours = new SimpleIntegerProperty();
 		this.lesTours = FXCollections.observableArrayList();
 		this.lesMonstres = FXCollections.observableArrayList();
 		this.symboles = new Symboles();
@@ -167,6 +164,7 @@ public class Environnement {
 			case 3: monstre = new Dino(this.terrain); break;
 			case 4: monstre = new Armure(this.terrain); break;
 			case 5: monstre = new Kyryn(this.terrain); break;
+			case 6: monstre = new Boss(this.terrain); break; // Apparition du boss !
 		}
 		if (monstre != null) {
 			this.lesMonstres.add(monstre);
@@ -195,10 +193,14 @@ public class Environnement {
 			}
 		}
 
-		// Gestion des tours
 		if (!(this.lesTours == null) && !this.lesTours.isEmpty()) {
-			for (int i = 0; i < this.lesTours.size(); i++) {
-				this.lesTours.get(i).agir(this.lesMonstres, this.base, this.sortTours);
+			for (int i = this.lesTours.size() - 1; i >= 0; i--) {
+				Tour t = this.lesTours.get(i);
+				if (!t.estVivant()) {
+					this.lesTours.remove(i);
+				} else {
+					t.agir(this.lesMonstres, this.base, this.sortTours);
+				}
 			}
 		}
 
@@ -241,7 +243,7 @@ public class Environnement {
 					System.out.println("Monstre tué");
 					this.setArgent(this.getArgent() + m.getRecompense());
 
-					// Système de loot (Artefacts) intégré de la Version 1
+					// Système de loot
 					if(Math.random() < 0.15){
 						if (Math.random() < 0.5) {
 							this.inventaire.ajouterArtefact(new Epee());
@@ -255,7 +257,7 @@ public class Environnement {
 					System.out.println(this.argent);
 					this.lesMonstres.remove(i);
 				} else {
-					m.agir(this.lesMonstres, this.terrain, this.base);
+					m.agir(this.lesMonstres, this.terrain, this.base, this.lesTours);
 				}
 			}
 		}

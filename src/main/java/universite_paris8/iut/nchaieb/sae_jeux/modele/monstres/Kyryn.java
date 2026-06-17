@@ -2,6 +2,7 @@ package universite_paris8.iut.nchaieb.sae_jeux.modele.monstres;
 import javafx.collections.ObservableList;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Terrain;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Base;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.Tours.Tour;
 
 public class Kyryn extends Monstre {
 
@@ -16,8 +17,8 @@ public class Kyryn extends Monstre {
     }
 
     @Override
-    public void agir(ObservableList<Monstre> collegues, Terrain terrain, Base base) {
-        super.agir(collegues, terrain, base);
+    public void agir(ObservableList<Monstre> collegues, Terrain terrain, Base base, ObservableList<Tour> lesTours) {
+        super.agir(collegues, terrain, base, lesTours);
         this.compteurTicks++;
 
         if (this.compteurTicks >= 300) {

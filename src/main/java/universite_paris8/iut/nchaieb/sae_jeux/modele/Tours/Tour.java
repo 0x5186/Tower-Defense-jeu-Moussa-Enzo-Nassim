@@ -26,7 +26,8 @@ public class Tour extends Entite {
 
     private IntegerProperty cooldown;
     private int cooldownPourAction; //temps de chargement d'une attaque
-
+    private IntegerProperty pv;
+    private int pvMax;
 
     private int cout;
 
@@ -37,7 +38,8 @@ public class Tour extends Entite {
         this.posY = new SimpleIntegerProperty(y);
         this.atq=atq;
         this.portee = portee;
-
+        this.pvMax = 30;
+        this.pv = new SimpleIntegerProperty(this.pvMax);
 
         this.cooldown= new SimpleIntegerProperty(0);
         this.cooldownPourAction=cooldownPourAction;
@@ -45,6 +47,12 @@ public class Tour extends Entite {
         this.cout=cout;
         this.outils=new Outils();
     }
+
+    public int getPv(){return this.pv.get();}
+
+    public IntegerProperty pvProperty(){return this.pv;}
+
+    public int getPvMax(){return this.pvMax;}
 
     public int getCout() {
         return cout;
@@ -205,6 +213,14 @@ public class Tour extends Entite {
             return true;
         }
         return false;
+    }
+
+    public void retirerPv(int degats ) {
+        this.pv.set(Math.max(0, this.pv.get() - degats));
+    }
+
+    public boolean estVivant(){
+        return this.pv.get() > 0;
     }
 }
 

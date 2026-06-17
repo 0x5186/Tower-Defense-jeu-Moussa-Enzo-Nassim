@@ -103,6 +103,21 @@ public class TourVue {
         }
     }
 
+
+    public void retirerSprite(Tour tour) {
+        if (this.hashMapAnimation.containsKey(tour)) {
+            javafx.animation.Timeline animation = (javafx.animation.Timeline) this.hashMapAnimation.get(tour);
+            animation.stop();
+            this.hashMapAnimation.remove(tour);
+        }
+
+        if (this.hashMap.containsKey(tour)) {
+            javafx.scene.Node image = (javafx.scene.Node) this.hashMap.get(tour);
+            this.pane.getChildren().remove(image);
+            this.hashMap.remove(tour);
+        }
+    }
+
     public void animationChargeAttaque(Tour tour) {
 
         ImageView iv = (ImageView) this.hashMap.get(tour);

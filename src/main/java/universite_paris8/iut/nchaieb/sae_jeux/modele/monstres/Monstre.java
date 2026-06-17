@@ -8,6 +8,7 @@ import universite_paris8.iut.nchaieb.sae_jeux.modele.Entite;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Noeud;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Terrain;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Base;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.Tours.Tour; // <-- IMPORT AJOUTÉ ICI
 
 import java.util.ArrayList;
 
@@ -58,7 +59,6 @@ public abstract class Monstre extends Entite {
             this.targetX = 26;
             this.targetY = 14;
         } else {
-            // Le nouveau Spawn sur le trait noir en bas à gauche (Ligne 22)
             this.setPosX(0);
             this.setPosY(22 * TAILLE_TUILE);
             this.targetX = 58;
@@ -76,7 +76,7 @@ public abstract class Monstre extends Entite {
         }
     }
 
-    public void agir(ObservableList<Monstre> collegues, Terrain terrain, Base base) {
+    public void agir(ObservableList<Monstre> collegues, Terrain terrain, Base base, ObservableList<Tour> lesTours) {
         if (!estBloqueParAllie(collegues)) {
             this.setActionActuelle("marche");
             this.avancer(terrain);
@@ -140,7 +140,7 @@ public abstract class Monstre extends Entite {
         // vérif si le monstre a atteint la case visée
         if (this.getPosX() == cibleX && this.getPosY() == cibleY) {
             this.chemin.remove(0);
-            // On retire le nœud atteint
+            // On retire le noeud atteint
 
             // Si le monstre a terminé son chemin actuel
             if (this.chemin.isEmpty()) {

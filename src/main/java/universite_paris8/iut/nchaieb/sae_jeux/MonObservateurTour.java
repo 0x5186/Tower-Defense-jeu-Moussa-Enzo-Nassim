@@ -27,9 +27,8 @@ public class MonObservateurTour implements ListChangeListener<Tour>{
 
 
 
-    private void enleverSprite(Entite entite) {
-
-
+    private void enleverSprite(Tour tour) {
+        this.tourVue.retirerSprite(tour);
     }
 
     @Override
@@ -52,7 +51,7 @@ public class MonObservateurTour implements ListChangeListener<Tour>{
 //                    });
 
 //
-//                    nouveau.getActionActuelle().addListener((observable, oldValue, newValue) -> {
+//                    nouveau.actionActuelleProperty().addListener((observable, oldValue, newValue) -> {
 //
 //                        if (newValue.equals("fixe")) {
 //
@@ -66,7 +65,7 @@ public class MonObservateurTour implements ListChangeListener<Tour>{
 //
 
 
-                    nouveau.getActionActuelle().addListener((observable, oldValue, newValue) -> {
+                    nouveau.actionActuelleProperty().addListener((observable, oldValue, newValue) -> {
 
                         if (newValue.equals("charge")){
                             this.tourVue.animationChargeAttaque(nouveau);
@@ -87,7 +86,7 @@ public class MonObservateurTour implements ListChangeListener<Tour>{
             }
             if(change.wasRemoved()) {
                 System.out.println("je suis morttttttttttttt");
-                for (Entite mort : change.getRemoved()) {
+                for (Tour mort : change.getRemoved()) {
                     enleverSprite(mort);
                 }
             }

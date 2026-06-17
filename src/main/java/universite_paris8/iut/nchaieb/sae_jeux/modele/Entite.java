@@ -61,14 +61,16 @@ public class Entite implements EntiteInterface{
 
 
 
-    public StringProperty getActionActuelle() {
-        return actionActuelle;
+    public String getActionActuelle() {
+        return actionActuelle.get();
     }
 
 
     public void setActionActuelle(String actionActuelle) {
         this.actionActuelle.set(actionActuelle);
+    }
 
-
+    public StringProperty actionActuelleProperty(){
+        return this.actionActuelle;
     }
 }
