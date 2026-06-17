@@ -191,18 +191,19 @@ public class Tour extends Entite {
         }
     }
 
-    public boolean equiperArtefact(Artefact artefact){
-        if(artefact instanceof Epee && this.epeeEquipee == null){
+    public boolean equiperArtefact(Artefact artefact) {
+        if (artefact instanceof Epee && this.epeeEquipee == null) {
             this.epeeEquipee = (Epee) artefact;
             this.atq += this.epeeEquipee.getBonusAtq();
+            System.out.println("Épée équipée ! Nouvelle attaque : " + this.atq);
             return true;
         }
-        else if (artefact instanceof Baguette && this.baguetteEquipee == null){
+        else if (artefact instanceof Baguette && this.baguetteEquipee == null) {
             this.baguetteEquipee = (Baguette) artefact;
             this.cooldownPourAction -= this.baguetteEquipee.getReductionCooldown();
+            System.out.println("Baguette équipée !");
             return true;
         }
-        System.out.println("Impossible d'équiper cet artéfact sur cette tour");
         return false;
     }
 }

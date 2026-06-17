@@ -26,8 +26,6 @@ import universite_paris8.iut.nchaieb.sae_jeux.modele.CombinaisonValables;
 import universite_paris8.iut.nchaieb.sae_jeux.vue.*;
 import javafx.collections.ListChangeListener;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.StackPane;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Artefacts.Artefact;
 
 import javax.sound.sampled.LineUnavailableException;
@@ -40,8 +38,6 @@ import java.util.ResourceBundle;
 public class ControleurJeu implements Initializable {
     private Environnement environnement;
     private ArrayList<CombinaisonValables> lesSorts;
-
-
 
     @FXML
     private javafx.scene.layout.HBox panneauInventaire;
@@ -118,14 +114,11 @@ public class ControleurJeu implements Initializable {
     private BaseVue baseVue;
     private FioleVue fioleVue;
 
+    private Artefact artefactSelectionne = null;
 
     private  int page;
 
     private MonObservateurMonstre observateur;
-
-
-
-
 
     private MonObservateurTutoriel monObservateurTutoriel;
     private MonObservateurSymbole monObservateurSymbole;
@@ -133,7 +126,6 @@ public class ControleurJeu implements Initializable {
 
     private void initAnimation() {
         gameLoop = new Timeline();
-
 
         KeyFrame kf = new KeyFrame(
                 Duration.seconds(0.01),
@@ -172,10 +164,6 @@ public class ControleurJeu implements Initializable {
         musiqueFond.setVolume(0.85f);
         musiqueFond.play();
 
-//        if(musiqueFond.currentFrame!=null && musiqueFond.currentFrame==8.5){
-//            musiqueFond.currentFrame= Long.valueOf(5);
-//        }
-
         this.terrain = new Terrain();
 
         this.page = 0;
@@ -207,7 +195,6 @@ public class ControleurJeu implements Initializable {
         environnement.getLesProjectiles().addListener(monObservateurSortsTours);
 
         this.fioleVue.setFiole(fiole,this.environnement.getArgent());
-//        this.nombreEncre.textProperty().bindBidirectional(this.environnement.argentProperty().asObject(), new NumberStringConverter());
         Bindings.bindBidirectional(
                 this.nombreEncre.textProperty(),
                 this.environnement.argentProperty(),
@@ -224,7 +211,42 @@ public class ControleurJeu implements Initializable {
         if(stackPane != null){
             stackPane.setOnMouseClicked(event -> {
 
-                if (environnement.isModePlacementTour()) {
+                if (artefactSelectionne != null) {
+
+                    universite_paris8.iut.nchaieb.sae_jeux.modele.Tours.Tour tourCliquee = null;
+                    for (universite_paris8.iut.nchaieb.sae_jeux.modele.Tours.Tour t : environnement.getLesTours()) {
+                        if (event.getX() >= t.getPosX() && event.getX() < t.getPosX() + 32 &&
+                                event.getY() >= t.getPosY() && event.getY() < t.getPosY() + 32) {
+                            tourCliquee = t;
+                            break;
+                        }
+                    }
+                    if (tourCliquee != null) {
+                        boolean equipe = tourCliquee.equiperArtefact(artefactSelectionne);
+
+                        if (equipe) {
+
+                            environnement.getInventaire().retirerArtefact(artefactSelectionne);
+
+                            int nouveauNombre = environnement.getInventaire().getLesArtefacts().size();
+                            boutonOuvrirInventaire.setText("Sac (" + nouveauNombre + ")");
+                            panneauInventaire.getChildren().clear();
+
+                            artefactSelectionne = null;
+                            stackPane.setCursor(javafx.scene.Cursor.DEFAULT);
+                            System.out.println("Artefact équipé avec succès sur la tour !");
+                        } else {
+                            System.out.println("Cette tour ne peut pas équiper cet artefact.");
+                            artefactSelectionne = null;
+                            stackPane.setCursor(javafx.scene.Cursor.DEFAULT);
+                        }
+                    } else {
+                        artefactSelectionne = null;
+                        stackPane.setCursor(javafx.scene.Cursor.DEFAULT);
+                    }
+                }
+
+                else if (environnement.isModePlacementTour()) {
                     if(this.environnement.tourPosable(event.getX(), event.getY())){
                         JouerSon sonInvocation = null;
                         try {
@@ -262,12 +284,9 @@ public class ControleurJeu implements Initializable {
         MonObservateurTutoriel monObservateurTutoriel = new MonObservateurTutoriel(this.tutorielVue);
         this.tutorielVue.tutoProperty().addListener(monObservateurTutoriel);
         this.boutonPageSuivante.setVisible(false);
+
         initialiserInventaireVue();
     }
-
-
-
-
 
     @FXML
     public void AjouterMonstreEnnemi() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
@@ -279,6 +298,7 @@ public class ControleurJeu implements Initializable {
         listeArtefacts.addListener((ListChangeListener<Artefact>) change -> {
             boutonOuvrirInventaire.setText("Sac (" + listeArtefacts.size() + ")");
             panneauInventaire.getChildren().clear();
+
             for (Artefact artefact : listeArtefacts) {
                 ImageView imageObjet = new ImageView();
                 try {
@@ -289,12 +309,25 @@ public class ControleurJeu implements Initializable {
                 imageObjet.setFitWidth(40);
                 imageObjet.setFitHeight(40);
                 StackPane caseInventaire = new StackPane(imageObjet);
-                caseInventaire.setStyle("-fx-background-color: #8b8b8b; -fx-border-color: #373737; -fx-border-width: 2px; -fx-padding: 4px;");
+
+                caseInventaire.setStyle("-fx-background-color: #8b8b8b; -fx-border-color: #373737; -fx-border-width: 2px; -fx-padding: 4px; -fx-cursor: hand;");
+
+                caseInventaire.setOnMouseClicked(event -> {
+                    this.artefactSelectionne = artefact;
+                    System.out.println("Objet en main : " + artefact.getNom());
+
+                    try {
+                        javafx.scene.image.Image imgCurseur = new javafx.scene.image.Image(Main.class.getResourceAsStream(artefact.getCheminImage()));
+                        stackPane.setCursor(new javafx.scene.ImageCursor(imgCurseur, 20, 20));
+                    } catch (Exception e) {
+                        System.out.println("Erreur curseur.");
+                    }
+                });
+
                 panneauInventaire.getChildren().add(caseInventaire);
             }
         });
     }
-
 
     @FXML
     public void ouvrirFermerInventaire() {
@@ -325,7 +358,6 @@ public class ControleurJeu implements Initializable {
                 case "croix":
                     System.out.println("croix ajouté");
                     symbole = "croix";
-
                     break;
                 case "goutte":
                     symbole = "goutte";
@@ -369,23 +401,18 @@ public class ControleurJeu implements Initializable {
                 this.environnement.getSymboles().ajouterSymbole(symbole);
             }
         }
-
     }
-
-
-
 
     @FXML
     public void validerPentacle() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
-//
         if (this.environnement.getSymboles().verifierCombinaison() &&  this.environnement.getArgent()>= this.documentation.prix(this.environnement.getSymboles().CombinaisonGetTourString())) {
             this.environnement.validerSymboles();
             this.sourisVue.ajouterImageSouris(this.environnement.getSymboles().CombinaisonGetTourString());
             JouerSon sonFiole = new JouerSon("src/main/resources/universite_paris8/iut/nchaieb/sae_jeux/Sons/fiole.wav",0);
             sonFiole.play();
-
         }
-        else { this.interfaceVue.viderSumbolesAffiches();
+        else {
+            this.interfaceVue.viderSumbolesAffiches();
             JouerSon sonErreur = new JouerSon("src/main/resources/universite_paris8/iut/nchaieb/sae_jeux/Sons/erreur.wav",0);
             sonErreur.play();
             this.monObservateurSymbole.setCompteur(0);
@@ -405,7 +432,6 @@ public class ControleurJeu implements Initializable {
         this.tutorielVue.changerPage();
     }
 
-
     @FXML
     public void couvertureLivre(){
         for (Node p : paneSymboles.getChildren()) {
@@ -422,20 +448,11 @@ public class ControleurJeu implements Initializable {
         }
         else {
             System.out.println(1);
-
             this.interfaceVue.animationLivrecouverture(this.fleche,this.boutonOuvrirLivre, this.symbolesPageSuivante);
             page=1;
             symbolesPagePrecedente.setVisible(false);
-
         }
-
-
     }
-
-
-
-
-
 
     @FXML
     public void boutonGererPages(ActionEvent event){
@@ -445,76 +462,52 @@ public class ControleurJeu implements Initializable {
 
         if(event.getSource()==this.symbolesPageSuivante)
             this.page++;
-
         else if (event.getSource()==this.symbolesPagePrecedente) {
             page--;
         }
 
         switch (this.page) {
             case 1:
-
-
                 this.interfaceVue.animationLivrepage(fleche, this.boutonOuvrirLivre, this.symbolesPageSuivante);
                 break;
             case 2:
-
                 this.interfaceVue.animationLivrepage(oeil, this.boutonOuvrirLivre, this.symbolesPageSuivante);
                 break;
             case 3:
-
                 this.interfaceVue.animationLivrepage(this.crystal, this.boutonOuvrirLivre, this.symbolesPageSuivante);
                 break;
             case 4:
-
                 this.interfaceVue.animationLivrepage(this.note, this.boutonOuvrirLivre, this.symbolesPageSuivante);
                 break;
-
             case 5:
-
                 this.interfaceVue.animationLivrepage(this.croix, this.boutonOuvrirLivre, this.symbolesPageSuivante);
                 break;
-
             case 6:
-
                 this.interfaceVue.animationLivrepage(this.eclipse, this.boutonOuvrirLivre, this.symbolesPageSuivante);
                 break;
             case 7:
-
                 this.interfaceVue.animationLivrepage(this.triangle, this.boutonOuvrirLivre, this.symbolesPageSuivante);
                 break;
             case 8:
-
                 this.interfaceVue.animationLivrepage(this.tomoe, this.boutonOuvrirLivre, this.symbolesPageSuivante);
                 break;
-
             case 9:
-
                 this.interfaceVue.animationLivrepage(this.corne, this.boutonOuvrirLivre, this.symbolesPageSuivante);
                 break;
             case 10:
-
                 this.interfaceVue.animationLivrepage(this.feu, this.boutonOuvrirLivre, this.symbolesPageSuivante);
                 break;
-
             case 11:
-
                 this.interfaceVue.animationLivrepage(this.gouttedeau, this.boutonOuvrirLivre, this.symbolesPageSuivante);
                 break;
             case 12:
-
                 this.interfaceVue.animationLivrepage(this.flocon, this.boutonOuvrirLivre, this.symbolesPageSuivante);
                 break;
             case 13:
-
                 this.interfaceVue.animationLivrepage(this.spirale, this.boutonOuvrirLivre, this.symbolesPageSuivante);
                 break;
-
-
-
-
-
-
         }
+
         if(page==1){
             symbolesPagePrecedente.setVisible(false);
         }
@@ -527,17 +520,5 @@ public class ControleurJeu implements Initializable {
         else{
             symbolesPageSuivante.setVisible(true);
         }
-//        if(this.page.get()>0){
-//            this.symbolesPageSuivante.setVisible(true);
-//        }
-//        else{
-//            this.symbolesPageSuivante.setVisible(false);
-//        }
     }
-
-
-
-
-
 }
-
