@@ -26,7 +26,7 @@ public class ControleurMenu implements Initializable {
         } catch (LineUnavailableException e) {
             throw new RuntimeException(e);
         }
-        musiqueFond.setVolume(0.5f);
+        musiqueFond.setVolume(0.75f);
         musiqueFond.play();
 
 

@@ -3,6 +3,7 @@ package universite_paris8.iut.nchaieb.sae_jeux.modele;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Button;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Artefacts.Inventaire;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.SortTours.SortTour;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Tours.Tour;
@@ -10,18 +11,22 @@ import universite_paris8.iut.nchaieb.sae_jeux.modele.Tours.TourGlace;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.monstres.*;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Artefacts.*;
 
-
 public class Environnement {
 	private IntegerProperty nbTours;
+
 	private Base base;
 	private ObservableList<Tour> lesTours;
 	private ObservableList<Monstre> lesMonstres;
 	protected ObservableList<SortTour> sortTours;
 	private Terrain terrain;
 	private IntegerProperty argent;
+
+	// Système d'inventaire
 	private Inventaire inventaire = new Inventaire();
 
-	private Symboles symboles;
+	private Symboles symboles; // Liste des symboles
+	private ObservableList<Decor> lesDecors;
+	// Pour savoir si on est en train de placer une tour ou pas
 	private final BooleanProperty modePlacementTour;
 
 	// Système de vagues
@@ -33,14 +38,16 @@ public class Environnement {
 	private int compteurSpawn;
 	private boolean pauseEntreVagues;
 	private int compteurPause;
+	private Button boutonCorneDeBrume;
 
-	public Environnement(Terrain terrain) {
+
+	public Environnement(Terrain terrain, Button boutonCorneDeBrume) {
 		this.terrain = terrain;
 		this.nbTours = new SimpleIntegerProperty();
 		this.lesTours = FXCollections.observableArrayList();
 		this.lesMonstres = FXCollections.observableArrayList();
 		this.symboles = new Symboles();
-		this.sortTours = FXCollections.observableArrayList();
+		this.sortTours= FXCollections.observableArrayList();
 
 		this.argent = new SimpleIntegerProperty(100);
 		this.base = new Base();
@@ -56,34 +63,95 @@ public class Environnement {
 		this.pauseEntreVagues = true;
 		this.compteurPause = 300;
 		this.compteurSpawn = 0;
+
+		// Partie décor
+		this.lesDecors = FXCollections.observableArrayList();
+		Fleur fleur1 = new Fleur(300, 150);
+		Fleur fleur2 = new Fleur(600, 370);
+		Fleur fleur3 = new Fleur(800, 100);
+		Fleur fleur4 = new Fleur(900, 600);
+		Fleur fleur5 = new Fleur(1500, 350);
+		Decor pillier = new Decor(990, 5, 0.3, "pillier");
+		Decor rocher1 = new Decor(1470, 40, 0.15, "rocher");
+		Decor rocher2 = new Decor(200, -80, 0.15, "rocher");
+		Decor rocher3 = new Decor(-30, 180, 0.15, "rocher");
+		Decor arbre1 = new Decor(0, 270, 0.7, "arbre");
+		Decor arbre2 = new Decor(1500, -60, 0.6, "arbre");
+//     Marre marre = new Marre(800, 250);
+
+		this.lesDecors.addAll(fleur1, fleur2, fleur3, fleur4, fleur5, pillier, rocher1, rocher2, arbre1, rocher3, arbre2);
+		this.boutonCorneDeBrume = boutonCorneDeBrume;
 	}
 
 	// --- Getters / Setters ---
+
 	public IntegerProperty argentProperty() { return this.argent; }
+
 	public int getArgent() { return this.argent.getValue(); }
+
 	public void setArgent(int montant) {
-		if (montant > 100) this.argent.set(100);
-		else this.argent.set(Math.max(montant, 0));
+		System.out.println("Argent avant = " + this.argent.get());
+		System.out.println("Nouvelle valeur = " + montant);
+
+		if(montant > 100)
+			this.argent.set(100);
+		else
+			this.argent.set(Math.max(montant, 0));
+
+		System.out.println("Argent après = " + this.argent.get());
 	}
 
 	public ObservableList<Monstre> getLesMonstres() { return lesMonstres; }
+
 	public ObservableList<Tour> getLesTours() { return this.lesTours; }
+
 	public Symboles getSymboles() { return symboles; }
+
 	public ObservableList<String> getSymbolesProperty() { return symboles.getCombinaison(); }
+
 	public Base getBase() { return base; }
+
 	public boolean isModePlacementTour() { return modePlacementTour.get(); }
+
 	public BooleanProperty modePlacementTourProperty() { return modePlacementTour; }
+
 	public void setModePlacementTour(boolean modePlacementTour) { this.modePlacementTour.set(modePlacementTour); }
-	public void ajouterProjectiles(SortTour sortTour) { this.sortTours.add(sortTour); }
+
+	public void ajouterProjectiles(SortTour sortTour){ this.sortTours.add(sortTour); }
+
 	public ObservableList<SortTour> getLesProjectiles() { return sortTours; }
-	public Inventaire getInventaire(){return this.inventaire;}
+
+	public void setPauseEntreVagues(boolean pauseEntreVagues) { this.pauseEntreVagues = pauseEntreVagues; }
+
+	public int getNumeroVague() { return numeroVague.get(); }
+
+	public IntegerProperty numeroVagueProperty() { return numeroVague; }
+
+	public int getCompteurSpawn() { return compteurSpawn; }
+
+	public void setCompteurSpawn(int compteurSpawn) { this.compteurSpawn = compteurSpawn; }
+
+	public Inventaire getInventaire() { return this.inventaire; }
+
+	public ObservableList<Decor> getLesDecors() { return this.lesDecors; }
+
+	// --- Méthodes Métier ---
+
+	public void ajouterTour(Tour tour){
+		System.out.println("tour prete");
+		if (tour instanceof TourGlace) {
+			((TourGlace) tour).setTerrain(this.terrain);
+		}
+		this.lesTours.add(tour);
+		this.setArgent(this.getArgent() - tour.getCout());
+	}
 
 	public void ajouterMonstre() {
-		Monstre monstre = new Nargacuga(this.terrain);
+		Monstre monstre = new Sorcier(this.terrain); // Ou Nargacuga selon ta préférence
 		lesMonstres.add(monstre);
 	}
 
-	private void preparerVague(int numero) {
+	public void preparerVague(int numero) {
 		if (this.lecteurVague.getVagues() != null && numero > 0 && numero <= this.lecteurVague.getNbVague()) {
 			this.vagueActuelle = this.lecteurVague.getVagues()[numero - 1].getListeApparition();
 		} else {
@@ -107,30 +175,40 @@ public class Environnement {
 	}
 
 	public void unTour() {
-		if (!this.sortTours.isEmpty()) {
-			for (int i = this.sortTours.size() - 1; i >= 0; i--) {
-				if (this.sortTours.get(i).isAttaqueFini()) {
+
+		// 1. Gestion des sorts et projectiles
+		if (!this.sortTours.isEmpty()){
+			for(int i = this.sortTours.size() - 1; i >= 0; i--){
+				if(this.sortTours.get(i).isAttaqueFini()){
 					this.sortTours.remove(i);
-				} else {
+				}
+				else{
 					this.sortTours.get(i).sortAJour();
 				}
 			}
 		}
 
-		if (this.lesTours != null && !this.lesTours.isEmpty()) {
+		// 2. Gestion des décors
+		for(int i = 0; i < this.lesDecors.size(); i++){
+			Decor decor = this.lesDecors.get(i);
+			if (decor instanceof Fleur){
+				((Fleur) decor).mettreAjour(this.lesMonstres);
+			}
+		}
+
+		// 3. Gestion des tours
+		if (!(this.lesTours == null) && !this.lesTours.isEmpty()) {
 			for (int i = 0; i < this.lesTours.size(); i++) {
 				this.lesTours.get(i).agir(this.lesMonstres, this.base, this.sortTours);
 			}
 		}
 
-		if (pauseEntreVagues) {
-			compteurPause--;
-			if (compteurPause <= 0) {
-				pauseEntreVagues = false;
-				preparerVague(this.numeroVague.get());
-				compteurSpawn = 0;
+		// 4. Gestion des vagues
+		if(!pauseEntreVagues) {
+			if (this.boutonCorneDeBrume != null) {
+				this.boutonCorneDeBrume.setDisable(true);
 			}
-		} else {
+
 			if (vagueActuelle != null && vagueActuelle.resteProchain()) {
 				compteurSpawn--;
 				if (compteurSpawn <= 0) {
@@ -138,26 +216,33 @@ public class Environnement {
 					compteurSpawn = vagueActuelle.prochainDelai();
 					vagueActuelle.avancer();
 				}
-			} else if (this.lesMonstres.isEmpty()) {
+			}
+			else if (this.lesMonstres.isEmpty()) {
 				if (this.numeroVague.get() >= this.lecteurVague.getNbVague()) {
 					return;
 				}
-
 				int bonusArgent = 50 + (this.numeroVague.get() * 10);
 				this.setArgent(this.getArgent() + bonusArgent);
 				this.numeroVague.set(this.numeroVague.get() + 1);
 				this.pauseEntreVagues = true;
-				this.compteurPause = 900;
+			}
+		}
+		else {
+			if (this.boutonCorneDeBrume != null) {
+				this.boutonCorneDeBrume.setDisable(false);
 			}
 		}
 
-		if (this.lesMonstres != null && !this.lesMonstres.isEmpty()) {
+		// 5. Gestion des monstres (Déplacement, Vie, Base, Loot)
+		if (!(this.lesMonstres == null) && !this.lesMonstres.isEmpty()) {
 			for (int i = this.lesMonstres.size() - 1; i >= 0; i--) {
 				Monstre m = this.lesMonstres.get(i);
 
 				if (!m.estVivant()) {
+					System.out.println("Monstre tué");
 					this.setArgent(this.getArgent() + m.getRecompense());
 
+					// Système de loot (Artefacts) intégré de la Version 1
 					if(Math.random() < 0.15){
 						if (Math.random() < 0.5) {
 							this.inventaire.ajouterArtefact(new Epee());
@@ -165,9 +250,10 @@ public class Environnement {
 							this.inventaire.ajouterArtefact(new Baguette());
 						}
 					}
-					this.lesMonstres.remove(i);
 
+					this.lesMonstres.remove(i);
 				} else if (m.aAtteintSaCible()) {
+					System.out.println(this.argent);
 					this.lesMonstres.remove(i);
 				} else {
 					m.agir(this.lesMonstres, this.terrain, this.base);
@@ -180,29 +266,30 @@ public class Environnement {
 		int TAILLE_TUILE = 32;
 		int gridX = (int) (xPixel / TAILLE_TUILE);
 		int gridY = (int) (yPixel / TAILLE_TUILE);
-		if (gridY >= 25) return false;
+		if(gridY >= 25) return false;
 		if (this.terrain.estPraticable(gridX, gridY)) return false;
 
-		for (int i = 0; i < 1; i++) {
-			if (this.terrain.estPraticable(gridX + i, gridY) || this.terrain.estPraticable(gridX - i, gridY) || this.terrain.estPraticable(gridX, gridY + i) || this.terrain.estPraticable(gridX, gridY - i) || this.terrain.estPraticable(gridX + i, gridY - i) || this.terrain.estPraticable(gridX - i, gridY + i) || this.terrain.estPraticable(gridX + i, gridY + i) || this.terrain.estPraticable(gridX - i, gridY - i))
+		// Vérification des décors
+		for (int i = 0; i < this.lesDecors.size(); i++){
+			if (this.lesDecors.get(i).estDansLeRayonDecor(gridX, gridY)) {
+				return false;
+			}
+		}
+
+		// Vérification de l'espace autour
+		for(int i = 0; i < 1; i++){
+			if(this.terrain.estPraticable(gridX+i, gridY) || this.terrain.estPraticable(gridX-i, gridY) || this.terrain.estPraticable(gridX, gridY+i) || this.terrain.estPraticable(gridX, gridY-i) || this.terrain.estPraticable(gridX+i, gridY-i) ||this.terrain.estPraticable(gridX-i, gridY+i) || this.terrain.estPraticable(gridX+i, gridY+i)|| this.terrain.estPraticable(gridX-i, gridY-i))
 				return false;
 		}
-		return true;
+		return true ;
 	}
 
 	public void validerSymboles() {
-		if (this.getSymboles().verifierCombinaison()) {
+		System.out.println(this.getSymboles());
+		System.out.println(this.getSymboles().getCombinaison());
+		if(this.getSymboles().verifierCombinaison()){
+			System.out.println("dans le if");
 			this.setModePlacementTour(true);
 		}
-	}
-
-	public void ajouterTour(Tour tour) {
-		System.out.println("tour prete");
-
-		if (tour instanceof TourGlace) {
-			((TourGlace) tour).setTerrain(this.terrain);
-		}
-		this.lesTours.add(tour);
-		this.setArgent(this.getArgent() - tour.getCout());
 	}
 }

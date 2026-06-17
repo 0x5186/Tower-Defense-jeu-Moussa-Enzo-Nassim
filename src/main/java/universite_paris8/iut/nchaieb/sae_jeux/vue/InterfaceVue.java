@@ -6,11 +6,16 @@ import javafx.animation.Timeline;
 import javafx.beans.property.StringProperty;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.effect.Bloom;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import org.w3c.dom.html.HTMLBaseElement;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.util.Duration;
@@ -19,6 +24,7 @@ import universite_paris8.iut.nchaieb.sae_jeux.Main;
 import java.awt.*;
 
 public class InterfaceVue {
+
     Image FeuilleSort = new Image(Main.class.getResourceAsStream("images/FeuillePourLesSorts.png"));
     Image InterfaceBas = new Image(Main.class.getResourceAsStream("images/interfacebas.png"));
     Image symboleGoutte = new Image(Main.class.getResourceAsStream("images/symboleGoutteDeau.png"));
@@ -34,7 +40,16 @@ public class InterfaceVue {
     Image symboleFeu = new Image(Main.class.getResourceAsStream("images/symboleFeu.png"));
     Image symboleNote = new Image(Main.class.getResourceAsStream("images/symboleNote.png"));
     Image symboleFlocon = new Image(Main.class.getResourceAsStream("images/symboleFlocon.png"));
+    Image symboleLimiteAtteinte = new Image(Main.class.getResourceAsStream("images/cercleLimiteAtteinte.png"));
+    Image bullePourAlerte = new Image(Main.class.getResourceAsStream("images/bulle.png"));
 
+    private Label limiteAtteinte;
+
+    private HBox hbox;
+
+    private ImageView cercleDeLaLimite;
+
+    private ImageView bulleAlerte;
 
     ImageView livre;
     private StackPane stackPane;
@@ -42,10 +57,16 @@ public class InterfaceVue {
     private StackPane contientSymbole;
 
 
-    public InterfaceVue(StackPane stackPane, ImageView livre) {
+    public InterfaceVue(StackPane stackPane, ImageView livre, Pane paneSymboles) {
         this.stackPane = stackPane;
         this.contientSymbole = new StackPane();
         this.livre=livre;
+        this.limiteAtteinte = new Label("La limite est atteinte, \nle max est de 6 symboles. ");
+        this.cercleDeLaLimite = new ImageView(this.symboleLimiteAtteinte);
+        this.bulleAlerte = new ImageView(this.bullePourAlerte);
+        this.hbox = new HBox(this.bulleAlerte, this.cercleDeLaLimite, this.limiteAtteinte);
+        this.hbox.setVisible(false);
+        this.stackPane.getChildren().add(this.hbox);
     }
 
     public void dessinMenu () {
@@ -55,6 +76,9 @@ public class InterfaceVue {
 
 
 
+
+
+//        ImageView  tiroir= new ImageView(tiroirDeSymboles);
 
 
         if( this.stackPane!=null){
@@ -67,7 +91,7 @@ public class InterfaceVue {
             interfaceDuBas.setTranslateX(0);
 //            interfaceDuBas.setScaleX(1.25);
 //            interfaceDuBas.setScaleX(2.5);
-            interfaceDuBas.setFitWidth(1900);
+            interfaceDuBas.setFitWidth(1950);
 
             //Feuille pentacle
             feuillePentacle.setTranslateX(700); // position X en pixels
@@ -159,6 +183,17 @@ public class InterfaceVue {
             this.contientSymbole.getChildren().clear();
         }
     }
+
+    public void brillerSymboles() {
+        this.contientSymbole.setEffect(new Glow(9));
+
+    }
+    public void  assombrirSymboles() {
+        this.contientSymbole.setEffect(new Glow(0));
+    }
+
+
+
     public void animationLivrepage(Button bouton,Button boutonCouverture, Button boutonChangerPage){
 
 
@@ -249,5 +284,26 @@ public class InterfaceVue {
         livre.setViewport(new Rectangle2D(0,0,190,160));
     }
 
+
+
+    public void afficherLimiteAtteinte() {
+        this.limiteAtteinte.setStyle("-fx-text-fill: red; -fx-font-size: 24px; -fx-font-weight: bold;");
+        this.cercleDeLaLimite.setFitWidth(50);
+        this.cercleDeLaLimite.setPreserveRatio(true);
+        this.cercleDeLaLimite.setTranslateX(-5);
+        this.cercleDeLaLimite.setTranslateY(10);
+        this.bulleAlerte.setFitWidth(500);
+        this.bulleAlerte.setPreserveRatio(true);
+        this.bulleAlerte.setTranslateX(430);
+        this.bulleAlerte.setTranslateY(-200);
+        this.hbox.setTranslateX(1020);
+        this.hbox.setTranslateY(590);
+
+        this.hbox.setVisible(true);
+    }
+
+    public HBox getHbox(){
+        return this.hbox;
+    }
 
 }
