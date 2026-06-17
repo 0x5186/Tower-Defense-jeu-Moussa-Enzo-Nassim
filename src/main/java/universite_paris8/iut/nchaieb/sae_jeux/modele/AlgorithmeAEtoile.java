@@ -26,7 +26,6 @@ public class AlgorithmeAEtoile {
             listeOuverte.remove(indexActuel);
             listeFermee.add(noeudActuel);
 
-            // Si on a atteint la destination
             if (noeudActuel.estMemePosition(cibleX, cibleY)) {
                 return reconstruireChemin(noeudActuel);
             }

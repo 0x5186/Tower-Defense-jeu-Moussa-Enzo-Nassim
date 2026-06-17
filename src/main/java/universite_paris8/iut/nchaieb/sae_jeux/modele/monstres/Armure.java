@@ -3,7 +3,7 @@ import universite_paris8.iut.nchaieb.sae_jeux.modele.Terrain;
 
 public class Armure extends Monstre {
     public Armure(Terrain terrain) {
-        super(250, 1,15, terrain);
+        super(250, 5,15, terrain);
         this.nombreDePV.set(pvMax);
         this.actionActuelle.set("fixe");
         this.portee= 2;

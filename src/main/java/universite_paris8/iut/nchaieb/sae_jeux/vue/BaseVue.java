@@ -56,8 +56,7 @@ public class BaseVue {
         textePV.setFill(Color.WHITE);
         textePV.setStyle("-fx-font-weight: bold; -fx-font-family: 'Arial'; -fx-font-size: 14px;");
 
-        // ancreBasY = les pieds de la tour
-        // on descend de 10px sous les pieds
+
         double barX = base.getPosX() + 16 - (largeurBarre / 2.0);
         double barY = ancreBasY + 10;
 
@@ -77,9 +76,6 @@ public class BaseVue {
 
         pane.getChildren().addAll(imageView, fondBarre, vieBarre, textePV);
 
-        // ══════════════════════════════════════════════════════════
-        //  ANIMATION
-        // ══════════════════════════════════════════════════════════
         int[] frameIndex = {0};
 
         Timeline baseAnim = new Timeline(

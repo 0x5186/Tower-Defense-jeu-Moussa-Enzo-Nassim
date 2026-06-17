@@ -160,18 +160,13 @@ public class TutorielVue {
 
     public void afficherTutot(){
         this.titreTuto.setImage(null);
-        //faut que la position du paragraphe se reinitialise a chaque fois qu'on clique sur le bouton
         this.paragraphe.setTranslateY(90);
         this.paragraphe.setTranslateX(-180);
-        //à chaque fois qu'on ouvre le tuto on met la page à 1
         this.page = 1;
-        //le paragraphes/pageDefilee est toujours vidé sinon il restera afficher même après avoir fermé le tuto
         this.paragraphe.setText("");
         this.pageDefilee.setText("");
         afficherImage();
-        //vu que le simpleProperty est sur false, on veut s'assurer de le mettre en true avant
         this.afficher.set(!this.afficher.get());
-        //si maintenant il est true, il affiche
         if (this.afficher.get()){
             this.titre.setText("Witch Hat Atelier ~ Tutoriel");
         } else {

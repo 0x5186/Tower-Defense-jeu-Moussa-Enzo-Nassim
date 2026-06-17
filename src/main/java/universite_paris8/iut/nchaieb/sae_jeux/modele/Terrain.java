@@ -94,17 +94,14 @@ public class Terrain {
     public boolean estCheminNaturel(int colonne, int ligne) {
         if (colonne < 0 || colonne >= largeur() || ligne < 0 || ligne >= hauteur()) return false;
 
-        // Tuiles != 0 => chemmin
         return codeTuiles[ligne][colonne] != 0;
     }
 
     public boolean estPraticable(int colonne, int ligne) {
         if (colonne < 0 || colonne >= largeur() || ligne < 0 || ligne >= hauteur()) return false;
 
-        // vérif si la case a été bloquée temporairement par un élément en jeu
         if (casesBloquees[ligne][colonne]) return false;
 
-        // vérif si c'est un chemin
         return estCheminNaturel(colonne, ligne);
     }
 

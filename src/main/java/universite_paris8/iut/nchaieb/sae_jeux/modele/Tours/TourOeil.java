@@ -25,29 +25,7 @@ public class TourOeil extends Tour {
         Monstre monstrePlusProche;
         gererCooldown();
 
-//        if(this.getCooldown()>=this.getCooldownPourAction()){
-//            if (!listeMonstre.isEmpty() ) {
-//
-//                monstrePlusProche = this.plusProche(listeMonstre);
-//                if (monstrePlusProche != null) {
-//                    this.setActionActuelle("fixe");
-//
-//
-//                    this.setActionActuelle("attaque");
-//                    if(this.getCooldown()>=100) {
-//                        this.setCooldown(0);
-//                    }
-//                    else{
-//
-//                        SortTour rayon=new Rayon(this.getPosX(),this.getPosY(),monstrePlusProche,this.getAtq(),50);
-//                        sortsTours.add(rayon);
-//                        this.infligerDegat(monstrePlusProche);
-//                    }
-//                    System.out.println("j'attaque");
-//                }
-//
-//            }
-//        }
+
 
 
         if(this.rayon==null) {

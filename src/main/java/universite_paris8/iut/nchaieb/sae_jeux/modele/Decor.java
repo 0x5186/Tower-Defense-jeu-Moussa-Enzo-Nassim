@@ -63,7 +63,6 @@ public class Decor {
     }
 
     public boolean estDansLeRayonDecor(int gridX, int gridY){
-        //juste repris méthode tourPosable
         int TAILLE_TUILE = 32;
         int decorGridX = (int) (this.getX() / TAILLE_TUILE);
         int decorGridY = (int) (this.getY() / TAILLE_TUILE);

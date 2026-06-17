@@ -38,7 +38,7 @@ public class Tour extends Entite {
         this.posY = new SimpleIntegerProperty(y);
         this.atq=atq;
         this.portee = portee;
-        this.pvMax = 30;
+        this.pvMax = 100;
         this.pv = new SimpleIntegerProperty(this.pvMax);
 
         this.cooldown= new SimpleIntegerProperty(0);
@@ -109,28 +109,6 @@ public class Tour extends Entite {
         this.posY.set(posY);
     }
 
-    //
-//    public void agir(ObservableList<Monstre> listeMonstre) {
-//        Monstre monstrePlusProche;
-//        gererCooldown();
-//        System.out.println(cooldown);
-//        if(this.cooldown==cooldownPourAttaque){
-//            if (!listeMonstre.isEmpty() ) {
-//
-//                monstrePlusProche = this.plusProche(listeMonstre);
-//                if (monstrePlusProche != null) {
-//                    this.setActionActuelle("fixe");
-//
-//                    this.infligerDegat(monstrePlusProche);
-//                    this.setActionActuelle("attaque");
-//                    this.cooldown=0;
-//                    System.out.println("j'attaque");
-//                }
-//
-//            }
-//        }
-//
-//    }
 
     public void gererCooldown() {
         if(this.cooldown.get()<this.cooldownPourAction){

@@ -22,7 +22,6 @@ public class Entite implements EntiteInterface{
     public Entite(){
 
 
-//        this.biome = biome;
         this.id ="E"+ this.compteurID;
         this.compteurID++;
         this.actionActuelle.set("fixe");

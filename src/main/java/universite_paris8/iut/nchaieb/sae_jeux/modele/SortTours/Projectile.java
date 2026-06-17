@@ -25,9 +25,6 @@ public class Projectile  extends SortTour{
 
         if (!verifPosition()){
            deplacer();
-
-//            this.x=this.x-this.cible.getPosX()+vitesseAttaque;
-//            this.y=this.y-this.cible.getPosY()+vitesseAttaque;
         }
         if(verifPosition()){
             infligerDegat();

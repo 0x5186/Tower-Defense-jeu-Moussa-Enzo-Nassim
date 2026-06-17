@@ -45,15 +45,13 @@ public class MonObservateurMonstre implements ListChangeListener<Monstre> {
                     creerSprite(nouveau);
 
                     nouveau.actionActuelleProperty().addListener((observable, oldValue, newValue) -> {
-//                        if (newValue.equals("fixe")) {
-//                        }
+
                         if (newValue.equals("marche")) {
                             this.monstreVue.animationMarche(nouveau);
                         }
                     });
 
                     nouveau.pvProperty().addListener((observable, oldValue, newValue) -> {
-//                         if (newValue.equals(0)) {
                         this.monstreVue.animationMarche(nouveau);
                     });
                 }

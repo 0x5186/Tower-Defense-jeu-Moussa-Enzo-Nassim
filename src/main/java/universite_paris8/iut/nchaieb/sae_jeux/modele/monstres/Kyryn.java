@@ -9,7 +9,7 @@ public class Kyryn extends Monstre {
     private int compteurTicks;
 
     public Kyryn(Terrain terrain) {
-        super(150, 10, 40, terrain);
+        super(100, 10, 40, terrain);
         this.nombreDePV.set(pvMax);
         this.actionActuelle.set("fixe");
         this.portee = 50;

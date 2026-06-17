@@ -308,17 +308,14 @@ public class ControleurJeu implements Initializable {
         this.tutorielVue.tutoProperty().addListener(monObservateurTutoriel);
         this.boutonPageSuivante.setVisible(false);
 
-        // Lancement de l'écouteur d'inventaire
         initialiserInventaireVue();
     }
 
-    // Gestion visuel de l'inventaire
     public void initialiserInventaireVue(){
         ObservableList<Artefact> listeArtefacts = environnement.getInventaire().getLesArtefacts();
 
         listeArtefacts.addListener((ListChangeListener<Artefact>) change -> {
 
-            // platform.runLater permet de s'assurer que la modification graphique est bien effectuer
             javafx.application.Platform.runLater(() -> {
 
                 if (boutonOuvrirInventaire != null) {
@@ -366,7 +363,6 @@ public class ControleurJeu implements Initializable {
             panneauInventaire.setVisible(!panneauInventaire.isVisible());
         }
     }
-    // ----------------------------------------
 
     @FXML
     public void actionsDesSymboles(Event event) throws UnsupportedAudioFileException, LineUnavailableException, IOException {

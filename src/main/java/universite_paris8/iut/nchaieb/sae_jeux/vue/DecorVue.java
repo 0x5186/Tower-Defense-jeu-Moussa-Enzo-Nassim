@@ -37,7 +37,6 @@ public class DecorVue {
     public void initialiserAffichage(){
         ObservableList<Decor> listeDecors = this.environnement.getLesDecors();
 
-        //pour decor interactif
         for(int i = 0; i < listeDecors.size(); i++){
             Decor decor = listeDecors.get(i);
             Image image = choisirImageInteracctif(decor);

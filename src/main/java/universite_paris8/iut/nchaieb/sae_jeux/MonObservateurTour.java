@@ -38,33 +38,6 @@ public class MonObservateurTour implements ListChangeListener<Tour>{
             if (change.wasAdded()) {
                 for (Tour nouveau : change.getAddedSubList()) {
                     creerSprite(nouveau);
-//                    nouveau.modePlacementTourProperty().addListener((observable, oldValue, newValue) -> {
-//
-//                        if (newValue.equals(true)) {
-//
-//                            System.out.println("ohhhhhh mince");
-//                            this.tourVue.ajouterImageSouris(nouveau);
-//                        }
-//                        if (newValue.equals(false)) {
-//                            this.tourVue.retirerImageSouris(nouveau);
-//                        }
-//                    });
-
-//
-//                    nouveau.actionActuelleProperty().addListener((observable, oldValue, newValue) -> {
-//
-//                        if (newValue.equals("fixe")) {
-//
-//                            this.tourVue.stopAnimation(nouveau);
-//                        }
-//                        if (newValue.equals("attaque")) {
-//                            this.tourVue.animationAttaque(nouveau);
-//                        }
-//                    });
-//
-//
-
-
                     nouveau.actionActuelleProperty().addListener((observable, oldValue, newValue) -> {
 
                         if (newValue.equals("charge")){

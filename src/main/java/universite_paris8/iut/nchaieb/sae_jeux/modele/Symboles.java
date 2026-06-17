@@ -59,7 +59,7 @@ public class Symboles {
         return false;
     }
 
-    public Tour CombinaisonGetTour(int x, int y){ //vérifie la combinaison et invoquie le monstre si elle est bonne
+    public Tour CombinaisonGetTour(int x, int y){
         Tour tour = null;
 
 
@@ -97,7 +97,7 @@ public class Symboles {
 
 
 
-    public String CombinaisonGetTourString(){ //vérifie la combinaison et invoque le monstre si elle est bonne
+    public String CombinaisonGetTourString(){
         if (this.combinaison!=null ||    !this.combinaison.isEmpty()){
 
             if (combinaison.equals(combinaisonValables.tourOeil)){

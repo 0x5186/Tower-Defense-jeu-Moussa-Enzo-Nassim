@@ -14,7 +14,7 @@ public class Boss extends Monstre {
     private int cooldownAttaque;
 
     public Boss(Terrain terrain) {
-        super(4000, 100, 1000, terrain);
+        super(1500, 50, 150, terrain);
         this.nombreDePV.set(pvMax);
         this.portee = PORTEE_EN_CASES * TAILLE_TUILE_BOSS;
         this.actionActuelle.set("marche");

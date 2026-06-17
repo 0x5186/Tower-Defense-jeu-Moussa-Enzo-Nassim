@@ -31,20 +31,6 @@ public class Fleur extends Decor {
             }
         }
 
-//        if (sorcierEstProche) {
-//            this.setEtat("phasePerir");
-//            this.tempsRestantAvantPerir = 15;
-//
-//        } else if (this.tempsRestantAvantPerir >13.5) {
-//            this.tempsRestantAvantPerir -= 0.01;
-//            this.setEtat("phasePerir");
-//        } else if (this.tempsRestantAvantPerir > 0) {
-//            this.tempsRestantAvantPerir-= 0.01;
-//            this.setEtat("perir");
-//        } else {
-//            this.setEtat("normale");
-//        }
-
         if(sorcierEstProche && this.tempsRestantAvantPerir == 0) {
             this.setEtat("phasePerir");
             this.tempsRestantAvantPerir =15;
