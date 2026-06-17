@@ -97,7 +97,7 @@ public class Symboles {
 
 
 
-    public String CombinaisonGetTourString(){ //vérifie la combinaison et invoquie le monstre si elle est bonne
+    public String CombinaisonGetTourString(){ //vérifie la combinaison et invoque le monstre si elle est bonne
         if (this.combinaison!=null ||    !this.combinaison.isEmpty()){
 
             if (combinaison.equals(combinaisonValables.tourOeil)){

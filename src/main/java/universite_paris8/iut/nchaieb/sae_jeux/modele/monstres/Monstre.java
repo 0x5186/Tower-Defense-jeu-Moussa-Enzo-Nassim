@@ -187,8 +187,6 @@ public abstract class Monstre extends Entite {
 
     public int getRecompense() { return recompense; }
 
-    public boolean estDansLeRayon(Monstre monstre) { return (Math.abs(monstre.getPosX() - this.getPosX()) + Math.abs(monstre.getPosY() - this.getPosY())) <= this.portee; }
-
     public boolean estVivant() { return this.nombreDePV.get() > 0; }
 
     public int getVitesse() { return vitesse; }

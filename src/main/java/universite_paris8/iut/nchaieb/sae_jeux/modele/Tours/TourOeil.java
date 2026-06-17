@@ -49,6 +49,7 @@ public class TourOeil extends Tour {
 //            }
 //        }
 
+
         if(this.rayon==null) {
             gererCooldown();
             this.setActionActuelle("charge");
@@ -82,7 +83,6 @@ public class TourOeil extends Tour {
             this.setCooldown(0);
             this.tempsAttaque = 0;
             this.rayon = null;
-
         }
 
 
