@@ -2,7 +2,7 @@ package universite_paris8.iut.nchaieb.sae_jeux.modele;
 
 public class Terrain {
     private int[][] codeTuiles;
-    private boolean[][] casesBloquees; // Conservé pour les mécaniques de blocage (ex: Mur de glace)
+    private boolean[][] casesBloquees;
 
     public Terrain() {
         codeTuiles = new int[25][60];
@@ -94,17 +94,17 @@ public class Terrain {
     public boolean estCheminNaturel(int colonne, int ligne) {
         if (colonne < 0 || colonne >= largeur() || ligne < 0 || ligne >= hauteur()) return false;
 
-        // Tous les codes de tuiles différents de 0 sont considérés comme des chemins dans ta nouvelle map détaillée
+        // Tuiles != 0 => chemmin
         return codeTuiles[ligne][colonne] != 0;
     }
 
     public boolean estPraticable(int colonne, int ligne) {
         if (colonne < 0 || colonne >= largeur() || ligne < 0 || ligne >= hauteur()) return false;
 
-        // On vérifie si la case a été bloquée temporairement par un élément en jeu
+        // vérif si la case a été bloquée temporairement par un élément en jeu
         if (casesBloquees[ligne][colonne]) return false;
 
-        // Sinon, on vérifie si c'est un chemin
+        // vérif si c'est un chemin
         return estCheminNaturel(colonne, ligne);
     }
 

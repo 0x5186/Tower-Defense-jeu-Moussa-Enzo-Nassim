@@ -47,7 +47,7 @@ public class LecteurVague {
                     continue;
                 }
 
-                // Ligne de données : quantite code delai
+
                 if (vagueEnCours == null) vagueEnCours = new Vague();
 
                 String[] parts = ligne.split("\\s+");

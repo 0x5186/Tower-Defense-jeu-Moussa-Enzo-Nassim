@@ -40,7 +40,7 @@ public class ControleurJeu implements Initializable {
     private Environnement environnement;
     private ArrayList<CombinaisonValables> lesSorts;
 
-    // --- Variables de l'Inventaire (Artefacts) ---
+    // Variable que j'ai ajouté pour l'inventaire
     @FXML
     private javafx.scene.layout.HBox panneauInventaire;
     @FXML
@@ -231,17 +231,17 @@ public class ControleurJeu implements Initializable {
         if(stackPane!=null){
             stackPane.setOnMouseClicked(event -> {
 
-                // --- SCÉNARIO 1 : Équiper un Artefact ---
+                // equiper un artéfcat
                 if (artefactSelectionne != null) {
 
                     universite_paris8.iut.nchaieb.sae_jeux.modele.Tours.Tour tourCliquee = null;
 
-                    // On vérifie avec une Hitbox généreuse (40px)
+                    // Vérif avec une hit box
                     for (universite_paris8.iut.nchaieb.sae_jeux.modele.Tours.Tour t : environnement.getLesTours()) {
                         double distanceX = Math.abs(event.getX() - t.getPosX());
                         double distanceY = Math.abs(event.getY() - t.getPosY());
 
-                        if (distanceX <= 40 && distanceY <= 40) {
+                        if (distanceX <= 20 && distanceY <= 20) {
                             tourCliquee = t;
                             break;
                         }
@@ -266,7 +266,7 @@ public class ControleurJeu implements Initializable {
                     }
                 }
 
-                // --- SCÉNARIO 2 : Placement de la Tour ---
+                // Placement des tours
                 else if (environnement.isModePlacementTour()) {
                     if(this.environnement.tourPosable(event.getX(), event.getY())){
                         JouerSon sonInvocation = null;
@@ -312,13 +312,13 @@ public class ControleurJeu implements Initializable {
         initialiserInventaireVue();
     }
 
-    // --- GESTION DE L'INVENTAIRE VISUEL ---
+    // Gestion visuel de l'inventaire
     public void initialiserInventaireVue(){
         ObservableList<Artefact> listeArtefacts = environnement.getInventaire().getLesArtefacts();
 
         listeArtefacts.addListener((ListChangeListener<Artefact>) change -> {
 
-            // On s'assure que la modification graphique se fait proprement avec Platform.runLater
+            // platform.runLater permet de s'assurer que la modification graphique est bien effectuer
             javafx.application.Platform.runLater(() -> {
 
                 if (boutonOuvrirInventaire != null) {

@@ -135,7 +135,6 @@ public class Environnement {
 
 	public ObservableList<Decor> getLesDecors() { return this.lesDecors; }
 
-	// --- Méthodes Métier ---
 
 	public void ajouterTour(Tour tour){
 		System.out.println("tour prete");
@@ -147,7 +146,7 @@ public class Environnement {
 	}
 
 	public void ajouterMonstre() {
-		Monstre monstre = new Sorcier(this.terrain); // Ou Nargacuga selon ta préférence
+		Monstre monstre = new Sorcier(this.terrain);
 		lesMonstres.add(monstre);
 	}
 
@@ -176,7 +175,7 @@ public class Environnement {
 
 	public void unTour() {
 
-		// 1. Gestion des sorts et projectiles
+		// Gestion des sorts et projectiles
 		if (!this.sortTours.isEmpty()){
 			for(int i = this.sortTours.size() - 1; i >= 0; i--){
 				if(this.sortTours.get(i).isAttaqueFini()){
@@ -188,7 +187,7 @@ public class Environnement {
 			}
 		}
 
-		// 2. Gestion des décors
+		// Gestion des décors
 		for(int i = 0; i < this.lesDecors.size(); i++){
 			Decor decor = this.lesDecors.get(i);
 			if (decor instanceof Fleur){
@@ -196,14 +195,14 @@ public class Environnement {
 			}
 		}
 
-		// 3. Gestion des tours
+		// Gestion des tours
 		if (!(this.lesTours == null) && !this.lesTours.isEmpty()) {
 			for (int i = 0; i < this.lesTours.size(); i++) {
 				this.lesTours.get(i).agir(this.lesMonstres, this.base, this.sortTours);
 			}
 		}
 
-		// 4. Gestion des vagues
+		// Gestion des vagues
 		if(!pauseEntreVagues) {
 			if (this.boutonCorneDeBrume != null) {
 				this.boutonCorneDeBrume.setDisable(true);
@@ -233,7 +232,7 @@ public class Environnement {
 			}
 		}
 
-		// 5. Gestion des monstres (Déplacement, Vie, Base, Loot)
+		// Gestion des monstres
 		if (!(this.lesMonstres == null) && !this.lesMonstres.isEmpty()) {
 			for (int i = this.lesMonstres.size() - 1; i >= 0; i--) {
 				Monstre m = this.lesMonstres.get(i);
