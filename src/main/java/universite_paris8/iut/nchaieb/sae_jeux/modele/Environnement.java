@@ -212,7 +212,7 @@ public class Environnement {
 			}
 		}
 
-		// Gestion des vagues
+		
 		if(!pauseEntreVagues) {
 			if (this.boutonCorneDeBrume != null) {
 				this.boutonCorneDeBrume.setDisable(true);
