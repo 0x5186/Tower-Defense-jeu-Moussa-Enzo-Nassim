@@ -3,11 +3,12 @@ package universite_paris8.iut.nchaieb.sae_jeux.modele.monstres;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.ObservableList;
-import universite_paris8.iut.nchaieb.sae_jeux.modele.AlgorithmeAEtoile;
-import universite_paris8.iut.nchaieb.sae_jeux.modele.Entite;
-import universite_paris8.iut.nchaieb.sae_jeux.modele.Noeud;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.AEtoile.AlgorithmeAEtoile;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.Entite.Entite;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.AEtoile.Noeud;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Terrain;
-import universite_paris8.iut.nchaieb.sae_jeux.modele.Base;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.Base.Base;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.Tours.Tour; // <-- IMPORT AJOUTÉ ICI
 
 import java.util.ArrayList;
 
@@ -50,18 +51,17 @@ public abstract class Monstre extends Entite {
         if (portailAleatoire == 0) {
             this.setPosX(0);
             this.setPosY(8 * TAILLE_TUILE); // Spawn 1 (Haut gauche)
-            this.targetX = 58;              // Cible : La Base
+            this.targetX = 58;
             this.targetY = 12;
         } else if (portailAleatoire == 1) {
             this.setPosX(24 * TAILLE_TUILE);
             this.setPosY(0);                // Spawn 2 (Haut milieu)
-            this.targetX = 24;              // Cible temporaire pour diriger le monstre vers le bas
+            this.targetX = 26;
             this.targetY = 14;
         } else {
-            // Le nouveau Spawn sur le trait noir en bas à gauche (Ligne 22)
             this.setPosX(0);
             this.setPosY(22 * TAILLE_TUILE);
-            this.targetX = 58;              // Cible : La Base
+            this.targetX = 58;
             this.targetY = 12;
         }
 
@@ -71,12 +71,12 @@ public abstract class Monstre extends Entite {
         if (!terrain.estPraticable(gx, gy)) {
             this.setPosX(0);
             this.setPosY(8 * TAILLE_TUILE);
-            this.targetX = 58;              // Cible de sécurité
+            this.targetX = 58;
             this.targetY = 12;
         }
     }
 
-    public void agir(ObservableList<Monstre> collegues, Terrain terrain, Base base) {
+    public void agir(ObservableList<Monstre> collegues, Terrain terrain, Base base, ObservableList<Tour> lesTours) {
         if (!estBloqueParAllie(collegues)) {
             this.setActionActuelle("marche");
             this.avancer(terrain);
@@ -106,7 +106,6 @@ public abstract class Monstre extends Entite {
     private void avancer(Terrain terrain) {
         if (terrain == null) return;
 
-        // Calcul du chemin si ce n'est pas encore fait ou s'il faut le recalculer
         if (!cheminCalcule) {
             int gx = this.getPosX() / TAILLE_TUILE;
             int gy = this.getPosY() / TAILLE_TUILE;
@@ -123,26 +122,21 @@ public abstract class Monstre extends Entite {
 
         if (this.chemin == null || this.chemin.isEmpty()) return;
 
-        // Récup du prochain nœud à atteindre
         Noeud n = this.chemin.get(0);
         int cibleX = n.x * TAILLE_TUILE;
         int cibleY = n.y * TAILLE_TUILE;
         int dx = cibleX - this.getPosX();
         int dy = cibleY - this.getPosY();
 
-        // Déplacement du monstre
         if (dx != 0) {
             this.setPosX(this.getPosX() + (dx > 0 ? 1 : -1));
         } else if (dy != 0) {
             this.setPosY(this.getPosY() + (dy > 0 ? 1 : -1));
         }
 
-        // vérif si le monstre a atteint la case visée
         if (this.getPosX() == cibleX && this.getPosY() == cibleY) {
             this.chemin.remove(0);
-            // On retire le nœud atteint
 
-            // Si le monstre a terminé son chemin actuel
             if (this.chemin.isEmpty()) {
                 if (this.targetX != 58 || this.targetY != 12) {
                     this.targetX = 58;
@@ -159,6 +153,23 @@ public abstract class Monstre extends Entite {
                 && this.getPosY() == (this.targetY * TAILLE_TUILE);
     }
 
+    public void recalculerItineraire(Terrain terrain, Base base) {
+        int startX;
+        int startY;
+        if (this.chemin != null && !this.chemin.isEmpty()) {
+            startX = this.chemin.get(0).x;
+            startY = this.chemin.get(0).y;
+        } else {
+            startX = this.getPosX() / TAILLE_TUILE;
+            startY = this.getPosY() / TAILLE_TUILE;
+        }
+        ArrayList<Noeud> nouveuChemin = AlgorithmeAEtoile.trouverChemin(terrain, startX, startY, this.targetX, this.targetY);
+        if (nouveuChemin != null && !nouveuChemin.isEmpty()) {
+            this.chemin = nouveuChemin;
+            this.cheminCalcule = true;
+        }
+    }
+
     public int getAtq() { return atq; }
     public void infligerDegat(Monstre monstre) { if (monstre.nombreDePV.get() != 0) monstre.retirerPV(this.atq); }
 
@@ -170,8 +181,6 @@ public abstract class Monstre extends Entite {
 
     public int getRecompense() { return recompense; }
 
-    public boolean estDansLeRayon(Monstre monstre) { return (Math.abs(monstre.getPosX() - this.getPosX()) + Math.abs(monstre.getPosY() - this.getPosY())) <= this.portee; }
-
     public boolean estVivant() { return this.nombreDePV.get() > 0; }
 
     public int getVitesse() { return vitesse; }
@@ -179,6 +188,7 @@ public abstract class Monstre extends Entite {
     public int getPV() { return this.nombreDePV.get(); }
     public IntegerProperty pvProperty() { return this.nombreDePV; }
 
+    public int getPvMax() {return pvMax;}
     public String getId() { return this.id; }
     @Override public int getPosX() { return posX.get(); }
     @Override public IntegerProperty posXProperty() { return posX; }

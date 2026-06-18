@@ -38,7 +38,7 @@ public class SourisVue {
 
 
 
-    public void ajouterImageSouris(String tour){// change l'image de la souris pour la tour qu'on veut placer
+    public void ajouterImageSouris(String tour){
         DoubleProperty sourisX=new SimpleDoubleProperty();
         DoubleProperty sourisY=new SimpleDoubleProperty();
         double rayon=0;
@@ -53,7 +53,6 @@ public class SourisVue {
         }
 
         this.cercle= new Circle(rayon);
-//        this.cercle.setFill(Color.TRANSPARENT);
         this.cercle.setFill(Color.rgb(0,0,0,0.4));
         this.cercle.setStroke(Color.BLACK);
 
@@ -62,21 +61,16 @@ public class SourisVue {
 
             cercle.setTranslateX(event.getX()-this.cercle.getRadius());
             cercle.setTranslateY(event.getY()-this.cercle.getRadius());
-//            sourisX.set(event.getX());
-//            sourisY.set(event.getY());
 
-//            System.out.println(this.cercle.getParent());
 
                 }
         );
-//        this.cercle.centerXProperty().bind(sourisX);
-//        this.cercle.centerYProperty().bind(sourisY);
         this.pane.getChildren().add(cercle);
     }
 
 
 
-    public void retirerImageSouris() {// change l'image de la souris pour la tour qu'on veut placer
+    public void retirerImageSouris() {
 
         pane.setCursor(Cursor.DEFAULT);
         this.cercle.setVisible(false);

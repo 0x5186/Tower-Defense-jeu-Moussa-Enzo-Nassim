@@ -4,11 +4,14 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.ObservableList;
 import universite_paris8.iut.nchaieb.sae_jeux.Outils;
-import universite_paris8.iut.nchaieb.sae_jeux.modele.Base;
-import universite_paris8.iut.nchaieb.sae_jeux.modele.Entite;
-import universite_paris8.iut.nchaieb.sae_jeux.modele.SortTours.Projectile;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.Artefacts.Artefact;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.Base.Base;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.Entite.Entite;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.SortTours.SortTour;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.monstres.Monstre;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.Artefacts.Baguette;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.Artefacts.Epee;
+
 
 public class Tour extends Entite {
 
@@ -16,12 +19,14 @@ public class Tour extends Entite {
     private IntegerProperty posX;
     private IntegerProperty posY;
     protected int portee;
-
     private int atq;
+    private Epee epeeEquipee = null;
+    private Baguette baguetteEquipee = null;
 
     private IntegerProperty cooldown;
     private int cooldownPourAction; //temps de chargement d'une attaque
-
+    private IntegerProperty pv;
+    private int pvMax;
 
     private int cout;
 
@@ -32,7 +37,8 @@ public class Tour extends Entite {
         this.posY = new SimpleIntegerProperty(y);
         this.atq=atq;
         this.portee = portee;
-
+        this.pvMax = 100;
+        this.pv = new SimpleIntegerProperty(this.pvMax);
 
         this.cooldown= new SimpleIntegerProperty(0);
         this.cooldownPourAction=cooldownPourAction;
@@ -40,6 +46,12 @@ public class Tour extends Entite {
         this.cout=cout;
         this.outils=new Outils();
     }
+
+    public int getPv(){return this.pv.get();}
+
+    public IntegerProperty pvProperty(){return this.pv;}
+
+    public int getPvMax(){return this.pvMax;}
 
     public int getCout() {
         return cout;
@@ -96,28 +108,6 @@ public class Tour extends Entite {
         this.posY.set(posY);
     }
 
-    //
-//    public void agir(ObservableList<Monstre> listeMonstre) {
-//        Monstre monstrePlusProche;
-//        gererCooldown();
-//        System.out.println(cooldown);
-//        if(this.cooldown==cooldownPourAttaque){
-//            if (!listeMonstre.isEmpty() ) {
-//
-//                monstrePlusProche = this.plusProche(listeMonstre);
-//                if (monstrePlusProche != null) {
-//                    this.setActionActuelle("fixe");
-//
-//                    this.infligerDegat(monstrePlusProche);
-//                    this.setActionActuelle("attaque");
-//                    this.cooldown=0;
-//                    System.out.println("j'attaque");
-//                }
-//
-//            }
-//        }
-//
-//    }
 
     public void gererCooldown() {
         if(this.cooldown.get()<this.cooldownPourAction){
@@ -184,6 +174,30 @@ public class Tour extends Entite {
             monstre.retirerPV(this.atq);
 
         }
+    }
+
+    public boolean equiperArtefact(Artefact artefact) {
+        if (artefact instanceof Epee && this.epeeEquipee == null) {
+            this.epeeEquipee = (Epee) artefact;
+            this.atq += this.epeeEquipee.getBonusAtq();
+            System.out.println("Épée équipée ! Nouvelle attaque : " + this.atq);
+            return true;
+        }
+        else if (artefact instanceof Baguette && this.baguetteEquipee == null) {
+            this.baguetteEquipee = (Baguette) artefact;
+            this.cooldownPourAction -= this.baguetteEquipee.getReductionCooldown();
+            System.out.println("Baguette équipée !");
+            return true;
+        }
+        return false;
+    }
+
+    public void retirerPv(int degats ) {
+        this.pv.set(Math.max(0, this.pv.get() - degats));
+    }
+
+    public boolean estVivant(){
+        return this.pv.get() > 0;
     }
 }
 

@@ -1,7 +1,7 @@
 package universite_paris8.iut.nchaieb.sae_jeux.modele.Tours;
 
 import javafx.collections.ObservableList;
-import universite_paris8.iut.nchaieb.sae_jeux.modele.Base;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.Base.Base;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.SortTours.Projectile;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.SortTours.SortTour;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.monstres.Monstre;
@@ -28,7 +28,6 @@ public class TourMusique extends Tour{
                     System.out.println("y="+this.getPosY());
                     SortTour note = new Projectile(this.getPosX(), this.getPosY(),monstrePlusProche, "tourmusique",this.getAtq(), 5);
                     projectiles.add(note);
-//                    this.infligerDegat(monstrePlusProche);
                     this.setActionActuelle("attaque");
                     this.setCooldown(0);
                     System.out.println("j'attaque");

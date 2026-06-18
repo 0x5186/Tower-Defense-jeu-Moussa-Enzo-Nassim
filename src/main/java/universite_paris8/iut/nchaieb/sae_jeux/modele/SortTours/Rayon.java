@@ -43,8 +43,7 @@ public class Rayon extends SortTour{
         if (!verifPosition()) {
             deplacer();
 
-//            this.x=this.x-this.cible.getPosX()+vitesseAttaque;
-//            this.y=this.y-this.cible.getPosY()+vitesseAttaque;
+
         }
         else {
             this.xProperty().bind(cible.posXProperty());
@@ -56,21 +55,12 @@ public class Rayon extends SortTour{
             this.setAttaqueFini(true);
         }
         this.angleRayon.set( Math.toDegrees(Math.atan2(this.getY() - this.departY, this.getX() - this.departX)));
-//        this.angleRayon= this.getOutils().calculAngle(this.departX,this.departY,this.departX, this.getY(),this.getX(),this.getY());
         System.out.println("angle"+this.angleRayon);
 
 
 
     }
 
-    //    public boolean verifPosition(){
-//        if(this.x.equals(this.cible.getPosX())&&this.y.equals(this.cible.getPosY()) ){
-//            System.out.println("true");
-//            return true;
-//        }
-//        return false;
-//    }
-//
 
 
     public double getAngleRayon() {
@@ -88,26 +78,7 @@ public class Rayon extends SortTour{
         this.cible.retirerPV(this.getDegats());
         System.out.println("pv monstre" + this.cible.getPV());
     }
-//
-//    public void deplacer(){
-//        if(this.x.getValue()>this.cible.getPosX()){
-//            this.x.set(this.x.getValue()-vitesseAttaque);
-//        }
-//        else if(this.x.getValue()<this.cible.getPosX()){
-//            this.x.set(this.x.getValue()+vitesseAttaque);
-//        }
-//        if(this.y.getValue()>this.cible.getPosY()){
-//            this.y.set(this.y.getValue()-vitesseAttaque);
-//        }
-//        else if(this.y.getValue()<this.cible.getPosY()){
-//            this.x.set(this.y.getValue()+vitesseAttaque);
-//        }
-//
-//
 
-    /// /        this.x.setValue(this.x.getValue()+((this.cible.getPosX()-this.x.getValue())/vitesseAttaque));
-    /// /        this.y.setValue(this.y.getValue()+((this.cible.getPosY()-this.y.getValue())/vitesseAttaque));
-//    }
     public boolean verifPosition() {
         return Math.abs(this.getX() - cible.getPosX()) <= vitesseAttaque
                 && Math.abs(this.getY() - cible.getPosY()) <= vitesseAttaque;

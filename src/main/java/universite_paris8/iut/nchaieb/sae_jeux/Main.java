@@ -25,14 +25,12 @@ public class Main extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("fenetreMenu.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1200, 900);
         scene.getStylesheets().add(Main.class.getResource("application.css").toExternalForm());
-//        Font.loadFont(Main.class.getResourceAsStream("police/medieval-pixel.ttf"), 12);
 
         stage.setTitle("witch hat atelier defense");
         stage.setScene(scene);
         stage.show();
 
 
-//        Controller.displayImage
 
     }
 

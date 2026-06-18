@@ -5,10 +5,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import universite_paris8.iut.nchaieb.sae_jeux.Main;
-import universite_paris8.iut.nchaieb.sae_jeux.modele.Decor;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.Deco.Decor;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Environnement;
-import universite_paris8.iut.nchaieb.sae_jeux.modele.Fleur;
-import universite_paris8.iut.nchaieb.sae_jeux.modele.Marre;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.Deco.Fleur;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -37,7 +36,6 @@ public class DecorVue {
     public void initialiserAffichage(){
         ObservableList<Decor> listeDecors = this.environnement.getLesDecors();
 
-        //pour decor interactif
         for(int i = 0; i < listeDecors.size(); i++){
             Decor decor = listeDecors.get(i);
             Image image = choisirImageInteracctif(decor);

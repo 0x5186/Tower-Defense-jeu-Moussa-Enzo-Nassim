@@ -78,7 +78,6 @@ public class InterfaceVue {
 
 
 
-//        ImageView  tiroir= new ImageView(tiroirDeSymboles);
 
 
         if( this.stackPane!=null){
@@ -86,11 +85,8 @@ public class InterfaceVue {
 
             this.stackPane.getChildren().add(interfaceDuBas);
 
-            //Interface du bas
             interfaceDuBas.setTranslateY(750);
             interfaceDuBas.setTranslateX(0);
-//            interfaceDuBas.setScaleX(1.25);
-//            interfaceDuBas.setScaleX(2.5);
             interfaceDuBas.setFitWidth(1950);
 
             //Feuille pentacle
