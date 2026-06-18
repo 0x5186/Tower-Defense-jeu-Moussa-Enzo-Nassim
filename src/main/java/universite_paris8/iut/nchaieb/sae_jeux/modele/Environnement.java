@@ -11,6 +11,7 @@ import universite_paris8.iut.nchaieb.sae_jeux.modele.Deco.Fleur;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Entite.Entite;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.SortTours.SortTour;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Symbole.Symboles;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.Terrain;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Tours.Tour;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Tours.TourGlace;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Vague.LecteurVague;
@@ -21,19 +22,20 @@ import universite_paris8.iut.nchaieb.sae_jeux.modele.Artefacts.*;
 public class Environnement {
 
 	private Base base;
-	private ObservableList<Monstre> lesMonstres;
 	private ObservableList<Tour> lesTours;
+	private ObservableList<Monstre> lesMonstres;
 	protected ObservableList<SortTour> sortTours;
 	private Terrain terrain;
 	private IntegerProperty argent;
-	private final BooleanProperty modePlacementTour;
 
+	// Système d'inventaire
 	private Inventaire inventaire = new Inventaire();
 
 	private Symboles symboles; // Liste des symboles
 	private ObservableList<Decor> lesDecors;
+	private final BooleanProperty modePlacementTour;
 
-
+	// Système de vagues
 	private IntegerProperty numeroVague;
 	private IntegerProperty totalVague;
 	private IntegerProperty tempsPauseRestantSec;
@@ -67,6 +69,7 @@ public class Environnement {
 		this.compteurPause = 300;
 		this.compteurSpawn = 0;
 
+		// Partie décor
 		this.lesDecors = FXCollections.observableArrayList();
 		Fleur fleur1 = new Fleur(300, 150);
 		Fleur fleur2 = new Fleur(600, 370);
@@ -79,6 +82,7 @@ public class Environnement {
 		Decor rocher3 = new Decor(-30, 180, 0.15, "rocher");
 		Decor arbre1 = new Decor(0, 270, 0.7, "arbre");
 		Decor arbre2 = new Decor(1500, -60, 0.6, "arbre");
+//     Marre marre = new Marre(800, 250);
 
 		this.lesDecors.addAll(fleur1, fleur2, fleur3, fleur4, fleur5, pillier, rocher1, rocher2, arbre1, rocher3, arbre2);
 		this.boutonCorneDeBrume = boutonCorneDeBrume;
@@ -99,7 +103,7 @@ public class Environnement {
 		else
 			this.argent.set(Math.max(montant, 0));
 
-		System.out.println(this.argent.get());
+		System.out.println("Argent après = " + this.argent.get());
 	}
 
 	public ObservableList<Monstre> getLesMonstres() { return lesMonstres; }
@@ -177,6 +181,7 @@ public class Environnement {
 
 	public void unTour() {
 
+		// Gestion des sorts et projectiles
 		if (!this.sortTours.isEmpty()){
 			for(int i = this.sortTours.size() - 1; i >= 0; i--){
 				if(this.sortTours.get(i).isAttaqueFini()){
@@ -188,6 +193,7 @@ public class Environnement {
 			}
 		}
 
+		// Gestion des décors
 		for(int i = 0; i < this.lesDecors.size(); i++){
 			Decor decor = this.lesDecors.get(i);
 			if (decor instanceof Fleur){
@@ -206,6 +212,7 @@ public class Environnement {
 			}
 		}
 
+		// Gestion des vagues
 		if(!pauseEntreVagues) {
 			if (this.boutonCorneDeBrume != null) {
 				this.boutonCorneDeBrume.setDisable(true);
@@ -226,6 +233,8 @@ public class Environnement {
 				int bonusArgent = 50 + (this.numeroVague.get() * 10);
 				this.setArgent(this.getArgent() + bonusArgent);
 				this.numeroVague.set(this.numeroVague.get() + 1);
+				this.preparerVague(this.numeroVague.get());
+				this.compteurSpawn = 0;
 				this.pauseEntreVagues = true;
 			}
 		}
@@ -235,6 +244,7 @@ public class Environnement {
 			}
 		}
 
+		// Gestion des monstres
 		if (!(this.lesMonstres == null) && !this.lesMonstres.isEmpty()) {
 			for (int i = this.lesMonstres.size() - 1; i >= 0; i--) {
 				Monstre m = this.lesMonstres.get(i);
@@ -243,6 +253,7 @@ public class Environnement {
 					System.out.println("Monstre tué");
 					this.setArgent(this.getArgent() + m.getRecompense());
 
+					// Système de loot
 					if(Math.random() < 0.15){
 						if (Math.random() < 0.5) {
 							this.inventaire.ajouterArtefact(new Epee());

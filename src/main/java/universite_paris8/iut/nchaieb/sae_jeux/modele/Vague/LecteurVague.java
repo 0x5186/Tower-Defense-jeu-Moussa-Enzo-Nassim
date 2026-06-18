@@ -37,6 +37,7 @@ public class LecteurVague {
                 if (ligne.isEmpty() || ligne.startsWith("#")) {
                     if (vagueEnCours != null) {
                         vaguesLues.add(vagueEnCours);
+                        vagueEnCours = null;
                     }
                     continue;
                 }
