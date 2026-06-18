@@ -1,9 +1,9 @@
 package universite_paris8.iut.nchaieb.sae_jeux.modele.Tours;
 
 import javafx.collections.ObservableList;
-import universite_paris8.iut.nchaieb.sae_jeux.modele.AlgorithmeAEtoile;
-import universite_paris8.iut.nchaieb.sae_jeux.modele.Base;
-import universite_paris8.iut.nchaieb.sae_jeux.modele.Noeud;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.AEtoile.AlgorithmeAEtoile;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.Base.Base;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.AEtoile.Noeud;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.SortTours.MurGlace;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Terrain;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.SortTours.SortTour;

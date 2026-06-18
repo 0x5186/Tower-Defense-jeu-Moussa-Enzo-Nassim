@@ -5,10 +5,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import universite_paris8.iut.nchaieb.sae_jeux.Main;
-import universite_paris8.iut.nchaieb.sae_jeux.modele.Decor;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.Deco.Decor;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Environnement;
-import universite_paris8.iut.nchaieb.sae_jeux.modele.Fleur;
-import universite_paris8.iut.nchaieb.sae_jeux.modele.Marre;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.Deco.Fleur;
 
 import java.util.HashMap;
 import java.util.Map;

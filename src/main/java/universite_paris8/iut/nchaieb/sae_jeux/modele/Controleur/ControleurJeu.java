@@ -1,4 +1,4 @@
-package universite_paris8.iut.nchaieb.sae_jeux;
+package universite_paris8.iut.nchaieb.sae_jeux.modele.Controleur;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -19,9 +19,12 @@ import javafx.scene.layout.TilePane;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import javafx.util.converter.NumberStringConverter;
+import universite_paris8.iut.nchaieb.sae_jeux.Documentation;
+import universite_paris8.iut.nchaieb.sae_jeux.JouerSon;
+import universite_paris8.iut.nchaieb.sae_jeux.Main;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Environnement;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Terrain;
-import universite_paris8.iut.nchaieb.sae_jeux.modele.CombinaisonValables;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.Symbole.CombinaisonValables;
 import universite_paris8.iut.nchaieb.sae_jeux.vue.*;
 import javafx.collections.ListChangeListener;
 import javafx.scene.image.Image;

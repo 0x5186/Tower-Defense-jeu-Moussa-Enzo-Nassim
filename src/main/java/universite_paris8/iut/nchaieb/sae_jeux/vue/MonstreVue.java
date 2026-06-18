@@ -10,7 +10,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 import javafx.beans.binding.Bindings;
 import universite_paris8.iut.nchaieb.sae_jeux.Main;
-import universite_paris8.iut.nchaieb.sae_jeux.modele.*;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.Entite.Entite;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.monstres.*;
 
 import java.util.HashMap;

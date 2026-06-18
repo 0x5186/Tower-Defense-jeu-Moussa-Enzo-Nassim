@@ -1,9 +1,5 @@
-package universite_paris8.iut.nchaieb.sae_jeux.modele;
+package universite_paris8.iut.nchaieb.sae_jeux.modele.Deco;
 
-
-import javafx.collections.ObservableList;
-import universite_paris8.iut.nchaieb.sae_jeux.modele.monstres.Monstre;
-import universite_paris8.iut.nchaieb.sae_jeux.modele.monstres.Sorcier;
 
 public class Decor {
 

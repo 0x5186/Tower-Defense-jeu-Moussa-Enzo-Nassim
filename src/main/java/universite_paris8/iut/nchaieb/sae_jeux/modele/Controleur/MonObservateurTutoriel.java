@@ -1,9 +1,7 @@
-package universite_paris8.iut.nchaieb.sae_jeux;
+package universite_paris8.iut.nchaieb.sae_jeux.modele.Controleur;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.ListChangeListener;
-import javafx.scene.shape.Rectangle;
 import universite_paris8.iut.nchaieb.sae_jeux.vue.TutorielVue;
 
 public class MonObservateurTutoriel implements ChangeListener<Boolean> {

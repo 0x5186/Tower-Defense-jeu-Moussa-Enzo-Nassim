@@ -1,7 +1,7 @@
 package universite_paris8.iut.nchaieb.sae_jeux.modele.monstres;
 
 import org.junit.jupiter.api.Test;
-import universite_paris8.iut.nchaieb.sae_jeux.modele.Base;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.Base.Base;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Terrain;
 
 import static org.junit.jupiter.api.Assertions.*;

@@ -1,9 +1,8 @@
 package universite_paris8.iut.nchaieb.sae_jeux.modele.SortTours;
 
 import javafx.collections.ObservableList;
-import universite_paris8.iut.nchaieb.sae_jeux.modele.Base;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.Base.Base;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Terrain;
-import universite_paris8.iut.nchaieb.sae_jeux.modele.SortTours.SortTour;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Tours.TourGlace;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.monstres.Monstre;
 

@@ -5,9 +5,16 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Artefacts.Inventaire;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.Base.Base;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.Deco.Decor;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.Deco.Fleur;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.Entite.Entite;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.SortTours.SortTour;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.Symbole.Symboles;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Tours.Tour;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Tours.TourGlace;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.Vague.LecteurVague;
+import universite_paris8.iut.nchaieb.sae_jeux.modele.Vague.ListeApparition;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.monstres.*;
 import universite_paris8.iut.nchaieb.sae_jeux.modele.Artefacts.*;
 
