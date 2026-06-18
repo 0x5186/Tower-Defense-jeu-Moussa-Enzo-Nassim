@@ -1,77 +1,95 @@
 package universite_paris8.iut.nchaieb.sae_jeux.modele;
 
-import java.util.jar.JarEntry;
-
 public class Terrain {
+    private int[][] codeTuiles;
 
-    private int[][] codeTuiles= new int[25][48];
+    public Terrain() {
+        codeTuiles = new int[25][60];
 
-    public void terrainPlainesCode(){
-        for(int i=0; i<6; i++){
-            for(int j=0; j<48; j++) {
-                codeTuiles[i][j] = 1;
-            }
-        }
-        for(int j=0; j<48; j++) {
-            codeTuiles[6][j] = 5;
-        }
+        // Ligne du haut (Spawn 1)
+        for (int colonne = 0; colonne <= 45; colonne++) codeTuiles[8][colonne] = 2;
+        for (int colonne = 0; colonne <= 45; colonne++) codeTuiles[7][colonne] = 1;
+        // Ligne du milieu
+        for (int colonne = 10; colonne <= 45; colonne++) codeTuiles[14][colonne] = 1;
+        for (int colonne = 10; colonne <= 45; colonne++) codeTuiles[15][colonne] = 2;
+        // Ligne du bas (spawn 3)
+        for (int colonne = 0; colonne <= 10; colonne++) codeTuiles[21][colonne] = 1;
+        for (int colonne = 0; colonne <= 10; colonne++) codeTuiles[22][colonne] = 2;
+        // Ligne finale vers la base
+        for (int colonne = 45; colonne <= 59; colonne++) codeTuiles[11][colonne] = 1;
+        for (int colonne = 45; colonne <= 59; colonne++) codeTuiles[12][colonne] = 2;
+
+        for (int colonne = 0; colonne <= 51; colonne++) codeTuiles[21][colonne] = 1;
+        for (int colonne = 0; colonne <= 51; colonne++) codeTuiles[22][colonne] = 2;
+
+        // Descente du Spawn 2
+        for (int ligne = 0; ligne <= 15; ligne++) codeTuiles[ligne][24] = 8;
+        for (int ligne = 0; ligne <= 15; ligne++) codeTuiles[ligne][25] = 7;
+
+        // Remontée depuis le trait noir du bas
+        for (int ligne = 8; ligne <= 15; ligne++) codeTuiles[ligne][11] = 7;
+        for (int ligne = 8; ligne <= 15; ligne++) codeTuiles[ligne][10] = 8;
+
+        // Descente vers la base
+        for (int ligne = 8; ligne <= 14; ligne++) codeTuiles[ligne][44] = 8;
+        for (int ligne = 8; ligne <= 14; ligne++) codeTuiles[ligne][45] = 7;
+
+        for (int ligne = 11; ligne <= 22; ligne++) codeTuiles[ligne][50] = 8;
+        for (int ligne = 11; ligne <= 22; ligne++) codeTuiles[ligne][51] = 7;
+
+        for (int ligne = 16; ligne <= 20; ligne++) codeTuiles[ligne][34] = 8;
+        for (int ligne = 16; ligne <= 20; ligne++) codeTuiles[ligne][35] = 7;
+
+        codeTuiles[15][34] = 5;
+        codeTuiles[15][35] = 6;
+        codeTuiles[21][34] = 3;
+        codeTuiles[21][35] = 4;
+
+        codeTuiles[7][24] = 3;
+        codeTuiles[7][25] = 4;
+        codeTuiles[8][24] = 5;
+        codeTuiles[8][25] = 6;
+
+        codeTuiles[11][50] = 1;
+        codeTuiles[11][51] = 1;
+        codeTuiles[12][50] = 5;
+        codeTuiles[12][51] = 6;
+
+        codeTuiles[22][50] = 2;
+        codeTuiles[22][51] = 10;
+
+        codeTuiles[21][50] = 3;
+
+        codeTuiles[14][24] = 3;
+        codeTuiles[14][25] = 4;
+        codeTuiles[15][24] = 2;
+        codeTuiles[15][25] = 2;
+
+        codeTuiles[8][10] = 5;
+        codeTuiles[8][11] = 6;
+
+        codeTuiles[15][10] = 11;
+        codeTuiles[15][11] = 2;
+        codeTuiles[14][11] = 4;
 
 
+        codeTuiles[7][45] = 12;
+        codeTuiles[8][44] = 5;
 
+        codeTuiles[11][45] = 4;
+        codeTuiles[12][45] = 6;
 
-        for(int i=7; i<16; i++){
-            for(int j=0; j<48; j++) {
-                codeTuiles[i][j] = 3;
-            }
-        }
-        for(int i=0; i<19; i++){
-            int iAleatoire = (int)(Math.random() * 4);
-            int jAleatoire = (int)(Math.random() * 48);
-            codeTuiles[iAleatoire][jAleatoire] = 2;
-
-        }
-        for(int i=0; i<25; i++) {
-            int iAleatoire = (int) ((Math.random() * 9)+7);
-            int jAleatoire = (int) (Math.random() * 48);
-            codeTuiles[iAleatoire][jAleatoire] = 4;
-        }
-
-        for(int i=11; i<13; i++){
-            for(int j=0; j<48; j++) {
-                codeTuiles[i][j] = 6;
-            }
-        }
-        for(int j=0; j<48; j++) {
-            codeTuiles[10][j] = 7;
-        }
-        for(int j=0; j<48; j++) {
-            codeTuiles[13][j] = 8;
-        }
-        for(int i=16; i<24; i++){
-            for(int j=0; j<48; j++) {
-                codeTuiles[i][j] = 9;
-            }
-        }
-        for(int j=0; j<48; j++) {
-            codeTuiles[16][j] = 10;
-        }
-
-
+        codeTuiles[14][44] = 3;
+        codeTuiles[15][45] = 10;
 
     }
 
+    public int hauteur() { return codeTuiles.length; }
+    public int largeur() { return codeTuiles[0].length; }
+    public int codeTuile(int ligne, int col) { return codeTuiles[ligne][col]; }
 
-
-    public int hauteur() {return this.codeTuiles.length;}
-    public int largeur() {return this.codeTuiles[0].length;}
-    public int codeTuile(int ligne, int col) {return codeTuiles[ligne][col];}
-
-    public void test() {
-
-        for(int i=0; i<25; i++){
-            for(int j=0; j<48; j++) {
-                codeTuiles[i][j] = 1;
-            }
-        }
+    public boolean estPraticable(int colonne, int ligne) {
+        if (colonne < 0 || colonne >= largeur() || ligne < 0 || ligne >= hauteur()) return false;
+        return !(codeTuiles[ligne][colonne] == 0);
     }
 }
