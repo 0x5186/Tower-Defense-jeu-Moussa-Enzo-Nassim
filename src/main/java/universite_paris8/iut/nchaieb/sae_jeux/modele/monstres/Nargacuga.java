@@ -8,6 +8,6 @@ public class Nargacuga extends Monstre {
         super(75, 10, 10,terrain);
         this.nombreDePV.set(pvMax);
         this.actionActuelle.set("fixe");
-        this.portee= 2;
+        this.portee= 100;
     }
 }

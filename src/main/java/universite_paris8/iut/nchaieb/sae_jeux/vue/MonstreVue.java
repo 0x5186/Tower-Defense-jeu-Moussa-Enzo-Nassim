@@ -301,8 +301,8 @@ public class MonstreVue {
 
                 Timeline bossMarche = new Timeline(
                         new KeyFrame(Duration.millis(150), e -> {
-                            int x = frameIndex[0] % 2; // 2 colonnes
-                            int y = frameIndex[0] / 2; // 3 lignes
+                            int x = frameIndex[0] % 2;
+                            int y = frameIndex[0] / 2;
                             iv.setViewport(new Rectangle2D(x * largeurCaseBoss, y * hauteurCaseBoss, largeurCaseBoss, hauteurCaseBoss));
                             frameIndex[0] = (frameIndex[0] + 1) % 6;
                         })

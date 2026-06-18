@@ -92,7 +92,7 @@ public class Environnement {
 		else
 			this.argent.set(Math.max(montant, 0));
 
-		System.out.println("Argent après = " + this.argent.get());
+		System.out.println(this.argent.get());
 	}
 
 	public ObservableList<Monstre> getLesMonstres() { return lesMonstres; }

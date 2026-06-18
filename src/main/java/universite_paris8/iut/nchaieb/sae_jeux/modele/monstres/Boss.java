@@ -45,7 +45,7 @@ public class Boss extends Monstre {
             this.setActionActuelle("attaque");
             cooldownAttaque++;
 
-            if (cooldownAttaque >= 40) { // Il tape tous les 40 ticks
+            if (cooldownAttaque >= 40) {
                 tourCible.retirerPv(this.getAtq());
                 cooldownAttaque = 0;
             }
